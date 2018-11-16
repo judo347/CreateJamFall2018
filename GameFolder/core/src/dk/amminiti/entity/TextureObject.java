@@ -25,7 +25,9 @@ public class TextureObject extends RenderObject {
             Vector2 pos = body.getPosition();
             float width = texture.getRegionWidth() * GameInfo.PPM;
             float height = texture.getRegionHeight() * GameInfo.PPM;
+            batch.begin();
             batch.draw(texture, pos.x - width / 2, pos.y - height / 2, width / 2f, height / 2f, width, height, 1, 1, body.getAngle());
+            batch.end();
         }
     }
 

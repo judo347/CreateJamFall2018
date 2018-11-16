@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import dk.amminiti.MainGame;
+import dk.amminiti.entity.Player;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.world.GameMap;
 
@@ -25,6 +26,7 @@ public class GameScreen implements Screen {
     private GameMap gameMap;
     private Box2DDebugRenderer debugRenderer;
     public World world;
+    public Player p1;
 
     public GameScreen(MainGame game) {
         this.game = game;
@@ -42,6 +44,7 @@ public class GameScreen implements Screen {
         this.camera.update();
         //TODO set pos of camera
         this.debugRenderer = new Box2DDebugRenderer();
+        p1 = new Player(this.world,new Vector2(0,0));
 
         //TODO Stage MAYBE
         spriteBatch.setProjectionMatrix(camera.combined);
@@ -59,14 +62,11 @@ public class GameScreen implements Screen {
         world.step(delta, 3, 3);
         Gdx.gl.glClearColor(0f, 0.0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        p1.render(spriteBatch,delta);
         spriteBatch.begin();
-        spriteBatch.draw(img, 0, 0);
-
         gameMap.render(spriteBatch, delta); //TODO
         //TODO STAGE THINGS
         spriteBatch.end();
-
         debugRenderer.render(world, camera.combined);
     }
 

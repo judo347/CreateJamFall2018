@@ -3,18 +3,17 @@ package dk.amminiti;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import dk.amminiti.entity.Player;
 import dk.amminiti.screens.GameScreen;
 
 public class MainGame extends Game {
-	SpriteBatch batch;
-	Texture img;
 	private GameScreen screen;
-	
+	private Player p1;
+
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-
 		this.screen = new GameScreen(this);
 		this.setScreen(screen);
 	}
@@ -26,7 +25,5 @@ public class MainGame extends Game {
 	
 	@Override
 	public void dispose () {
-		batch.dispose();
-		img.dispose();
 	}
 }

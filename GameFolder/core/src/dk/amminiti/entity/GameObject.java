@@ -20,7 +20,6 @@ public class GameObject {
 
         bodyDef.position.set(pos);
         body = world.createBody(bodyDef);
-
         body.createFixture(fixtureDef);
         body.setUserData(this);
     }

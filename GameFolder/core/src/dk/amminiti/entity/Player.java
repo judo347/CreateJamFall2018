@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.amminiti.InputController;
 
+import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 
 
 public class Player extends TextureObject {
@@ -32,11 +33,7 @@ public class Player extends TextureObject {
     private static final float RESPAWN_TIMER = 2.2f;
 
 
-    private static Texture playerTexture = new Texture("player/player.png");
-    private static TextureRegion playerShip = new TextureRegion(new Texture("escape_pod.png"), 0, 0, 32, 42);
-    private static Texture aimTexture = new Texture("player/aim.png");
-    private static Texture rangeTexture = new Texture("player/range_indicator.png");
-    private static Texture laserTexture = new Texture("player/laser.png");
+    private static Texture playerTexture = new Texture("badlogic.jpg");
 
 
     private World world;
@@ -50,16 +47,18 @@ public class Player extends TextureObject {
     private int deathCounter;
     private Vector2 spawnPosition;
     private GameMap map;
-    private Body feet;
-
+    private boolean isFacingRight;
+    public Body body;
 
     public Player(World world, Vector2 pos) {
-        super(world, pos, createPlayerBodyDef(), createPlayerFixtureDef(), null);
+        super(world,pos,createPlayerBodyDef(),createPlayerFixtureDef(),new TextureRegion(playerTexture));
         //animController = new PlayerAnimationController(this, playerTexture);
 
+        spawnPosition = pos;
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(FEET_WIDTH/2f, FEET_HEIGHT/2f);
-
+        body = world.createBody(createPlayerBodyDef());
+        body.setTransform(spawnPosition,0);
         this.world = world;
         body.setLinearDamping(0);
         body.setUserData(this);
@@ -67,16 +66,8 @@ public class Player extends TextureObject {
         deathCounter=0;
     }
 
-    public void render(GameMap map, Vector3 mousePos, InputController controller, SpriteBatch batch, float delta) {
-        this.map = map;
-        timePassed += delta;
-
-
-
-                movement(map, controller, batch, delta);
-                resolveDeath(batch, delta);
-
-            super.render(batch, delta);
+    public void render(SpriteBatch batch, float delta ) {
+        super.render(batch, delta);
     }
 
 
@@ -84,8 +75,6 @@ public class Player extends TextureObject {
 
     private void movement(GameMap map, InputController controller, SpriteBatch batch, float delta) {
         Vector2 vel = body.getLinearVelocity();
-
-//        isMidAir = !(ContactManager.feetCollisions > 0 && Math.abs(vel.y) <= 1e-2);
 
         // Jump
         if (!isMidAir) hasJumped = false;
@@ -118,9 +107,6 @@ public class Player extends TextureObject {
         // Apply new vel
         body.setLinearVelocity(vel);
 
-        // Move feet
-        feet.setTransform(new Vector2(body.getPosition()).add(0, FEET_Y_OFFSET), 0);
-        feet.setLinearVelocity(vel);
 
 //        texture = animController.getTexture(dir, isMidAir, delta);
     }
@@ -175,7 +161,7 @@ public class Player extends TextureObject {
     private static BodyDef createPlayerBodyDef() {
         BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = true;
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.type = DynamicBody;
         return bodyDef;
     }
 

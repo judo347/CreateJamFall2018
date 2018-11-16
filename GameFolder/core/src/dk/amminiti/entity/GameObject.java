@@ -15,9 +15,10 @@ public class GameObject {
     public static FixtureDef DEFAULT_DYNAMIC_FIXTUREDEF = createDefaultDynamicFixtureDef();
 
     protected final Body body;
+    protected final World world;
 
     public GameObject(World world, Vector2 pos, BodyDef bodyDef, FixtureDef fixtureDef) {
-
+        this.world = world;
         bodyDef.position.set(pos);
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);

@@ -48,7 +48,7 @@ public class GameScreen implements Screen {
         camera.position.y = camera.position.y + 8;
         this.camera.update();
         this.debugRenderer = new Box2DDebugRenderer();
-        p1 = new Player(this.world,new Vector2(0,0));
+        p1 = new Player(this.world, new Vector2(0, 2));
 
         //TODO Stage MAYBE
         spriteBatch.setProjectionMatrix(camera.combined);
@@ -67,7 +67,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0f, 0.0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
-        p1.render(spriteBatch,delta);
+        p1.render(spriteBatch, delta);
 
         gameMap.render(spriteBatch, delta); //TODO
         //TODO STAGE THINGS

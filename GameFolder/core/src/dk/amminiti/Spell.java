@@ -1,6 +1,7 @@
 package dk.amminiti;
 
 import com.badlogic.gdx.graphics.Texture;
+import dk.amminiti.entity.Player;
 
 public interface Spell {
 

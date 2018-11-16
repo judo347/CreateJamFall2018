@@ -3,7 +3,7 @@ package dk.amminiti;
 import com.badlogic.gdx.graphics.Texture;
 import dk.amminiti.entity.Player;
 
-public class CultSpell implements Spell {
+public class RedCowSpell implements Spell {
 
     private Texture baby = new Texture("baby.png");
 

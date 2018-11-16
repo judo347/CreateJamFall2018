@@ -37,7 +37,6 @@ public class GameScreen implements Screen {
         this.gameMap = new GameMap(this);
         //world.setContactListener(new ContactManager(world, gameMap)); //TODO CHRIS!
         this.spriteBatch = new SpriteBatch();
-        Gdx.input.setInputProcessor(inputs);
 
         //Position of the camera
         this.camera = new OrthographicCamera(GameInfo.SCREEN_WIDTH, GameInfo.SCREEN_HEIGHT);
@@ -47,15 +46,13 @@ public class GameScreen implements Screen {
         this.camera.update();
         this.debugRenderer = new Box2DDebugRenderer();
 
-
-
         //TODO Stage MAYBE
         spriteBatch.setProjectionMatrix(camera.combined);
     }
 
     @Override
     public void show() {
-        //Gdx.input.setInputProcessor(inputProcessor); //KeyboardController inputProcessor
+        Gdx.input.setInputProcessor(inputs);
     }
 
     @Override

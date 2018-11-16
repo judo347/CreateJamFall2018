@@ -39,8 +39,9 @@ public class GameScreen implements Screen {
         //Position of the camera
         this.camera = new OrthographicCamera(GameInfo.SCREEN_WIDTH, GameInfo.SCREEN_HEIGHT);
         this.camera.zoom = GameInfo.ZOOM;
+        //camera.position.y = 500;
+        camera.position.y = camera.position.y + 8;
         this.camera.update();
-        //TODO set pos of camera
         this.debugRenderer = new Box2DDebugRenderer();
 
         //TODO Stage MAYBE

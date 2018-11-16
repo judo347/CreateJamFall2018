@@ -13,9 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import dk.amminiti.ContactManager;
 import dk.amminiti.InputController;
 import dk.amminiti.MainGame;
+import dk.amminiti.entity.EnergyDrink;
 import dk.amminiti.entity.Player;
+import dk.amminiti.entity.TextureObject;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.world.GameMap;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameScreen implements Screen {
 
@@ -30,6 +35,12 @@ public class GameScreen implements Screen {
     private Box2DDebugRenderer debugRenderer;
     private World world;
     private Player p1;
+    private EnergyDrink wonster;
+    private EnergyDrink fooster;
+    private EnergyDrink fire;
+    private EnergyDrink redcow;
+    private List<TextureObject> gameObjectsListforRender; //TODO GET A REAL NAME
+
 
     public GameScreen(MainGame game) {
         this.game = game;
@@ -48,7 +59,22 @@ public class GameScreen implements Screen {
         camera.position.y = camera.position.y + 8;
         this.camera.update();
         this.debugRenderer = new Box2DDebugRenderer();
+        gameObjectsListforRender = new ArrayList<TextureObject>();
         p1 = new Player(this.world, new Vector2(0, 2));
+        wonster = new EnergyDrink(this.world, new Vector2(0,3), EnergyDrink.energyDrinkType.Wonster);
+        fire = new EnergyDrink(this.world, new Vector2(0,4), EnergyDrink.energyDrinkType.Fire);
+        fooster = new EnergyDrink(this.world, new Vector2(0,5), EnergyDrink.energyDrinkType.Fooster);
+        redcow = new EnergyDrink(this.world, new Vector2(0,6), EnergyDrink.energyDrinkType.Redcow);
+
+        gameObjectsListforRender.add(p1);
+        gameObjectsListforRender.add(wonster);
+        gameObjectsListforRender.add(fire);
+        gameObjectsListforRender.add(fooster);
+        gameObjectsListforRender.add(redcow);
+
+
+
+
 
         //TODO Stage MAYBE
         spriteBatch.setProjectionMatrix(camera.combined);
@@ -67,7 +93,12 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0f, 0.0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
-        p1.render(spriteBatch, delta);
+//        p1.render(spriteBatch, delta);
+
+        for (TextureObject to:gameObjectsListforRender) {
+            to.render(spriteBatch,delta);
+        }
+
 
         gameMap.render(spriteBatch, delta); //TODO
         //TODO STAGE THINGS

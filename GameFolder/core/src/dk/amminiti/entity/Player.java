@@ -67,7 +67,6 @@ public class Player extends TextureObject {
 
     void movement(PlayerInputProcessor inputs) {
         Vector2 vel = body.getLinearVelocity();
-
         isMidAir = !(ContactManager.feetCollisions > 0 && Math.abs(vel.y) <= 1e-2);
 
         // Jump

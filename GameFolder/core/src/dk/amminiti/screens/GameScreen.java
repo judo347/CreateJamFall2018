@@ -68,8 +68,9 @@ public class GameScreen implements Screen {
         world.step(delta, 3, 3);
         Gdx.gl.glClearColor(0f, 0.0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        p1.render(spriteBatch,delta);
         spriteBatch.begin();
+        p1.render(spriteBatch,delta);
+
         gameMap.render(spriteBatch, delta); //TODO
         //TODO STAGE THINGS
         spriteBatch.end();

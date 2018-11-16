@@ -73,43 +73,6 @@ public class Player extends TextureObject {
 
 
 
-    private void movement(GameMap map, InputController controller, SpriteBatch batch, float delta) {
-        Vector2 vel = body.getLinearVelocity();
-
-        // Jump
-        if (!isMidAir) hasJumped = false;
-        if (!hasJumped && (controller.w || controller.space)) {
-            vel.y = isMidAir ? JUMP_FORCE_IN_AIR : JUMP_FORCE;
-            isMidAir = true;
-            hasJumped = true;
-        }
-
-        // Movement
-        int dir = controller.d ? 1 : controller.a ? -1 : 0;
-        lookingDir = dir == 0 ? lookingDir : dir;
-        if (!isMidAir){
-            //Sliding on ice
-               body.applyForceToCenter(WALK_SPEED*dir,0,true);
-        }else if (!isMidAir) {
-            // Grounded
-
-            vel.x = WALK_SPEED * dir;
-
-        } else  {
-            // Mid air
-            vel.add(AIR_WALK_FORCE * dir, 0);
-        }
-
-
-        // Restrict vel x
-        vel.x = Math.min(Math.max(-MAX_X_VEL, vel.x), MAX_X_VEL);
-
-        // Apply new vel
-        body.setLinearVelocity(vel);
-
-
-//        texture = animController.getTexture(dir, isMidAir, delta);
-    }
 
 
     public void resolveDeath(SpriteBatch batch, float delta) {

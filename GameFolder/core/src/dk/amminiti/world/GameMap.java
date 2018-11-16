@@ -41,9 +41,9 @@ public class GameMap {
     }
 
     private GameObject getPlatform(){
-
+        Texture texture = new Texture(Gdx.files.internal("platformTemp.png"));
         //return new TextureObject(world, new Vector2(0,0), GameObjectOld.DEFAULT_STATIC_BODYDEF, createPlatformFixtureDef(), new TextureRegion(new Texture(Gdx.files.internal("platformTemp.png"))));
-        return new GameObject(world, new Vector2(0,0), new TextureRegion(new Texture(Gdx.files.internal("platformTemp.png"))), BodyDef.BodyType.StaticBody);
+        return new GameObject(world, new Vector2(0,-texture.getHeight()), new TextureRegion(texture), BodyDef.BodyType.StaticBody);
     }
 
     private Body createPlatform(World world, Vector2 pos, int width, int height){

@@ -19,29 +19,6 @@ public class GameObject {
 
     }
 
-    private FixtureDef createPlayerFixtureDef(){
-        float cornerSize = 0.005f;
-        float width = (textureRegion.getRegionWidth() / 2f) / GameInfo.PPM;
-        float height = (textureRegion.getRegionHeight() / 2f) / GameInfo.PPM;
-        float heightShort = ((textureRegion.getRegionHeight() / 2f) / GameInfo.PPM) - cornerSize;
-        PolygonShape shape = new PolygonShape();
-        shape.set(new Vector2[] {
-                new Vector2(-width, height),
-                new Vector2(width, height),
-                new Vector2(width, -heightShort),
-                new Vector2(0, -height),
-                new Vector2(-width, -heightShort),
-        });
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1;
-        fixtureDef.friction = 1;
-        fixtureDef.restitution = 0.0f;
-
-        return fixtureDef;
-    }
-
     /** Creates the body and fixture for an entity. */
     public Body createBody(World world, Vector2 pos, BodyDef.BodyType bodyType){
 
@@ -70,9 +47,14 @@ public class GameObject {
     public void render(SpriteBatch batch, float delta) {
         if (textureRegion != null) {
             Vector2 pos = body.getPosition();
-            float width = textureRegion.getRegionWidth() * GameInfo.PPM;
-            float height = textureRegion.getRegionHeight() * GameInfo.PPM;
+            float width = textureRegion.getRegionWidth();// * GameInfo.PPM;
+            float height = textureRegion.getRegionHeight();// * GameInfo.PPM;
+            //batch.draw(textureRegion, pos.x - width / 2, pos.y - height / 2, width / 2f, height / 2f, width, height, 1, 1, body.getAngle());
             batch.draw(textureRegion, pos.x - width / 2, pos.y - height / 2, width / 2f, height / 2f, width, height, 1, 1, body.getAngle());
         }
+    }
+
+    public Body getBody() {
+        return body;
     }
 }

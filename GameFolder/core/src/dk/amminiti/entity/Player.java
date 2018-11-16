@@ -1,5 +1,6 @@
 package dk.amminiti.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,7 +14,7 @@ import dk.amminiti.PlayerInputProcessor;
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 
 
-public class Player extends TextureObject {
+public class Player extends GameObject {
 
     public static final float WIDTH = 0.56f;
     public static final float HEIGHT = 1.35f;
@@ -37,7 +38,7 @@ public class Player extends TextureObject {
     private boolean isFacingRight;
 
     public Player(World world, Vector2 pos) {
-        super(world, pos, createPlayerBodyDef(), createPlayerFixtureDef(), new TextureRegion(playerTexture));
+        super(world, pos, new TextureRegion(playerTexture), BodyDef.BodyType.DynamicBody);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(FEET_WIDTH / 2f, FEET_HEIGHT / 2f);
@@ -55,7 +56,7 @@ public class Player extends TextureObject {
         feetDef.friction = 1;
         feetDef.restitution = 0;
         feetDef.isSensor = false;
-        feet = new GameObject(world, new Vector2(body.getPosition().add(FEET_Y_OFFSET)), createPlayerBodyDef(), feetDef).getBody();
+        feet = new GameObject(world, new Vector2(body.getPosition().add(FEET_Y_OFFSET)),new TextureRegion(new Texture(Gdx.files.internal("feet.png"))), BodyDef.BodyType.DynamicBody).getBody();
         feet.setUserData(ContactManager.FEET);
         feet.setGravityScale(0);
     }

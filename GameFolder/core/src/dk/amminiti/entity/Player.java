@@ -10,17 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-import com.minichri.Elements.CollectedPlatform;
-import com.minichri.Elements.Tile;
-import com.minichri.KeyboardController;
-import com.minichri.World.GameMap;
-import com.minichri.helpers.GameInfo;
-import com.minichri.helpers.PlayerAnimationController;
-import com.minichri.helpers.TileType;
-import com.minichri.inventory.Inventory;
-import com.minichri.inventory.Item;
-import com.minichri.physics.ContactManager;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -46,8 +35,6 @@ public class Player extends TextureObject {
     private static final float DEATH_TIMER_RED = 0.24f;
     private static final float RESPAWN_TIMER = 2.2f;
 
-    private ArrayList<Tile> playerPlacedTiles;
-    private ArrayList<Tile> queue;
 
     private static Texture playerTexture = new Texture("player/player.png");
     private static TextureRegion playerShip = new TextureRegion(new Texture("escape_pod.png"), 0, 0, 32, 42);
@@ -55,12 +42,6 @@ public class Player extends TextureObject {
     private static Texture rangeTexture = new Texture("player/range_indicator.png");
     private static Texture laserTexture = new Texture("player/laser.png");
 
-    // Inventory singleton
-    private static Inventory _inventory;
-    public static Inventory getInventory() {
-        if (_inventory == null) _inventory = new Inventory();
-        return _inventory;
-    }
 
     private World world;
     private int lookingDir = 1;
@@ -99,22 +80,19 @@ public class Player extends TextureObject {
         super(world, pos, createPlayerBodyDef(), createPlayerFixtureDef(), null);
         animController = new PlayerAnimationController(this, playerTexture);
 
-        playerPlacedTiles = new ArrayList<>();
-        queue = new ArrayList<>();
 
 
-        onIce = false;
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(FEET_WIDTH/2f, FEET_HEIGHT/2f);
 
-        placementSound = Gdx.audio.newSound(Gdx.files.internal("sounds/placeBlockSound.wav"));
-        qCollectSound = Gdx.audio.newSound(Gdx.files.internal("sounds/qSound.wav"));
-        walkingSound = Gdx.audio.newSound(Gdx.files.internal("sounds/running_Sound.wav"));
-        walkingOnIce = Gdx.audio.newMusic(Gdx.files.internal("sounds/ice_Sound.wav"));
-        bounceSound  = Gdx.audio.newSound(Gdx.files.internal("sounds/bounce_sound.mp3"));
-        voidSound = Gdx.audio.newSound(Gdx.files.internal("sounds/wilhelm.wav"));
-        deathSound = Gdx.audio.newSound(Gdx.files.internal("sounds/death_Sound.mp3"));
-        pickupSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/pickup dak.wav"));
+//        placementSound = Gdx.audio.newSound(Gdx.files.internal("sounds/placeBlockSound.wav"));
+//        qCollectSound = Gdx.audio.newSound(Gdx.files.internal("sounds/qSound.wav"));
+//        walkingSound = Gdx.audio.newSound(Gdx.files.internal("sounds/running_Sound.wav"));
+//       walkingOnIce = Gdx.audio.newMusic(Gdx.files.internal("sounds/ice_Sound.wav"));
+//        bounceSound  = Gdx.audio.newSound(Gdx.files.internal("sounds/bounce_sound.mp3"));
+//        voidSound = Gdx.audio.newSound(Gdx.files.internal("sounds/wilhelm.wav"));
+//        deathSound = Gdx.audio.newSound(Gdx.files.internal("sounds/death_Sound.mp3"));
+//        pickupSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/pickup dak.wav"));
 
         this.world = world;
         FixtureDef feetDef = new FixtureDef();
@@ -163,61 +141,8 @@ public class Player extends TextureObject {
         }
     }
 
-    private void spacePodLanding() {
-        if (timePassed < SPAWN_TIMER) {
-            podPosition = new Vector2(body.getPosition().x - 2f, body.getPosition().y - 2f);
-        } else {
-            isPodLanding = false;
-            spawnPosition = new Vector2(body.getPosition());
-        }
-    }
 
-    private void blockPlacing(SpriteBatch batch, GameMap map, KeyboardController controller, Vector3 mousePos) {
-        //Spawn blocks at the click
-        if (getInventory().getSelectedItem() != null && !isMidAir) {
-            placeVector.x = Math.round(mousePos.x);
-            placeVector.y = Math.round(mousePos.y);
-            float distance = new Vector2(placeVector).sub(body.getPosition()).len();
-            if (MIN_RANGE < distance && distance < MAX_RANGE) {
-                int x = (int)placeVector.x;
-                int y = (int)placeVector.y;
-                if (!map.isTileOcccipied(x, y)) {
-                    TileType type = getInventory().getSelectedItem().getType();
-                    batch.draw(type.getAimTexture(), placeVector.x - 0.5f, placeVector.y - 0.5f, 1, 1);
-                    if (controller.leftClick){
-                        placementSound.setVolume(placementSound.play(), 0.4f);
-                        //placementSound.play();
-                        queue.add(new Tile(world, type, placeVector));
-                        getInventory().remove(getInventory().getSelectedSlot());
-                        getInventory().focus();
-                        showLaser(batch, placeVector.x - 0.5f, placeVector.y - 0.5f);
-                    }
-                }
-            }
-            // Show range
-            Vector2 bodyPos = body.getPosition();
-            int lowX = (int)(bodyPos.x - MAX_RANGE);
-            int highX= (int)(bodyPos.x + MAX_RANGE);
-            int lowY= (int)(bodyPos.y - MAX_RANGE);
-            int highY = (int)(bodyPos.y + MAX_RANGE);
-            for (int x = lowX; x <= highX; x++) {
-                for (int y = lowY; y <= highY; y++) {
-                    distance = new Vector2(x, y).sub(bodyPos).len();
-                    if (MIN_RANGE < distance && distance < MAX_RANGE) {
-                        if (!map.isTileOcccipied(x, y)) {
-                            batch.draw(rangeTexture, x - 0.5f, y - 0.5f, 1, 1);
-                        }
-                    }
-                }
-            }
-        }
-    }
 
-    private void showLaser(SpriteBatch batch, float x, float y) {
-        Vector2 diff = new Vector2(gunPosition).sub(x, y);
-        Vector2 middle = new Vector2(gunPosition).add(new Vector2(diff).scl(-0.5f));
-        batch.draw(new TextureRegion(laserTexture), middle.x, middle.y, 8f * GameInfo.PPM, 8f * GameInfo.PPM, 16f * GameInfo.PPM, 16f * GameInfo.PPM, diff.len(), 0.2f, diff.angle());
-    }
 
     private void movement(GameMap map, KeyboardController controller, SpriteBatch batch, float delta) {
         Vector2 vel = body.getLinearVelocity();
@@ -265,61 +190,6 @@ public class Player extends TextureObject {
         texture = animController.getTexture(dir, isMidAir, delta);
     }
 
-    /** When q is pressed, collect as many nearby tiles as you can hold in your inventory. */
-    private void qCollect(KeyboardController controller, GameMap map){
-        if(Gdx.input.isKeyJustPressed(Input.Keys.Q)){
-
-            //Get number of empty item slots
-            int emptySlots = getInventory().slotsLeft();
-
-            //Any free slots?
-            if (emptySlots != 0) {
-
-                //Create dist from player ordered list
-                Collections.sort(playerPlacedTiles, (a, b) -> {
-
-                    Vector2 vectorA = a.body.getPosition();
-                    Vector2 vectorB = b.body.getPosition();
-
-                    float distToA = Vector2.dst(vectorA.x, vectorA.y, getBodyPos().x, getBodyPos().y);
-                    float distToB = Vector2.dst(vectorB.x, vectorB.y, getBodyPos().x, getBodyPos().y);
-
-                    float comparison = distToA - distToB;
-
-                    if(comparison > 0)
-                        return 1;
-                    else if(comparison < 0)
-                        return -1;
-                    else
-                        return 0;
-                });
-
-                ArrayList<Tile> playerPlacedCopy = new ArrayList(playerPlacedTiles);
-
-                //Remove till the found number of elements and add them to inv
-                int collectCount = Math.min(getPlayerPlacedTiles().size(), emptySlots);
-                for(int i = 0; i < collectCount; i ++){
-
-                    Tile involvedTile = playerPlacedCopy.get(i);
-
-                    //Create collectedPlatform for collection animation
-                    map.addCollectedObject(new CollectedPlatform(world, involvedTile.getBody().getPosition(), involvedTile.getTileType()));
-
-                    //Add element to inventory
-                    getInventory().add(new Item(involvedTile.getTileType()));
-
-                    //Remove and destroy from world
-                    world.destroyBody(playerPlacedTiles.get(playerPlacedTiles.indexOf(playerPlacedCopy.get(i))).getBody());
-                    getPlayerPlacedTiles().remove(playerPlacedTiles.indexOf(playerPlacedCopy.get(i)));
-
-                    //Play sound
-                    //qCollectSound.play();
-                    long qCollectSoundsID = qCollectSound.play(0.5f);
-                    qCollectSound.setPitch(qCollectSoundsID, 3);
-                }
-            }
-        }
-    }
 
     public void resolveDeath(SpriteBatch batch, float delta) {
         deathTimer += delta;

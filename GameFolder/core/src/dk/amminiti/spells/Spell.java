@@ -1,4 +1,4 @@
-package dk.amminiti;
+package dk.amminiti.spells;
 
 import com.badlogic.gdx.graphics.Texture;
 import dk.amminiti.entity.Player;

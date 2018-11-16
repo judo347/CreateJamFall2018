@@ -1,9 +1,9 @@
-package dk.amminiti;
+package dk.amminiti.spells;
 
 import com.badlogic.gdx.graphics.Texture;
 import dk.amminiti.entity.Player;
 
-public class FireSpell implements Spell {
+public class CultSpell implements Spell {
 
     private Texture baby = new Texture("baby.png");
 

@@ -5,9 +5,9 @@ import dk.amminiti.entity.Player;
 
 public interface Spell {
 
-    double getCooldownTotal();
-    double getCooldownLeft();
-    void reduceCooldown(double dt);
+    float getCooldownTotal();
+    float getCooldownLeft();
+    void reduceCooldown(float dt);
     boolean isOnCooldown();
     boolean canBeUsed();
     void use(Player player);

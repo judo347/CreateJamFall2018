@@ -7,21 +7,21 @@ public class FireSpell implements Spell {
 
     private Texture baby = new Texture("baby.png");
 
-    private final double cooldownTotal = 5;
-    private double cooldownLeft = 0;
+    private final float cooldownTotal = 5;
+    private float cooldownLeft = 0;
 
     @Override
-    public double getCooldownTotal() {
+    public float getCooldownTotal() {
         return 4;
     }
 
     @Override
-    public double getCooldownLeft() {
+    public float getCooldownLeft() {
         return 0;
     }
 
     @Override
-    public void reduceCooldown(double dt) {
+    public void reduceCooldown(float dt) {
         cooldownLeft -= dt;
     }
 

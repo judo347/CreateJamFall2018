@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import dk.amminiti.ContactManager;
 import dk.amminiti.InputController;
 import dk.amminiti.MainGame;
 import dk.amminiti.entity.Player;
@@ -27,8 +28,8 @@ public class GameScreen implements Screen {
     private GameMap gameMap;
     private InputController inputs;
     private Box2DDebugRenderer debugRenderer;
-    public World world;
-    public Player p1;
+    private World world;
+    private Player p1;
 
     public GameScreen(MainGame game) {
         this.game = game;
@@ -37,7 +38,7 @@ public class GameScreen implements Screen {
 
         this.world = new World(new Vector2(0, -18f), true);
         this.gameMap = new GameMap(this);
-        //world.setContactListener(new ContactManager(world, gameMap)); //TODO CHRIS!
+        world.setContactListener(new ContactManager(world, gameMap)); //TODO CHRIS!
         this.spriteBatch = new SpriteBatch();
 
         //Position of the camera

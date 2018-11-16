@@ -25,12 +25,6 @@ public class Player extends TextureObject {
     private static final float WALK_SPEED = 6f;
     private static final float AIR_WALK_FORCE = 0.3f;
 
-    private static final float MAX_RANGE = 5f;
-    private static final float MIN_RANGE = 1.6f;
-    private static final float GUN_X_OFFSET = 0.53f;
-    private static final float SPAWN_TIMER = 2f;
-    private static final float DEATH_TIMER_RED = 0.24f;
-    private static final float RESPAWN_TIMER = 2.2f;
 
 
     private static Texture playerTexture = new Texture("badlogic.jpg");

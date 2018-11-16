@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -15,6 +16,8 @@ import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.world.GameMap;
 
 public class GameScreen implements Screen {
+
+    Texture img;
 
     private MainGame game;
     private SpriteBatch spriteBatch;
@@ -28,6 +31,8 @@ public class GameScreen implements Screen {
     public GameScreen(MainGame game) {
         this.game = game;
 
+        img = new Texture("badlogic.jpg");
+
         this.world = new World(new Vector2(0, -18f), true);
         this.gameMap = new GameMap(this);
         //world.setContactListener(new ContactManager(world, gameMap)); //TODO CHRIS!
@@ -39,6 +44,7 @@ public class GameScreen implements Screen {
         this.camera.zoom = GameInfo.ZOOM;
         this.camera.update();
         //TODO set pos of camera
+        this.debugRenderer = new Box2DDebugRenderer();
 
 
 
@@ -60,10 +66,13 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         spriteBatch.begin();
+        spriteBatch.draw(img, 0, 0);
 
-        //gameMap.render(); //TODO
+        gameMap.render(spriteBatch, delta); //TODO
         //TODO STAGE THINGS
         spriteBatch.end();
+
+        debugRenderer.render(world, camera.combined);
     }
 
     @Override
@@ -89,5 +98,9 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public World getWorld() {
+        return world;
     }
 }

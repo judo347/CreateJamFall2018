@@ -1,27 +1,19 @@
 package dk.amminiti.world;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Scaling;
 import dk.amminiti.entity.GameObject;
-import dk.amminiti.entity.TextureObject;
+import dk.amminiti.entity.GameObjectOld;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.screens.GameScreen;
 
-import static sun.plugin.javascript.navig.JSType.Image;
-
 public class GameMap {
 
-    private TextureObject groundBox;
+    private GameObject groundBox;
     private World world;
 
     public GameMap(GameScreen screen) {
@@ -48,9 +40,10 @@ public class GameMap {
 
     }
 
-    private TextureObject getPlatform(){
+    private GameObject getPlatform(){
 
-        return new TextureObject(world, new Vector2(0,0), GameObject.DEFAULT_STATIC_BODYDEF, GameObject.DEFAULT_STATIC_FIXTUREDEF, new TextureRegion(new Texture(Gdx.files.internal("platformTemp.png"))));
+        //return new TextureObject(world, new Vector2(0,0), GameObjectOld.DEFAULT_STATIC_BODYDEF, createPlatformFixtureDef(), new TextureRegion(new Texture(Gdx.files.internal("platformTemp.png"))));
+        return new GameObject(world, new Vector2(0,0), new TextureRegion(new Texture(Gdx.files.internal("platformTemp.png"))), BodyDef.BodyType.StaticBody);
     }
 
     private Body createPlatform(World world, Vector2 pos, int width, int height){
@@ -83,6 +76,31 @@ public class GameMap {
         fixtureDef.shape = shape;
         fixtureDef.density = 1;
         fixtureDef.friction = 1;
+        fixtureDef.restitution = 0;
+
+        return fixtureDef;
+    }
+
+    /** The default fixturedef for players */
+    private FixtureDef createPlatformFixtureDef(){
+        float cornerSize = 0.043f;
+        float width = 500/2f;
+        float widthShort = 500/2f - cornerSize;
+        float height = 100/2f;
+        float heightShort = 100/2f - cornerSize;
+        PolygonShape shape = new PolygonShape();
+        shape.set(new Vector2[] {
+                new Vector2(-width, height),
+                new Vector2(width, height),
+                new Vector2(width, -heightShort),
+                new Vector2(0, -height),
+                new Vector2(-width, -heightShort),
+        });
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1f;
+        fixtureDef.friction = 0f;
         fixtureDef.restitution = 0;
 
         return fixtureDef;

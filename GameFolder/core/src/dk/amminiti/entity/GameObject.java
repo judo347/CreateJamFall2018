@@ -1,74 +1,77 @@
 package dk.amminiti.entity;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import dk.amminiti.helpers.GameInfo;
 
 public class GameObject {
 
-    /** The BodyDef used for something like tiles */
-    public static BodyDef DEFAULT_STATIC_BODYDEF = createDefaultStaticBodyDef();
-    /** The FixtureDef used for something like tiles */
-    public static FixtureDef DEFAULT_STATIC_FIXTUREDEF = createDefaultStaticFixtureDef();
-    /** The BodyDef used for something like tiles */
-    public static BodyDef DEFAULT_DYNAMIC_BODYDEF = createDefaultDynamicBodyDef();
-    /** The FixtureDef used for something like tiles */
-    public static FixtureDef DEFAULT_DYNAMIC_FIXTUREDEF = createDefaultDynamicFixtureDef();
-
+    protected TextureRegion textureRegion;
     protected final Body body;
 
-    public GameObject(World world, Vector2 pos, BodyDef bodyDef, FixtureDef fixtureDef) {
 
-        bodyDef.position.set(pos);
-        body = world.createBody(bodyDef);
-        body.createFixture(fixtureDef);
-        body.setUserData(this);
+    public GameObject(World world, Vector2 pos, TextureRegion textureRegion, BodyDef.BodyType bodyType) {
+        this.textureRegion = textureRegion;
+        this.body = createBody(world, pos, bodyType);
+
     }
 
-    /** The BodyDef used for something like tiles */
-    private static BodyDef createDefaultStaticBodyDef() {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.fixedRotation = true;
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        return bodyDef;
-    }
-
-    /** The FixtureDef used for something like tiles */
-    private static FixtureDef createDefaultStaticFixtureDef() {
+    private FixtureDef createPlayerFixtureDef(){
+        float cornerSize = 0.005f;
+        float width = (textureRegion.getRegionWidth() / 2f) / GameInfo.PPM;
+        float height = (textureRegion.getRegionHeight() / 2f) / GameInfo.PPM;
+        float heightShort = ((textureRegion.getRegionHeight() / 2f) / GameInfo.PPM) - cornerSize;
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(0.5f, 0.5f);
+        shape.set(new Vector2[] {
+                new Vector2(-width, height),
+                new Vector2(width, height),
+                new Vector2(width, -heightShort),
+                new Vector2(0, -height),
+                new Vector2(-width, -heightShort),
+        });
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1;
         fixtureDef.friction = 1;
-        fixtureDef.restitution = 0;
+        fixtureDef.restitution = 0.0f;
 
         return fixtureDef;
     }
 
-    /** The BodyDef used for something like tiles */
-    private static BodyDef createDefaultDynamicBodyDef() {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.fixedRotation = true;
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        return bodyDef;
-    }
+    /** Creates the body and fixture for an entity. */
+    public Body createBody(World world, Vector2 pos, BodyDef.BodyType bodyType){
 
-    /** The FixtureDef used for something like tiles */
-    private static FixtureDef createDefaultDynamicFixtureDef() {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = bodyType;
+
+        bodyDef.position.set(((pos.x + textureRegion.getRegionWidth() / 2f) / GameInfo.PPM), (pos.y + textureRegion.getRegionHeight() / 2f) / GameInfo.PPM);
+
+        Body body = world.createBody(bodyDef);
+
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(0.5f, 0.5f);
+        shape.setAsBox((textureRegion.getRegionWidth() / 2f) / GameInfo.PPM, (textureRegion.getRegionHeight() / 2f) / GameInfo.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0;
-        fixtureDef.friction = 0;
-        fixtureDef.restitution = 0;
+        fixtureDef.density = 1;
 
-        return fixtureDef;
+        Fixture fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(this); //TODO
+
+        shape.dispose();
+
+        return body;
     }
 
-    public Body getBody() {
-        return body;
+    public void render(SpriteBatch batch, float delta) {
+        if (textureRegion != null) {
+            Vector2 pos = body.getPosition();
+            float width = textureRegion.getRegionWidth() * GameInfo.PPM;
+            float height = textureRegion.getRegionHeight() * GameInfo.PPM;
+            batch.draw(textureRegion, pos.x - width / 2, pos.y - height / 2, width / 2f, height / 2f, width, height, 1, 1, body.getAngle());
+        }
     }
 }

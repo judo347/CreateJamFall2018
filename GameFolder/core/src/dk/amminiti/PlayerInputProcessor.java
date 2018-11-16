@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 public class PlayerInputProcessor implements InputProcessor {
 
     private final int codeUp, codeDown, codeLeft, codeRight, codePrimary, codeSecondary;
-    private boolean upPressed, downPressed, leftPressed, rightPressed, jumpPressed, primaryPressed, secondaryPressed;
+    private boolean upPressed, downPressed, leftPressed, rightPressed, primaryPressed, secondaryPressed;
 
     public PlayerInputProcessor(int codeUp, int codeDown, int codeLeft, int codeRight, int codePrimary, int codeSecondary) {
         this.codeUp = codeUp;
@@ -54,10 +54,6 @@ public class PlayerInputProcessor implements InputProcessor {
 
     public boolean isRightPressed() {
         return rightPressed;
-    }
-
-    public boolean isJumpPressed() {
-        return jumpPressed;
     }
 
     public boolean isPrimaryPressed() {

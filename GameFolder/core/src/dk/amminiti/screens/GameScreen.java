@@ -26,7 +26,7 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
     private Stage stage;
     private GameMap gameMap;
-    private InputController inputs;
+    private InputController inputs = new InputController();
     private Box2DDebugRenderer debugRenderer;
     private World world;
     private Player p1;
@@ -48,7 +48,7 @@ public class GameScreen implements Screen {
         camera.position.y = camera.position.y + 8;
         this.camera.update();
         this.debugRenderer = new Box2DDebugRenderer();
-        p1 = new Player(this.world, new Vector2(0, 2));
+        p1 = new Player(this.world, new Vector2(0, 2), inputs.getPlayerInput(0));
 
         //TODO Stage MAYBE
         spriteBatch.setProjectionMatrix(camera.combined);

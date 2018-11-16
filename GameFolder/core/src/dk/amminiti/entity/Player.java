@@ -25,19 +25,22 @@ public class Player extends TextureObject {
     private static final float JUMP_FORCE = 11.4f;
     private static final float JUMP_FORCE_IN_AIR = 9f;
     private static final float WALK_SPEED = 6f;
-    private static final float AIR_WALK_FORCE = 0.3f;
+    private static final float AIR_WALK_FORCE = 2f;
+    private static final float AIR_DRAG = 2f;
 
-    private static Texture playerTexture = new Texture("badlogic.jpg");
+    private static Texture playerTexture = new Texture("baby.png");
 
+    private PlayerInputProcessor inputs;
+    private Body feet;
     private int lookingDir = 1;
     private boolean isMidAir = false;
     private boolean hasJumped = false;
-    private Body feet;
 
     private boolean isFacingRight;
 
-    public Player(World world, Vector2 pos) {
+    public Player(World world, Vector2 pos, PlayerInputProcessor inputs) {
         super(world, pos, createPlayerBodyDef(), createPlayerFixtureDef(), new TextureRegion(playerTexture));
+        this.inputs = inputs;
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(FEET_WIDTH / 2f, FEET_HEIGHT / 2f);
@@ -60,19 +63,19 @@ public class Player extends TextureObject {
         feet.setGravityScale(0);
     }
 
-    public void render(PlayerInputProcessor inputs, SpriteBatch batch, float delta) {
-        movement(inputs);
+    public void render(SpriteBatch batch, float delta) {
+        movement();
         super.render(batch, delta);
     }
 
-    void movement(PlayerInputProcessor inputs) {
+    void movement() {
         Vector2 vel = body.getLinearVelocity();
 
         isMidAir = !(ContactManager.feetCollisions > 0 && Math.abs(vel.y) <= 1e-2);
 
         // Jump
         if (!isMidAir) hasJumped = false;
-        if (!hasJumped && (inputs.isJumpPressed())) {
+        if (!hasJumped && (inputs.isUpPressed())) {
             vel.y = isMidAir ? JUMP_FORCE_IN_AIR : JUMP_FORCE;
             isMidAir = true;
             hasJumped = true;
@@ -87,7 +90,13 @@ public class Player extends TextureObject {
 
         } else {
             // Mid air
-            vel.add(AIR_WALK_FORCE * dir, 0);
+            if (dir != 0) {
+                vel.add(AIR_WALK_FORCE * dir, 0);
+            } else if (vel.x != 0) {
+                // Air drag
+                int sgn = vel.x > 0 ? 1 : -1;
+                vel.x = Math.max(Math.abs(vel.x) - AIR_DRAG, 0);
+            }
         }
 
         // Restrict vel x

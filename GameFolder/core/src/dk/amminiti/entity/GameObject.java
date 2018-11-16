@@ -10,10 +10,11 @@ public class GameObject {
 
     protected TextureRegion textureRegion;
     protected final Body body;
-
+    protected final World world;
 
     public GameObject(World world, Vector2 pos, TextureRegion textureRegion, BodyDef.BodyType bodyType) {
         this.textureRegion = textureRegion;
+        this.world = world;
         this.body = createBody(world, pos, bodyType);
 
     }

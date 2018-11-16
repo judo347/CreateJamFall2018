@@ -14,7 +14,7 @@ public class MainGame extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
-
+		
 		this.screen = new GameScreen(this);
 		this.setScreen(screen);
 	}

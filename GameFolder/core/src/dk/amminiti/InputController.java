@@ -11,7 +11,6 @@ public class InputController extends InputMultiplexer {
             Input.Keys.DOWN,
             Input.Keys.LEFT,
             Input.Keys.RIGHT,
-            Input.Keys.UP,
             Input.Keys.COMMA,
             Input.Keys.PERIOD
     );
@@ -21,7 +20,6 @@ public class InputController extends InputMultiplexer {
             Input.Keys.F,
             Input.Keys.D,
             Input.Keys.G,
-            Input.Keys.R,
             Input.Keys.Q,
             Input.Keys.A
     );

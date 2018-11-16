@@ -4,14 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.amminiti.ContactManager;
-import dk.amminiti.InputController;
 import dk.amminiti.PlayerInputProcessor;
-
-import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
-
 
 public class Player extends TextureObject {
 
@@ -50,15 +45,23 @@ public class Player extends TextureObject {
     }
 
     private void createFeet() {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.fixedRotation = true;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(new Vector2(body.getPosition().add(FEET_Y_OFFSET)));
+
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(FEET_WIDTH / 2f, FEET_HEIGHT / 2f);
+
         FixtureDef feetDef = new FixtureDef();
         feetDef.shape = shape;
         feetDef.density = 0;
         feetDef.friction = 1;
         feetDef.restitution = 0;
         feetDef.isSensor = false;
-        feet = new GameObject(world, new Vector2(body.getPosition().add(FEET_Y_OFFSET)), createPlayerBodyDef(), feetDef).getBody();
+
+        feet = world.createBody(bodyDef);
+        feet.createFixture(feetDef);
         feet.setUserData(ContactManager.FEET);
         feet.setGravityScale(0);
     }
@@ -144,7 +147,7 @@ public class Player extends TextureObject {
     private static BodyDef createPlayerBodyDef() {
         BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = true;
-        bodyDef.type = DynamicBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         return bodyDef;
     }
 }

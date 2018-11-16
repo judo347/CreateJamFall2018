@@ -1,14 +1,27 @@
 package dk.amminiti.world;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Scaling;
+import dk.amminiti.entity.GameObject;
+import dk.amminiti.entity.TextureObject;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.screens.GameScreen;
 
+import static sun.plugin.javascript.navig.JSType.Image;
+
 public class GameMap {
 
-    private Body groundBox;
+    private TextureObject groundBox;
     private World world;
 
     public GameMap(GameScreen screen) {
@@ -19,7 +32,7 @@ public class GameMap {
 
     private void initializePlatforms(){
 
-        this.groundBox = createPlatform(world, new Vector2(0,0), 500, 50);
+        this.groundBox = getPlatform();
     }
 
     private void update(float delta){
@@ -29,8 +42,15 @@ public class GameMap {
 
         update(delta);
 
+        groundBox.render(batch, delta);
+
         //batch.draw();
 
+    }
+
+    private TextureObject getPlatform(){
+
+        return new TextureObject(world, new Vector2(0,0), GameObject.DEFAULT_STATIC_BODYDEF, GameObject.DEFAULT_STATIC_FIXTUREDEF, new TextureRegion(new Texture(Gdx.files.internal("platformTemp.png"))));
     }
 
     private Body createPlatform(World world, Vector2 pos, int width, int height){

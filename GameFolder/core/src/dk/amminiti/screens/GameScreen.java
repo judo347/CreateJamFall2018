@@ -29,7 +29,7 @@ public class GameScreen implements Screen {
     private InputController inputs = new InputController();
     private Box2DDebugRenderer debugRenderer;
     private World world;
-    private Player p1;
+    private Player p1, p2;
 
     public GameScreen(MainGame game) {
         this.game = game;
@@ -49,6 +49,7 @@ public class GameScreen implements Screen {
         this.camera.update();
         this.debugRenderer = new Box2DDebugRenderer();
         p1 = new Player(this.world, new Vector2(0, 2), inputs.getPlayerInput(0));
+        p2 = new Player(this.world, new Vector2(0, 4), inputs.getPlayerInput(1));
 
         //TODO Stage MAYBE
         spriteBatch.setProjectionMatrix(camera.combined);
@@ -68,6 +69,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
         p1.render(spriteBatch, delta);
+        p2.render(spriteBatch, delta);
 
         gameMap.render(spriteBatch, delta); //TODO
         //TODO STAGE THINGS

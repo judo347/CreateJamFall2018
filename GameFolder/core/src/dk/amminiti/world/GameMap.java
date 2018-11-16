@@ -1,23 +1,15 @@
 package dk.amminiti.world;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Scaling;
 import dk.amminiti.entity.GameObject;
 import dk.amminiti.entity.TextureObject;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.screens.GameScreen;
-
-import static sun.plugin.javascript.navig.JSType.Image;
 
 public class GameMap {
 

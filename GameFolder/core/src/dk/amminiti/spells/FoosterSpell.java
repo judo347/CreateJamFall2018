@@ -13,7 +13,7 @@ public class FoosterSpell implements Spell {
 
     private final float cooldownTotal = 5;
     private float cooldownLeft = 0;
-    private float manacost = 30;
+    private float manacost = 25;
 
 
     @Override

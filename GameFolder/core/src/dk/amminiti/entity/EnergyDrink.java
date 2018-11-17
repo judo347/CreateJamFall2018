@@ -66,6 +66,7 @@ public class EnergyDrink extends TextureObject {
         bodyDef.type = DynamicBody;
         return bodyDef;
     }
+
     TextureRegion getTexture(energyDrinkType type){
         switch (type){
             case Fire:

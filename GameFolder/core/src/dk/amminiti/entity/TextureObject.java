@@ -55,9 +55,6 @@ public class TextureObject extends RenderObject {
         fixtureDef.isSensor = true;
 
         return fixtureDef;
-
-
-
     }
 
     public static FixtureDef createTextureFixtureDef(Texture text){

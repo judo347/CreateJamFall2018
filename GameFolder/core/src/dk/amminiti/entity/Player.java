@@ -257,4 +257,8 @@ public class Player extends TextureObject {
     public Spell getSpell() {
         return spell;
     }
+
+    public float getMana() {
+        return mana;
+    }
 }

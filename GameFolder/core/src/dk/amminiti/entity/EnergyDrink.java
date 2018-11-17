@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import dk.amminiti.helpers.GameInfo;
+import dk.amminiti.world.GameMap;
 
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 
@@ -18,6 +19,8 @@ public class EnergyDrink extends TextureObject {
     static Texture redcowTexture = new Texture("energydrinks/redcow.png");
     static Texture fireTexture = new Texture("energydrinks/fire.png");
 
+
+
     public enum energyDrinkType{
         Wonster,
         Fooster,
@@ -26,16 +29,18 @@ public class EnergyDrink extends TextureObject {
     }
 
     private energyDrinkType type;
+    private GameMap map;
 
     /**
      * An GameObject that always have a textre drawn at the body's position.
-     * @param world
-     * @param pos
      */
-    public EnergyDrink(World world, Vector2 pos,energyDrinkType type ) {
-        super(world,pos,createBodyDef(),createSensorFixtureDef(fireTexture),new TextureRegion(fireTexture));
+
+    public EnergyDrink(GameMap map, Vector2 pos, energyDrinkType type ) {
+        super(map.getWorld(),pos,createBodyDef(),createSensorFixtureDef(fireTexture),new TextureRegion(fireTexture));
+        this.map = map;
         this.texture = getTexture(type);
         this.type = type;
+
     }
 
     public energyDrinkType getType(){
@@ -63,6 +68,8 @@ public class EnergyDrink extends TextureObject {
         }
         return null;
     }
-
+    public void removeFromWorld() {
+        map.addToDestroyQueue(this);
+    }
 
 }

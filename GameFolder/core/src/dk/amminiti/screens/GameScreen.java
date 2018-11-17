@@ -34,11 +34,6 @@ public class GameScreen implements Screen {
     private InputController inputs = new InputController();
     private Box2DDebugRenderer debugRenderer;
     private World world;
-    private Player p1, p2;
-    private EnergyDrink wonster;
-    private EnergyDrink fooster;
-    private EnergyDrink fire;
-    private EnergyDrink redcow;
     private List<TextureObject> gameObjectsListforRender; //TODO GET A REAL NAME
 
 
@@ -48,7 +43,7 @@ public class GameScreen implements Screen {
         img = new Texture("badlogic.jpg");
 
         this.world = new World(new Vector2(0, -18f), true);
-        this.gameMap = new GameMap(this);
+        this.gameMap = new GameMap(this, inputs);
         world.setContactListener(new ContactManager(world, gameMap)); //TODO CHRIS!
         this.spriteBatch = new SpriteBatch();
 
@@ -59,24 +54,6 @@ public class GameScreen implements Screen {
         camera.position.y = camera.position.y + 8;
         this.camera.update();
         this.debugRenderer = new Box2DDebugRenderer();
-        gameObjectsListforRender = new ArrayList<TextureObject>();
-        p1 = new Player(this.world, new Vector2(0, 2),inputs.getPlayerInput(0));
-        p2 = new Player(this.world,new Vector2(0,6),inputs.getPlayerInput(1));
-        wonster = new EnergyDrink(this.world, new Vector2(0,3), EnergyDrink.energyDrinkType.Wonster);
-        fire = new EnergyDrink(this.world, new Vector2(0,4), EnergyDrink.energyDrinkType.Fire);
-        fooster = new EnergyDrink(this.world, new Vector2(0,5), EnergyDrink.energyDrinkType.Fooster);
-        redcow = new EnergyDrink(this.world, new Vector2(0,6), EnergyDrink.energyDrinkType.Redcow);
-
-        gameObjectsListforRender.add(p1);
-        gameObjectsListforRender.add(p2);
-        gameObjectsListforRender.add(wonster);
-        gameObjectsListforRender.add(fire);
-        gameObjectsListforRender.add(fooster);
-        gameObjectsListforRender.add(redcow);
-
-
-
-
 
         //TODO Stage MAYBE
         spriteBatch.setProjectionMatrix(camera.combined);
@@ -95,12 +72,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0f, 0.0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
-//        p1.render(spriteBatch, delta);
-
-        for (TextureObject to:gameObjectsListforRender) {
-            to.render(spriteBatch,delta);
-        }
-
 
         gameMap.render(spriteBatch, delta); //TODO
         //TODO STAGE THINGS

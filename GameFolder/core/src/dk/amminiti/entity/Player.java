@@ -56,6 +56,8 @@ public class Player extends TextureObject {
         this.spell = null;
         this.cultSpell = new CultSpell();
 
+        this.CollectEnergyDrink(EnergyDrink.EnergyDrinkType.FIRE); //TODO TEMP
+
         createFeet();
         body.setLinearDamping(0);
         body.setUserData(this);

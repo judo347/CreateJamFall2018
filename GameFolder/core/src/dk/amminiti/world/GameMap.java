@@ -17,6 +17,7 @@ public class GameMap {
     private World world;
     private InputController inputs;
     private MapBox mapBox;
+    private GameScreen screen;
 
     private List<TextureObject> gameObjects;
 
@@ -36,6 +37,7 @@ public class GameMap {
     private EnergyDrink redcow;
 
     public GameMap(GameScreen screen, InputController inputs) {
+        this.screen = screen;
         this.world = screen.getWorld();
         this.inputs = inputs;
         this.gameObjects = new ArrayList<TextureObject>();
@@ -86,6 +88,9 @@ public class GameMap {
         while(itemsToBeRemoved.size() != 0){
             for (TextureObject textureObject : new ArrayList<TextureObject>(itemsToBeRemoved)) {
 
+                if(textureObject instanceof Player)
+                    ((Player)textureObject).destroyFeet();
+
                 textureObject.destroyBody();
                 itemsToBeRemoved.remove(textureObject);
                 gameObjects.remove(textureObject);
@@ -135,4 +140,9 @@ public class GameMap {
         this.itemsToBeAdded.add(to);
     }
 
+    public void killPlayer(Player player){
+        player.killPlayer();
+        this.screen.getCamera().targets.remove(player);
+        this.itemsToBeRemoved.add(player);
+    }
 }

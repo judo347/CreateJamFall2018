@@ -170,10 +170,13 @@ public class Player extends TextureObject {
         return bodyDef;
     }
 
-
     public void killPlayer() {
         this.isDead = true;
         System.out.println("Player dead");
+    }
+
+    public void destroyFeet(){
+        this.world.destroyBody(feet);
     }
 
     private static FixtureDef createPlayerFixtureDef() {

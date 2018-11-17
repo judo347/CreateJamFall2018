@@ -30,10 +30,10 @@ public class ContactManager implements ContactListener {
             //Kill walls detection
             if(fa.getBody().getUserData() instanceof PlatformWithoutTexture || fb.getBody().getUserData() instanceof PlatformWithoutTexture){
                 if(fa.getBody().getUserData() instanceof Player)
-                    ((Player)fa.getBody().getUserData()).killPlayer();
+                    gameMap.killPlayer((Player)fa.getBody().getUserData());
 
                 if(fb.getBody().getUserData() instanceof Player)
-                    ((Player)fb.getBody().getUserData()).killPlayer();
+                    gameMap.killPlayer((Player)fb.getBody().getUserData());
             }
 
             //EnergyDrink collision with platforms

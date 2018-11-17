@@ -57,6 +57,8 @@ public class Player extends TextureObject {
         this.spell = null;
         this.cultSpell = new CultSpell();
 
+        this.CollectEnergyDrink(EnergyDrink.EnergyDrinkType.FIRE); //TODO TEMP
+
         createFeet();
         System.out.println(feet.getUserData());
         System.out.println(this.getBody().getUserData());

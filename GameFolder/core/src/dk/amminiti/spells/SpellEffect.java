@@ -5,13 +5,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
+import dk.amminiti.entity.AnimatedObject;
 import dk.amminiti.entity.EnergyDrink;
 import dk.amminiti.entity.Player;
 import dk.amminiti.entity.TextureObject;
 
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 
-public abstract class SpellEffect extends TextureObject {
+public abstract class SpellEffect extends AnimatedObject {
 
     protected float lifeTime;
     protected Player owner;
@@ -19,27 +22,20 @@ public abstract class SpellEffect extends TextureObject {
     protected float basePower = 100;
     protected float power;
 
-    /**
-     * An GameObject that always have a textre drawn at the body's position.
-     *
-     * @param texture
-     */
-    public SpellEffect(Player player, float lifeTime, Texture texture, EnergyDrink.EnergyDrinkType type) {
-        super(player.getBody().getWorld(), player.getHeadPos(), createBodyDef(), createSensorFixtureDef(texture), new TextureRegion(texture));
+    public SpellEffect(FixtureDef fixtureDef, Texture texture, int numberOfFrames, float animationSpeed, float lifeTime, Player owner, EnergyDrink.EnergyDrinkType type) {
+        super(owner.getBody().getWorld(), owner.getHeadPos(), createBodyDef(), fixtureDef, texture, numberOfFrames, animationSpeed);
         this.lifeTime = lifeTime;
+        this.owner = owner;
         this.type = type;
-        this.owner = player;
-
     }
 
     public void render(SpriteBatch batch, float delta) {
+
         super.render(batch, delta);
         reduceLifetime(delta);
         if (lifeTime <= 0) {
             owner.getMap().addToDestroyQueue(this);
         }
-
-
     }
 
     protected void reduceLifetime(float dt) {
@@ -61,6 +57,4 @@ public abstract class SpellEffect extends TextureObject {
         bodyDef.gravityScale = 0;
         return bodyDef;
     }
-
-
 }

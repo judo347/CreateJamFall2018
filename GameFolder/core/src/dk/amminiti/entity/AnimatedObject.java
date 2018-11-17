@@ -44,7 +44,7 @@ public class AnimatedObject extends RenderObject {
     private void setUpAnimation(){
 
         this.animation = new Animation[NUMBER_OF_FRAMES];
-        TextureRegion[][] resourceTextureSheet = TextureRegion.split(texture, GameInfo.TILE_SIZE, GameInfo.TILE_SIZE);
+        TextureRegion[][] resourceTextureSheet = TextureRegion.split(texture, texture.getWidth() / NUMBER_OF_FRAMES, texture.getWidth() / NUMBER_OF_FRAMES);
 
         for(int i = 0; i < NUMBER_OF_FRAMES; i++){
             animation[i] = new Animation(ANIMATION_SPEED, resourceTextureSheet[0][i]);
@@ -60,9 +60,9 @@ public class AnimatedObject extends RenderObject {
         Vector2 pos = body.getPosition();
         float width = getCurrentFrame().getRegionWidth() * GameInfo.PPM;
         float height = getCurrentFrame().getRegionHeight() * GameInfo.PPM;
-        batch.begin();
+        //batch.begin();
         batch.draw(getCurrentFrame(), pos.x - width/2, pos.y - height/2, width / 2f, height / 2f, width, height, 1, 1, body.getAngle());;
-        batch.end();
+        //batch.end();
         //batch.draw(getCurrentFrame(), body.getPosition().x - getCurrentFrame().getRegionWidth()/2f, body.getPosition().y - getCurrentFrame().getRegionHeight()/2f);
     }
 

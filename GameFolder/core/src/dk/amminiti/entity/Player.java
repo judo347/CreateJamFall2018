@@ -36,6 +36,7 @@ public class Player extends TextureObject {
     private boolean isMidAir = false;
     private boolean hasJumped = false;
     private GameMap map;
+    private float mana = 0;
 
     private boolean isDead = false;
 
@@ -45,12 +46,14 @@ public class Player extends TextureObject {
     // SPELL SECTION -------------
     private Spell spell;
     private int spellLevel = 0;
+    private CultSpell cultSpell;
 
     public Player(GameMap map, Vector2 pos, PlayerInputProcessor inputs) {
         super(map.getWorld(), pos, createPlayerBodyDef(), createPlayerFixtureDef(), null);
         this.inputs = inputs;
         this.map = map;
-        this.spell = new CultSpell();
+        this.spell = null;
+        this.cultSpell = new CultSpell();
 
         createFeet();
         body.setLinearDamping(0);
@@ -81,7 +84,10 @@ public class Player extends TextureObject {
 
     public void render(SpriteBatch batch, float dt) {
         movement(dt);
-        spell.reduceCooldown(dt);
+
+        cultSpell.reduceCooldown(dt);
+        if (mana<=0){spell=null;}
+        if (spell!=null){spell.reduceCooldown(dt);}
         super.render(batch, dt);
     }
 
@@ -117,9 +123,12 @@ public class Player extends TextureObject {
 
         }
         if (inputs.isPrimaryPressed()){
-            spell.use(this);
+            cultSpell.use(this);
         }
 
+        if (inputs.isSecondaryPressed() && spell!=null){
+                spell.use(this);
+        }
         // Restrict vel x
         vel.x = Math.min(Math.max(-MAX_X_VEL, vel.x), MAX_X_VEL);
 
@@ -146,6 +155,7 @@ public class Player extends TextureObject {
         if (this.spell != null && this.spell.getType() == pickedUpType) {
 
             this.spellLevel++;
+            this.mana = 100;
 
         } else if (pickedUpSpell != null) {
 
@@ -153,7 +163,7 @@ public class Player extends TextureObject {
             this.spell = pickedUpSpell;
             this.spellLevel = 1;
             walkAnimationController.setAnimation(pickedUpSpell.getBabyAnimation());
-
+            this.mana = 100;
         }
 
         System.out.println("Spell Level: " + spellLevel);
@@ -170,6 +180,9 @@ public class Player extends TextureObject {
 
     public GameMap getMap(){
         return map;
+    }
+    public void useMana(float i){
+        mana-=i;
     }
 
     /** The BodyDef used for something like players */

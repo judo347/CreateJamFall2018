@@ -13,6 +13,7 @@ public class RedCowSpell implements Spell {
 
     private final float cooldownTotal = 5;
     private float cooldownLeft = 0;
+    private float manacost = 30;
 
     @Override
     public float getCooldownTotal() {
@@ -42,6 +43,7 @@ public class RedCowSpell implements Spell {
     @Override
     public void use(Player player) {
         if (!isOnCooldown()) {
+            player.useMana(manacost);
             player.getMap().addToWorldQueue(new RedCowSpellEffect(player));
             cooldownLeft = cooldownTotal;
         }}

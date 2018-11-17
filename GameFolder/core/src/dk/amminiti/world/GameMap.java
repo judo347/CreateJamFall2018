@@ -21,9 +21,12 @@ public class GameMap {
     private GameScreen screen;
 
     private List<TextureObject> gameObjects;
+    private ArrayList<AnimatedObject> animatedObjects;
 
     private ArrayList<TextureObject> itemsToBeRemoved;
     private ArrayList<TextureObject> itemsToBeAdded;
+    private ArrayList<AnimatedObject> aniObjToBeAdded;
+    private ArrayList<AnimatedObject> aniObjToBeRemoved;
 
     private Platform groundBox;
     private Platform levelOneLeft;
@@ -44,7 +47,11 @@ public class GameMap {
         this.world = screen.getWorld();
         this.inputs = inputs;
         this.gameObjects = new ArrayList<TextureObject>();
+        this.animatedObjects = new ArrayList<AnimatedObject>();
         this.itemsToBeRemoved = new ArrayList<TextureObject>();
+        this.animatedObjects = new ArrayList<AnimatedObject>();
+        this.aniObjToBeRemoved = new ArrayList<AnimatedObject>();
+        this.aniObjToBeAdded = new ArrayList<AnimatedObject>();
         this.mapBox = new MapBox(world);
         this.itemsToBeAdded = new ArrayList<TextureObject>();
 
@@ -88,6 +95,7 @@ public class GameMap {
 
     public void update(float delta){
         removeProcess();
+        removeAniObjProcess();
         drinkSpawner.update(delta);
         addProcess();
 
@@ -118,12 +126,29 @@ public class GameMap {
         }
     }
 
-    private void addProcess(){
+    private void removeAniObjProcess(){
+        while(aniObjToBeRemoved.size() != 0){
+            for (AnimatedObject animatedObject : new ArrayList<AnimatedObject>(aniObjToBeRemoved)) {
+                world.destroyBody(animatedObject.getBody());
+                aniObjToBeRemoved.remove(animatedObject);
+                animatedObjects.remove(animatedObject);
 
+            }
+        }
+    }
+
+    private void addProcess(){
         while(itemsToBeAdded.size() != 0){
             for (TextureObject textureObject : new ArrayList<TextureObject>(itemsToBeAdded)) {
                 gameObjects.add(textureObject);
                 itemsToBeAdded.remove(textureObject);
+            }
+        }
+
+        while(aniObjToBeAdded.size() != 0){
+            for(AnimatedObject aniObj : new ArrayList<AnimatedObject>(aniObjToBeAdded)){
+                animatedObjects.add(aniObj);
+                aniObjToBeAdded.remove(aniObj);
             }
         }
     }
@@ -136,6 +161,10 @@ public class GameMap {
 
         for (TextureObject gameObject : gameObjects) {
             gameObject.render(batch, delta);
+        }
+
+        for (AnimatedObject animatedObject : animatedObjects) {
+            animatedObject.render(batch, delta);
         }
     }
 
@@ -154,8 +183,15 @@ public class GameMap {
     public void addToDestroyQueue(TextureObject to){
         this.itemsToBeRemoved.add(to);
     }
+
+    public void addToDestroyQueue(AnimatedObject aniObj){
+        this.aniObjToBeRemoved.add(aniObj);
+    }
     public void addToWorldQueue(TextureObject to){
         this.itemsToBeAdded.add(to);
+    }
+    public void addToWorldQueue(AnimatedObject aniObj){
+        this.aniObjToBeAdded.add(aniObj);
     }
 
     public void killPlayer(Player player){

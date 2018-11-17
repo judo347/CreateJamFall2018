@@ -13,10 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import dk.amminiti.ContactManager;
 import dk.amminiti.InputController;
 import dk.amminiti.MainGame;
-import dk.amminiti.entity.EnergyDrink;
-import dk.amminiti.entity.Player;
-import dk.amminiti.entity.TextureObject;
-import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.world.GameMap;
 
 import java.util.ArrayList;

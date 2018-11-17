@@ -46,9 +46,13 @@ public class ContactManager implements ContactListener {
                 fb.getBody().setGravityScale(0);
                 fb.getBody().setLinearVelocity(new Vector2(0,0));
             }
-            if ((fa.getBody().getUserData() == FEET)
-                    || (fb.getBody().getUserData() == FEET)) {
-                feetCollisions++;
+            if (fa.getBody().getUserData() instanceof Player && (fb.getBody().getUserData() instanceof Player || fb.getBody().getUserData() instanceof Platform))
+            {
+                ((Player)fa.getBody().getUserData()).feetCollision();
+            }
+            if (fb.getBody().getUserData() instanceof Player && (fa.getBody().getUserData() instanceof Player || fa.getBody().getUserData() instanceof Platform))
+            {
+                ((Player)fb.getBody().getUserData()).feetCollision();
             }
 
             //EnergyDrink collision with player
@@ -69,8 +73,14 @@ public class ContactManager implements ContactListener {
                 spellPlayerCollision((Player) fa.getBody().getUserData(),(SpellEffect) fb.getBody().getUserData());
             }
 
-
-
+            //FireSpell collision with platform
+            if ((fa.getBody().getUserData() instanceof FireSpellEffect && fb.getBody().getUserData() instanceof Platform)){
+                gameMap.addToDestroyQueue((FireSpellEffect)fa.getBody().getUserData());
+            }
+            //FireSpell collision with platform
+            if ((fb.getBody().getUserData() instanceof FireSpellEffect && fa.getBody().getUserData() instanceof Platform)){
+                gameMap.addToDestroyQueue((FireSpellEffect)fb.getBody().getUserData());
+            }
         }
 
     private void spellPlayerCollision(Player player, SpellEffect spell) {

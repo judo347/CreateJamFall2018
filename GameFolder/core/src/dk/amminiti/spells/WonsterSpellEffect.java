@@ -2,6 +2,8 @@ package dk.amminiti.spells;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import dk.amminiti.entity.EnergyDrink;
@@ -13,7 +15,7 @@ public class WonsterSpellEffect extends SpellEffect {
 
     static Texture texture = new Texture("energydrinks/wonster.png");
     static float lifeTime = 3f;
-    static float speed = 2000;
+    static float speed = 200;
     final float power;
 
 
@@ -22,30 +24,28 @@ public class WonsterSpellEffect extends SpellEffect {
 
         this.body.applyForce(new Vector2(player.getLookingDir()*speed* GameInfo.PPM,0),body.getPosition(),true);
         power = owner.getSpellLevel()*basePower;
+        body.setType(BodyDef.BodyType.DynamicBody);
+        body.setGravityScale(1);
         applyMovement();
 
     }
 
     //TODO TEMP SHOULD BE CHANGED!
     private static FixtureDef createFixtureDef() {
-        PolygonShape shape = new PolygonShape();
-        shape.set(new Vector2[]{
-                new Vector2(40 * GameInfo.PPM / 2f, 60 * GameInfo.PPM / 2f),
-                new Vector2(0, 40 * GameInfo.PPM / 2f),
-                new Vector2(0, 5 * GameInfo.PPM / 2f),
-                new Vector2(5 * GameInfo.PPM / 2f, 0),
-        });
+        CircleShape shape = new CircleShape();
+        shape.setRadius(20*GameInfo.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.isSensor = true;
+        fixtureDef.isSensor = false;
 
         return fixtureDef;
     }
 
     public Vector2 calculateForce() {
-        return (this.getBody().getLinearVelocity().scl(power));
+        return (this.getBody().getLinearVelocity().scl(power).add(0,100*GameInfo.PPM));
     }
+
     public void applyForce(Player target){
         target.getBody().applyForceToCenter(calculateForce(),true);
     }

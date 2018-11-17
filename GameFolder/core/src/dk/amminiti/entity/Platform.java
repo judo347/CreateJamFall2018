@@ -1,6 +1,7 @@
 package dk.amminiti.entity;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -32,6 +33,11 @@ public class Platform extends TextureObject{
     public Platform(World world, Vector2 pos, PlatformSizeType type) {
         super(world, pos, createBodyDef(), TextureObject.createTextureFixtureDef(type.getTexture()), new TextureRegion(type.getTexture()));
         this.type = type;
+    }
+
+    @Override
+    public void render(SpriteBatch batch, float delta) {
+
     }
 
     /** The BodyDef used for something like players */

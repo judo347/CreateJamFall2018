@@ -34,6 +34,9 @@ public class GameScreen implements Screen {
     private InputController inputs = new InputController();
     private Box2DDebugRenderer debugRenderer;
     private World world;
+    private Texture background = new Texture("background.png");
+    private final float bgWidth = 2500 / 40f;
+    private final float bgHeight = 1500 / 40f;
 
     public GameScreen(MainGame game) {
         this.game = game;
@@ -68,7 +71,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0f, 0.0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
-
+        spriteBatch.draw(background, -bgWidth / 2f, 7 - bgHeight / 2f, bgWidth, bgHeight);
         gameMap.render(spriteBatch, delta);
 
         spriteBatch.end();

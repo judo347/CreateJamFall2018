@@ -20,7 +20,6 @@ public class FireSpellEffect extends SpellEffect {
 
     public FireSpellEffect(Player player) {
         super(createFixtureDef(), getTexture(player), 1f, 3, 0.08f, lifeTime, player, EnergyDrink.EnergyDrinkType.FIRE);
-        power = owner.getSpellLevel()*basePower;
 
         applyMovement();
     }
@@ -30,7 +29,12 @@ public class FireSpellEffect extends SpellEffect {
     }
 
     public Vector2 calculateForce() {
-        return (this.getBody().getLinearVelocity().scl(power));
+        float power = 1f + (0.2f * level);
+        return new Vector2(7, 2).scl(power).scl(directionWhenCast, 1);
+    }
+
+    public void applyForce(Player target){
+        target.applyHitForce(calculateForce());
     }
 
     private static FixtureDef createFixtureDef(){
@@ -45,11 +49,6 @@ public class FireSpellEffect extends SpellEffect {
 
         return fixtureDef;
     }
-
-    public void applyForce(Player target){
-        target.getBody().applyForceToCenter(calculateForce(),true);
-    }
-
 
     private void applyMovement() {
         body.setLinearVelocity(new Vector2( speed*GameInfo.PPM*owner.getLookingDir(),0));

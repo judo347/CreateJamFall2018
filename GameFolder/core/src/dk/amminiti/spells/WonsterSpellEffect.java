@@ -16,14 +16,12 @@ public class WonsterSpellEffect extends SpellEffect {
     static Texture texture = new Texture("energydrinks/wonster.png");
     static float lifeTime = 3f;
     static float speed = 200;
-    final float power;
 
 
     public WonsterSpellEffect(Player player) {
         super(createFixtureDef(), texture, 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.WONSTER);
 
         this.body.applyForce(new Vector2(player.getLookingDir()*speed* GameInfo.PPM,0),body.getPosition(),true);
-        power = owner.getSpellLevel()*basePower;
         body.setType(BodyDef.BodyType.DynamicBody);
         body.setGravityScale(1);
         applyMovement();
@@ -43,11 +41,12 @@ public class WonsterSpellEffect extends SpellEffect {
     }
 
     public Vector2 calculateForce() {
-        return (this.getBody().getLinearVelocity().scl(power).add(0,100*GameInfo.PPM));
+        float power = 1f * (0.2f * level);
+        return new Vector2(7, 2).scl(power).scl(directionWhenCast, 1);
     }
 
     public void applyForce(Player target){
-        target.getBody().applyForceToCenter(calculateForce(),true);
+        target.applyHitForce(calculateForce());
     }
 
 

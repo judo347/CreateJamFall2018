@@ -12,15 +12,13 @@ import dk.amminiti.helpers.GameInfo;
 
 public class CultSpellEffect extends SpellEffect {
 
-    static Texture textureLeft = new Texture("spellEffects/cultLeft.png");
-    static Texture textureRight = new Texture("spellEffects/cultRight.png");
-    static float lifeTime = 3f;
-    static float speed = 0;
+    private static Texture textureLeft = new Texture("spellEffects/cultLeft.png");
+    private static Texture textureRight = new Texture("spellEffects/cultRight.png");
+    private static float lifeTime = 1f;
+    private static float speed = 0.2f;
 
     public CultSpellEffect(Player player) {
         super(createFixtureDef(player), getTexture(player), 1.2f, 1, 1, lifeTime, player, EnergyDrink.EnergyDrinkType.CULT);
-
-        power = owner.getSpellLevel()*basePower;
         applyMovement();
     }
 
@@ -37,14 +35,16 @@ public class CultSpellEffect extends SpellEffect {
         return fixtureDef;
 
     }
+
     public Vector2 calculateForce() {
-        return (this.getBody().getLinearVelocity().scl(power));
+        float power = 1f + (0.2f * level);
+        return new Vector2(7, 2).scl(power).scl(directionWhenCast, 1);
     }
+
     public void applyForce(Player target){
-        target.getBody().applyForceToCenter(calculateForce(),true);
+        System.out.println("BAM");
+        target.applyHitForce(calculateForce());
     }
-
-
 
     private static Shape getRightDirectionShape(){
         PolygonShape shape = new PolygonShape();

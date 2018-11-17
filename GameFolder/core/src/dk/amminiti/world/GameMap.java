@@ -129,7 +129,6 @@ public class GameMap {
 
         while(itemsToBeRemoved.size() != 0){
             for (TextureObject textureObject : new ArrayList<TextureObject>(itemsToBeRemoved)) {
-
                 if(textureObject instanceof Player)
                     ((Player)textureObject).destroyFeet();
 
@@ -154,6 +153,7 @@ public class GameMap {
     private void addProcess(){
         while(itemsToBeAdded.size() != 0){
             for (TextureObject textureObject : new ArrayList<TextureObject>(itemsToBeAdded)) {
+
                 gameObjects.add(textureObject);
                 itemsToBeAdded.remove(textureObject);
             }
@@ -161,6 +161,7 @@ public class GameMap {
 
         while(aniObjToBeAdded.size() != 0){
             for(AnimatedObject aniObj : new ArrayList<AnimatedObject>(aniObjToBeAdded)){
+
                 animatedObjects.add(aniObj);
                 aniObjToBeAdded.remove(aniObj);
             }
@@ -199,7 +200,9 @@ public class GameMap {
     }
 
     public void addToDestroyQueue(AnimatedObject aniObj){
-        this.aniObjToBeRemoved.add(aniObj);
+
+        if (!aniObjToBeRemoved.contains(aniObj)){
+        this.aniObjToBeRemoved.add(aniObj);}
     }
     public void addToWorldQueue(TextureObject to){
         this.itemsToBeAdded.add(to);

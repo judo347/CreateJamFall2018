@@ -14,17 +14,23 @@ public class RedCowSpellEffect extends SpellEffect {
     static Texture texture = new Texture("energydrinks/redcow.png");
     static float lifeTime = 3f;
     static float speed = 2000;
-
+    static Object savedUserData;
     /**
      * An GameObject that always have a textre drawn at the body's position.
      *
      */
     public RedCowSpellEffect(Player player) {
         super(createFixtureDef(), texture, 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.REDCOW);
-        power = owner.getSpellLevel()*basePower;
+        savedUserData = owner.getBody().getUserData();
+        owner.getBody().setUserData(this);
 
         applyMovement();
     }
+
+    public void returnUserData(){
+        owner.getBody().setUserData(savedUserData);
+    }
+
 
     //TODO TEMP SHOULD BE CHANGED!
     private static FixtureDef createFixtureDef(){
@@ -44,11 +50,12 @@ public class RedCowSpellEffect extends SpellEffect {
     }
 
     public Vector2 calculateForce() {
-        return (this.getBody().getLinearVelocity().scl(power));
+        float power = 1f + (0.2f * level);
+        return new Vector2(7, 2).scl(power).scl(directionWhenCast, 1);
     }
 
     public void applyForce(Player target){
-        target.getBody().applyForceToCenter(calculateForce(),true);
+        target.applyHitForce(calculateForce());
     }
 
     private void applyMovement() {

@@ -4,26 +4,27 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import dk.amminiti.entity.EnergyDrink;
 import dk.amminiti.entity.Player;
 import dk.amminiti.helpers.GameInfo;
 
 
+
 public class RedCowSpellEffect extends SpellEffect {
 
-    static Texture texture = new Texture("energydrinks/redcow.png");
     static float lifeTime = 3f;
-    static float speed = 2000;
+    static float speed = 200;
     static Object savedUserData;
+    private static Texture textureRight = new Texture("gustEffectRight.png");
+    private static Texture textureLeft = new Texture ( "gustEffectLeft.png");
+
     /**
      * An GameObject that always have a textre drawn at the body's position.
      *
      */
     public RedCowSpellEffect(Player player) {
-        super(createFixtureDef(), texture, 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.REDCOW);
-        savedUserData = owner.getBody().getUserData();
-        owner.getBody().setUserData(this);
-
+        super(createFixtureDef(player), getTexture(player), 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.REDCOW);
         applyMovement();
     }
 
@@ -31,24 +32,21 @@ public class RedCowSpellEffect extends SpellEffect {
         owner.getBody().setUserData(savedUserData);
     }
 
+    private static Texture getTexture(Player player){
+        return (player.getLookingDir() < 0) ? textureLeft : textureRight;
+    }
 
-    //TODO TEMP SHOULD BE CHANGED!
-    private static FixtureDef createFixtureDef(){
-        PolygonShape shape = new PolygonShape();
-        shape.set(new Vector2[]{
-                new Vector2(40 * GameInfo.PPM / 2f, 60* GameInfo.PPM / 2f),
-                new Vector2(0, 40 * GameInfo.PPM / 2f),
-                new Vector2(0, 5 * GameInfo.PPM / 2f),
-                new Vector2(5 * GameInfo.PPM / 2f, 0),
-        });
+
+
+    private static FixtureDef createFixtureDef(Player player){
 
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
+        fixtureDef.shape = (player.getLookingDir() > 0) ? getRightDirectionShape(): getLeftDirectionShape();
         fixtureDef.isSensor = true;
 
         return fixtureDef;
-    }
 
+    }
     public Vector2 calculateForce() {
         float power = 1f + (0.2f * level);
         return new Vector2(7, 2).scl(power).scl(directionWhenCast, 1);
@@ -61,7 +59,33 @@ public class RedCowSpellEffect extends SpellEffect {
     private void applyMovement() {
         body.setLinearVelocity(new Vector2( speed*GameInfo.PPM*owner.getLookingDir(),0));
     }
-}
+
+    private static Shape getRightDirectionShape(){
+        PolygonShape shape = new PolygonShape();
+        shape.set(new Vector2[]{
+                new Vector2(0.5f, .7f), //Up right
+                new Vector2(0.5f, -.7f), //down right
+                new Vector2(-.5f, -0.5f), //down left
+                new Vector2(-.5f, 0.5f), //up left
+        });
+
+        return shape;
+    }
+
+    private static Shape getLeftDirectionShape(){
+        PolygonShape shape = new PolygonShape();
+        shape.set(new Vector2[]{
+                new Vector2(-0.5f, .7f), //Up right
+                new Vector2(-0.5f, -.7f), //down right
+                new Vector2(.5f, -0.5f), //down left
+                new Vector2(.5f, 0.5f), //up left
+        });
+
+        return shape;
+    }
+
+
+        }
 
 
 

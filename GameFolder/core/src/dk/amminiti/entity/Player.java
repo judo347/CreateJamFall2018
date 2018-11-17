@@ -17,7 +17,7 @@ public class Player extends TextureObject {
     private static final float FEET_WIDTH = WIDTH - 0.05f;
     private static final float FEET_HEIGHT = 0.23f;
 
-    private static final Vector2 FEET_Y_OFFSET = new Vector2(0, -.85f);
+    private static final Vector2 FEET_Y_OFFSET = new Vector2(0, -.55f);
     private static final float MAX_X_VEL = 6f;
     private static final float JUMP_FORCE = 11.4f;
     private static final float JUMP_FORCE_IN_AIR = 9f;

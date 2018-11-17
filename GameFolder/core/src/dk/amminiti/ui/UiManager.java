@@ -42,6 +42,7 @@ public class UiManager {
 
         private void initialize(Image secondaryImage, Label secondaryLabel, int currentMana){
             contentTable.clearChildren();
+
             contentTable.add(new Label(playerName, skin)).row();
             contentTable.add(getAbilitiesPanel(secondaryImage, secondaryLabel, currentMana));
 
@@ -66,6 +67,8 @@ public class UiManager {
                 secondaryProcessBar.setValue(currentMana);
 
                 table.add(secondaryProcessBar).row();
+            }else{
+                table.add(new Label("", skin)).row();
             }
 
             table.add(image).row();

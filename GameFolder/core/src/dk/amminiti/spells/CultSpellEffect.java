@@ -39,7 +39,7 @@ public class CultSpellEffect extends SpellEffect {
     @Override
     public void applyForce(Player target){
         float power = 1f + (0.5f * level);
-        Vector2 force = new Vector2(7.5f, 3f).scl(power).scl(directionWhenCast, 1);
+        Vector2 force = new Vector2(6f, 3f).scl(power).scl(directionWhenCast, 1);
         target.applyHitForce(force);
     }
 

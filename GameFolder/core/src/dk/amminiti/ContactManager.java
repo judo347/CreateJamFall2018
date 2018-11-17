@@ -60,9 +60,6 @@ public class ContactManager implements ContactListener {
                 resolveEnergyDrinkPlayerCollision((Player) fa.getBody().getUserData(),(EnergyDrink) fb.getBody().getUserData());
             }
 
-
-
-
             //Check for player collison with energy drink
 
             if (fa.getBody().getUserData() instanceof Player || fb.getBody().getUserData() instanceof Player) {

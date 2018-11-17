@@ -13,6 +13,7 @@ public class FireSpell implements Spell {
     private final float cooldownTotal = 5;
     private float cooldownLeft = 0;
 
+
     @Override
     public float getCooldownTotal() {
         return cooldownTotal;
@@ -40,9 +41,10 @@ public class FireSpell implements Spell {
 
     @Override
     public void use(Player player) {
-
-        cooldownLeft = cooldownTotal;
-    }
+        if (!isOnCooldown()) {
+            player.getMap().addToWorldQueue(new FireSpellEffect(player));
+            cooldownLeft = cooldownTotal;
+        }}
 
     @Override
     public Texture getIcon() {

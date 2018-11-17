@@ -21,6 +21,7 @@ public class GameMap {
     private List<TextureObject> gameObjects;
 
     private ArrayList<TextureObject> itemsToBeRemoved;
+    private ArrayList<TextureObject> itemsToBeAdded;
 
     private Platform groundBox;
     private Platform levelOneLeft;
@@ -40,6 +41,8 @@ public class GameMap {
         this.gameObjects = new ArrayList<TextureObject>();
         this.itemsToBeRemoved = new ArrayList<TextureObject>();
         this.mapBox = new MapBox(world);
+        this.itemsToBeAdded = new ArrayList<TextureObject>();
+
 
         initializePlatforms();
         initializePlayers();
@@ -58,8 +61,8 @@ public class GameMap {
     }
 
     private void initializePlayers(){
-        this.p1 = new Player(this.world, new Vector2(0, 2),inputs.getPlayerInput(0));
-        this.p2 = new Player(this.world,new Vector2(0,6),inputs.getPlayerInput(1));
+        this.p1 = new Player(this, new Vector2(0, 2),inputs.getPlayerInput(0));
+        this.p2 = new Player(this,new Vector2(0,6),inputs.getPlayerInput(1));
 
         gameObjects.addAll(Arrays.asList(p1, p2));
     }
@@ -75,6 +78,7 @@ public class GameMap {
 
     public void update(float delta){
         removeProcess();
+        addProcess();
     }
 
     private void removeProcess(){
@@ -88,6 +92,19 @@ public class GameMap {
             }
         }
     }
+
+    private void addProcess(){
+
+        while(itemsToBeAdded.size() != 0){
+            for (TextureObject textureObject : new ArrayList<TextureObject>(itemsToBeAdded)) {
+
+
+                gameObjects.add(textureObject);
+                itemsToBeAdded.remove(textureObject);
+            }
+        }
+    }
+
 
     public void render(SpriteBatch batch, float delta){
         for (Platform platform : platforms) {
@@ -114,4 +131,8 @@ public class GameMap {
     public void addToDestroyQueue(TextureObject to){
         this.itemsToBeRemoved.add(to);
     }
+    public void addToWorldQueue(TextureObject to){
+        this.itemsToBeAdded.add(to);
+    }
+
 }

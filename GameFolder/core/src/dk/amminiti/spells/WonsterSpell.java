@@ -40,7 +40,10 @@ public class WonsterSpell implements Spell{
 
     @Override
     public void use(Player player) {
-
+        if (!isOnCooldown()) {
+            player.getMap().addToWorldQueue(new WonsterSpellEffect(player));
+            cooldownLeft = cooldownTotal;
+        }
     }
 
     @Override

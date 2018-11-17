@@ -1,5 +1,6 @@
 package dk.amminiti.spells;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import dk.amminiti.PlayerWalkAnimation;
 import dk.amminiti.entity.EnergyDrink;
@@ -11,6 +12,10 @@ public class FoosterSpell implements Spell {
 
     private PlayerWalkAnimation babyAnimation = new PlayerWalkAnimation(new Texture("baby_crawl_fooster.png"));
 
+    private Sound castingSound;
+    private Sound hitSound;
+    private Sound travelSound;
+    
     private final float cooldownTotal = 5;
     private float cooldownLeft = 0;
     private float manacost = 25;

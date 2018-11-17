@@ -1,5 +1,7 @@
 package dk.amminiti.entity;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,6 +15,8 @@ import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.spells.CultSpell;
 import dk.amminiti.world.GameMap;
 import dk.amminiti.spells.Spell;
+
+import static com.badlogic.gdx.Gdx.audio;
 
 public class Player extends TextureObject {
 
@@ -41,6 +45,11 @@ public class Player extends TextureObject {
     private int feetCollisions = 0;
     private float movementParalysis = 0;
 
+    private Sound crawlingSound;
+    private Sound deathSound;
+    private Sound drinkSound;
+
+
     private boolean isDead = false;
 
     private boolean isFacingRight;
@@ -59,11 +68,17 @@ public class Player extends TextureObject {
         this.spell = null;
         this.cultSpell = new CultSpell();
 
-        //this.CollectEnergyDrink(EnergyDrink.EnergyDrinkType.FOOSTER); //TODO TEMP
-
+        initiateSounds();
+        
         createFeet();
         body.setLinearDamping(0);
         body.setUserData(this);
+    }
+
+    private void initiateSounds() { //TODO MIKKEL LYD
+        crawlingSound = Gdx.audio.newSound(Gdx.files.internal(""));
+        deathSound = Gdx.audio.newSound(Gdx.files.internal(""));
+        drinkSound = Gdx.audio.newSound(Gdx.files.internal(""));
     }
 
     private void createFeet() {
@@ -119,6 +134,7 @@ public class Player extends TextureObject {
         movementParalysis = movementParalysis <= 0 ? 0 : movementParalysis - MOVEMENT_PARALYSIS_DECAY * dt;
         if (!isMidAir) {
             // Grounded
+            crawlingSound.play(); //TODO Set volume
             vel.x = WALK_SPEED * dir * control;
 
         } else {
@@ -184,6 +200,7 @@ public class Player extends TextureObject {
         System.out.println("Collected " + pickedUpType.toString());
 
         Spell pickedUpSpell = EnergyDrink.EnergyDrinkType.getSpellFromType(pickedUpType);
+        drinkSound.play(); //TODO SET VOLUMe
 
         //Is the pickedUp the same type as the one we already have?
         if (this.spell != null && this.spell.getType() == pickedUpType) {

@@ -80,4 +80,12 @@ public class GameMap {
             gameObject.render(batch, delta);
         }
     }
+
+    public Player getP1() {
+        return p1;
+    }
+
+    public Player getP2() {
+        return p2;
+    }
 }

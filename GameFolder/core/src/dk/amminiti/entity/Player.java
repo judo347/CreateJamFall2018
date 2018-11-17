@@ -32,7 +32,7 @@ public class Player extends TextureObject {
 
     private Body feet;
     private PlayerInputProcessor inputs;
-    private int lookingDir = 1;
+    private int lookingDir = -1;
     private boolean isMidAir = false;
     private boolean hasJumped = false;
     private GameMap map;
@@ -114,9 +114,10 @@ public class Player extends TextureObject {
                 vel.x = Math.max(Math.abs(vel.x) - AIR_DRAG, 0);
             }
 
-            if (inputs.isPrimaryPressed()){
-                spell.use(this);
-            }
+
+        }
+        if (inputs.isPrimaryPressed()){
+            spell.use(this);
         }
 
         // Restrict vel x
@@ -158,6 +159,14 @@ public class Player extends TextureObject {
 
     }
 
+    public Vector2 getHeadPos(){
+        return new Vector2(getBodyPos().x+ (0.4f*lookingDir),getBodyPos().y);
+    }
+
+    public int getLookingDir(){
+        return lookingDir;
+    }
+
     public GameMap getMap(){
         return map;
     }
@@ -190,5 +199,9 @@ public class Player extends TextureObject {
         fixtureDef.restitution = 0;
 
         return fixtureDef;
+    }
+
+    public int getSpellLevel() {
+        return spellLevel;
     }
 }

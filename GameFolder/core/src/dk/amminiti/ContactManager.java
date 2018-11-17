@@ -2,6 +2,7 @@ package dk.amminiti;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
 import dk.amminiti.entity.*;
 import dk.amminiti.spells.*;
 import dk.amminiti.world.GameMap;
@@ -27,6 +28,7 @@ public class ContactManager implements ContactListener {
             Fixture fb = contact.getFixtureB();
 
 
+
             //Kill walls detection
             if(fa.getBody().getUserData() instanceof PlatformWithoutTexture || fb.getBody().getUserData() instanceof PlatformWithoutTexture){
                 if(fa.getBody().getUserData() instanceof Player)
@@ -39,6 +41,7 @@ public class ContactManager implements ContactListener {
             //RedCow collision
             if ((fa.getBody().getUserData() instanceof RedCowSpellEffect) && fb.getBody().getUserData() instanceof Platform){
                 ((RedCowSpellEffect)fa.getBody().getUserData()).returnUserData();
+
             }
             if ((fb.getBody().getUserData() instanceof RedCowSpellEffect) && fa.getBody().getUserData() instanceof Platform){
                 ((RedCowSpellEffect)fb.getBody().getUserData()).returnUserData();
@@ -109,7 +112,7 @@ public class ContactManager implements ContactListener {
                     break;
                 case FOOSTER:
                     ((FoosterSpellEffect) spell).applyForce(player);
-                    spell.getOwner().getMap().addToDestroyQueue(spell);
+                   spell.getOwner().getMap().addToDestroyQueue(spell);
                     break;
                 case WONSTER:
                     ((WonsterSpellEffect) spell).applyForce(player);

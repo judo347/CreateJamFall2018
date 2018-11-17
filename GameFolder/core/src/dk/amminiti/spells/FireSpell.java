@@ -11,7 +11,7 @@ public class FireSpell implements Spell {
 
     private PlayerWalkAnimation babyAnimation = new PlayerWalkAnimation(new Texture("baby_crawl_fire.png"));
 
-    private final float cooldownTotal = 5;
+    private final float cooldownTotal = 5f;
     private float cooldownLeft = 0;
     private float manacost = 30;
 

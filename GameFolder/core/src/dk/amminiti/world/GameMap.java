@@ -6,14 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import dk.amminiti.entity.GameObject;
-import dk.amminiti.entity.GameObjectOld;
+import dk.amminiti.entity.*;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.screens.GameScreen;
 
 public class GameMap {
 
-    private GameObject groundBox;
+    private Platform groundBox;
     private World world;
 
     public GameMap(GameScreen screen) {
@@ -40,10 +39,11 @@ public class GameMap {
 
     }
 
-    private GameObject getPlatform(){
+    private Platform getPlatform(){
         Texture texture = new Texture(Gdx.files.internal("platformTemp.png"));
         //return new TextureObject(world, new Vector2(0,0), GameObjectOld.DEFAULT_STATIC_BODYDEF, createPlatformFixtureDef(), new TextureRegion(new Texture(Gdx.files.internal("platformTemp.png"))));
-        return new GameObject(world, new Vector2(0,-texture.getHeight()), new TextureRegion(texture), BodyDef.BodyType.StaticBody);
+        //return new GameObject(world, new Vector2(0,-texture.getHeight()), new TextureRegion(texture), BodyDef.BodyType.StaticBody);
+        return new Platform(world, new Vector2(0,0), EntityType.PLATFORM, new Texture(Gdx.files.internal("platformTemp.png")));
     }
 
     private Body createPlatform(World world, Vector2 pos, int width, int height){

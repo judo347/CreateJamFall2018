@@ -51,7 +51,6 @@ public class FoosterSpellEffect extends SpellEffect {
     }
 
     private void applyMovement() {
-        owner.getBody().applyForce(new Vector2(10*GameInfo.PPM*owner.getLookingDir(), 500), owner.getBodyPos(), true);
-        //owner.getBody().setLinearVelocity(new Vector2(speed*GameInfo.PPM*owner.getLookingDir(),2000));
+        owner.applyHitForce(new Vector2(15*directionWhenCast, 3));
     }
 }

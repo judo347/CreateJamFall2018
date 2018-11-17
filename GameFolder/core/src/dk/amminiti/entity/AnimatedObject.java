@@ -12,74 +12,75 @@ import dk.amminiti.helpers.GameInfo;
 
 public class AnimatedObject extends RenderObject {
 
-    private Animation[] animation;
+    private TextureRegion[] frames;
     private Texture texture;
 
     private final int NUMBER_OF_FRAMES;
-    private final float ANIMATION_SPEED;
+    private final float TIME_PER_FRAME;
+    private final int FRAME_WIDTH;
+    private final int FRAME_HEIGHT;
 
     private int currentFrame;
     private float stateTime;
 
     public AnimatedObject(World world, Vector2 pos, BodyDef bodyDef, FixtureDef fixtureDef, Texture texture, int numberOfFrames) {
-        this( world, pos, bodyDef, fixtureDef, texture, numberOfFrames, 0.2f);
+        this(world, pos, bodyDef, fixtureDef, texture, numberOfFrames, 0.2f);
     }
 
-    public AnimatedObject(World world, Vector2 pos, BodyDef bodyDef, FixtureDef fixtureDef, Texture texture, int numberOfFrames, float animationSpeed) {
+    public AnimatedObject(World world, Vector2 pos, BodyDef bodyDef, FixtureDef fixtureDef, Texture texture, int numberOfFrames, float timePerFrame) {
         super(world, pos, bodyDef, fixtureDef);
 
         this.NUMBER_OF_FRAMES = numberOfFrames;
-        this.ANIMATION_SPEED = animationSpeed;
+        this.TIME_PER_FRAME = timePerFrame;
 
-        this.texture = texture;
         this.currentFrame = 0;
         this.stateTime = 0f;
+        this.texture = texture;
+
+        this.FRAME_WIDTH = texture.getWidth() / NUMBER_OF_FRAMES;
+        this.FRAME_HEIGHT = texture.getHeight();
 
         setUpAnimation();
+
     }
 
     /** Sets up the animation for the the object. */
-    private void setUpAnimation(){
+    private void setUpAnimation() {
 
-        this.animation = new Animation[NUMBER_OF_FRAMES];
-        TextureRegion[][] resourceTextureSheet = TextureRegion.split(texture, texture.getWidth() / NUMBER_OF_FRAMES, texture.getHeight());
+        frames = new TextureRegion[NUMBER_OF_FRAMES];
 
-        for(int i = 0; i < NUMBER_OF_FRAMES; i++){
-            animation[i] = new Animation(ANIMATION_SPEED, resourceTextureSheet[0][i]);
+        for (int i = 0; i < NUMBER_OF_FRAMES; i++) {
+            frames[i] = new TextureRegion(texture, i * FRAME_WIDTH, 0, FRAME_WIDTH, FRAME_HEIGHT);
         }
     }
 
     /** Render the AnimationObject */
     @Override
-    public void render(SpriteBatch batch, float delta){
-        stateTime += delta;
-        updateFrame();
+    public void render(SpriteBatch batch, float delta) {
+        updateFrame(delta);
 
         Vector2 pos = body.getPosition();
         float width = getCurrentFrame().getRegionWidth() * GameInfo.PPM;
         float height = getCurrentFrame().getRegionHeight() * GameInfo.PPM;
-        //batch.begin();
-        batch.draw(getCurrentFrame(), pos.x - width/2, pos.y - height/2, width / 2f, height / 2f, width, height, 1, 1, body.getAngle());;
-        //batch.end();
-        //batch.draw(getCurrentFrame(), body.getPosition().x - getCurrentFrame().getRegionWidth()/2f, body.getPosition().y - getCurrentFrame().getRegionHeight()/2f);
+        batch.draw(getCurrentFrame(), pos.x - width / 2, pos.y - height / 2, width / 2f, height / 2f, width, height, 1, 1, body.getAngle());
+
     }
 
     /** Updates the current frame number */
-    private void updateFrame() {
+    private void updateFrame(float delta) {
+        stateTime += delta;
+        if (stateTime >= TIME_PER_FRAME) { //Has enough time passed to switch frame?
 
-        if(stateTime > ANIMATION_SPEED){ //Has enough time passed to switch frame?
-
-
-            if(currentFrame+1 == NUMBER_OF_FRAMES){ //Have we reached the end of animation?
-                currentFrame = 0;
-            }else
+            if (currentFrame + 1 == NUMBER_OF_FRAMES) { //Have we reached the end of animation?
+                // nothing
+            } else
                 currentFrame++;
 
-            stateTime -= ANIMATION_SPEED;
+            stateTime -= TIME_PER_FRAME;
         }
     }
 
-    public TextureRegion getCurrentFrame(){
-        return (TextureRegion) animation[currentFrame].getKeyFrame(stateTime, true); //TODO THIS MIGHT BE A BUG
+    public TextureRegion getCurrentFrame() {
+        return frames[currentFrame];
     }
 }

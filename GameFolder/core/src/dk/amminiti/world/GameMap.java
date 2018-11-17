@@ -17,6 +17,7 @@ public class GameMap {
     private World world;
     private InputController inputs;
     private MapBox mapBox;
+    private GameScreen screen;
 
     private List<TextureObject> gameObjects;
 
@@ -30,12 +31,10 @@ public class GameMap {
     private ArrayList<Platform> platforms;
 
     private Player p1, p2;
-    private EnergyDrink wonster;
-    private EnergyDrink fooster;
-    private EnergyDrink fire;
-    private EnergyDrink redcow;
+    private DrinkSpawner drinkSpawner;
 
     public GameMap(GameScreen screen, InputController inputs) {
+        this.screen = screen;
         this.world = screen.getWorld();
         this.inputs = inputs;
         this.gameObjects = new ArrayList<TextureObject>();
@@ -46,7 +45,7 @@ public class GameMap {
 
         initializePlatforms();
         initializePlayers();
-        initializeEnergyDrink();
+        drinkSpawner = new DrinkSpawner(this);
     }
 
     private void initializePlatforms(){
@@ -67,17 +66,9 @@ public class GameMap {
         gameObjects.addAll(Arrays.asList(p1, p2));
     }
 
-    private void initializeEnergyDrink(){
-        wonster = new EnergyDrink(this, new Vector2(1,3), EnergyDrink.EnergyDrinkType.WONSTER);
-        fire = new EnergyDrink(this, new Vector2(-1,4), EnergyDrink.EnergyDrinkType.FIRE);
-        fooster = new EnergyDrink(this, new Vector2(2,5), EnergyDrink.EnergyDrinkType.FOOSTER);
-        redcow = new EnergyDrink(this, new Vector2(-2,6), EnergyDrink.EnergyDrinkType.REDCOW);
-
-        gameObjects.addAll(Arrays.asList(wonster, fire, fooster, redcow));
-    }
-
     public void update(float delta){
         removeProcess();
+        drinkSpawner.update(delta);
         addProcess();
     }
 
@@ -85,6 +76,9 @@ public class GameMap {
 
         while(itemsToBeRemoved.size() != 0){
             for (TextureObject textureObject : new ArrayList<TextureObject>(itemsToBeRemoved)) {
+
+                if(textureObject instanceof Player)
+                    ((Player)textureObject).destroyFeet();
 
                 textureObject.destroyBody();
                 itemsToBeRemoved.remove(textureObject);
@@ -133,4 +127,9 @@ public class GameMap {
         this.itemsToBeAdded.add(to);
     }
 
+    public void killPlayer(Player player){
+        player.killPlayer();
+        this.screen.getCamera().targets.remove(player);
+        this.itemsToBeRemoved.add(player);
+    }
 }

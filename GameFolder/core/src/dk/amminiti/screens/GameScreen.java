@@ -34,8 +34,6 @@ public class GameScreen implements Screen {
     private InputController inputs = new InputController();
     private Box2DDebugRenderer debugRenderer;
     private World world;
-    private List<TextureObject> gameObjectsListforRender; //TODO GET A REAL NAME
-
 
     public GameScreen(MainGame game) {
         this.game = game;
@@ -109,5 +107,9 @@ public class GameScreen implements Screen {
 
     public World getWorld() {
         return world;
+    }
+
+    public OrthographicTargetedCamera getCamera() {
+        return camera;
     }
 }

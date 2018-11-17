@@ -78,7 +78,6 @@ public class AnimatedObject extends RenderObject {
 
             stateTime -= TIME_PER_FRAME;
         }
-        System.out.println("Frame:" + currentFrame + ", time: " + stateTime);
     }
 
     public TextureRegion getCurrentFrame() {

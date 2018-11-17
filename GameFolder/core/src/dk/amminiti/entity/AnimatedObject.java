@@ -71,21 +71,11 @@ public class AnimatedObject extends RenderObject {
 
         if(stateTime > ANIMATION_SPEED){ //Has enough time passed to switch frame?
 
-            if(isAnimationDirectionForward){
 
-                if(currentFrame+1 == NUMBER_OF_FRAMES){ //Have we reached the end of animation?
-                    currentFrame--;
-                    isAnimationDirectionForward = false;
-                }else
-                    currentFrame++;
-
-            }else{ //Going backwards in frames
-                if(currentFrame == 0){ //Have we reached the end of animation?
-                    currentFrame++;
-                    isAnimationDirectionForward = true;
-                }else
-                    currentFrame--;
-            }
+            if(currentFrame+1 == NUMBER_OF_FRAMES){ //Have we reached the end of animation?
+                currentFrame = 0;
+            }else
+                currentFrame++;
 
             stateTime -= ANIMATION_SPEED;
         }

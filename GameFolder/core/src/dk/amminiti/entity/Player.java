@@ -42,7 +42,8 @@ public class Player extends TextureObject {
     private boolean isDead = false;
 
     private boolean isFacingRight;
-    private PlayerWalkAnimationController walkAnimationController = new PlayerWalkAnimationController(new PlayerWalkAnimation(new Texture("baby_crawl.png")));
+    private PlayerWalkAnimation cultWalkAnimation = new PlayerWalkAnimation(new Texture("baby_crawl_cult.png"));
+    private PlayerWalkAnimationController walkAnimationController = new PlayerWalkAnimationController(cultWalkAnimation);
 
     // SPELL SECTION -------------
     private Spell spell;
@@ -131,7 +132,10 @@ public class Player extends TextureObject {
         }
 
         if (inputs.isSecondaryPressed() && spell!=null){
-                spell.use(this);
+            spell.use(this);
+            if (mana <= 0) {
+                walkAnimationController.setAnimation(cultWalkAnimation);
+            }
         }
         // Restrict vel x
         vel.x = Math.min(Math.max(-MAX_X_VEL, vel.x), MAX_X_VEL);
@@ -166,11 +170,12 @@ public class Player extends TextureObject {
             this.spellLevel++;
             this.mana = 100;
 
-        } else {
+        } else if (pickedUpSpell != null) {
 
             //New spell is picked up!
             this.spell = pickedUpSpell;
             this.spellLevel = 1;
+            walkAnimationController.setAnimation(pickedUpSpell.getBabyAnimation());
             this.mana = 100;
         }
 
@@ -179,7 +184,8 @@ public class Player extends TextureObject {
     }
 
     public Vector2 getHeadPos(){
-        return new Vector2(getBodyPos().x+ (0.4f*lookingDir),getBodyPos().y);
+        //return new Vector2(getBodyPos().x, getBodyPos().y);
+        return new Vector2(getBodyPos().x + (0.4f*lookingDir),getBodyPos().y);
     }
 
     public int getLookingDir(){

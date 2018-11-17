@@ -18,7 +18,6 @@ import dk.amminiti.entity.Player;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.screens.GameScreen;
 import dk.amminiti.screens.OrthographicTargetedCamera;
-import javafx.scene.control.Tab;
 
 public class UiManager {
 

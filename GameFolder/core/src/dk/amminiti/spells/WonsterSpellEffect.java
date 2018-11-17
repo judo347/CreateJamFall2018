@@ -13,7 +13,7 @@ import dk.amminiti.helpers.GameInfo;
 
 public class WonsterSpellEffect extends SpellEffect {
 
-    static Texture texture = new Texture("energydrinks/wonster.png");
+    static Texture texture = new Texture("slimeball.png");
     static float lifeTime = 3f;
     static float speed = 200;
 
@@ -31,7 +31,7 @@ public class WonsterSpellEffect extends SpellEffect {
     //TODO TEMP SHOULD BE CHANGED!
     private static FixtureDef createFixtureDef() {
         CircleShape shape = new CircleShape();
-        shape.setRadius(20*GameInfo.PPM);
+        shape.setRadius(24*GameInfo.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;

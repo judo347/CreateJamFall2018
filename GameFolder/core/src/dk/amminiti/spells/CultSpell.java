@@ -1,9 +1,12 @@
 package dk.amminiti.spells;
 
 import com.badlogic.gdx.graphics.Texture;
+import dk.amminiti.entity.EnergyDrink;
 import dk.amminiti.entity.Player;
 
 public class CultSpell implements Spell {
+
+    private EnergyDrink.EnergyDrinkType type = EnergyDrink.EnergyDrinkType.CULT;
 
     private Texture baby = new Texture("baby.png");
 
@@ -49,5 +52,10 @@ public class CultSpell implements Spell {
     @Override
     public Texture getBabyTexture() {
         return baby;
+    }
+
+    @Override
+    public EnergyDrink.EnergyDrinkType getType() {
+        return type;
     }
 }

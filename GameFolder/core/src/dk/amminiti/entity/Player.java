@@ -59,11 +59,9 @@ public class Player extends TextureObject {
         this.spell = null;
         this.cultSpell = new CultSpell();
 
-        //this.CollectEnergyDrink(EnergyDrink.EnergyDrinkType.FIRE); //TODO TEMP
+        //this.CollectEnergyDrink(EnergyDrink.EnergyDrinkType.FOOSTER); //TODO TEMP
 
         createFeet();
-        System.out.println(feet.getUserData());
-        System.out.println(this.getBody().getUserData());
         body.setLinearDamping(0);
         body.setUserData(this);
     }
@@ -107,7 +105,9 @@ public class Player extends TextureObject {
         if (!isMidAir) hasJumped = false;
         if (!hasJumped && (inputs.isUpPressed())) {
             feetCollisions = 0;
-            vel.y = isMidAir ? JUMP_FORCE_IN_AIR : JUMP_FORCE;
+            if (spell!=null && spell.getType() == EnergyDrink.EnergyDrinkType.REDCOW){
+                vel.y = isMidAir ? JUMP_FORCE_IN_AIR*1.8f : JUMP_FORCE*1.8f;
+            }else vel.y = isMidAir ? JUMP_FORCE_IN_AIR : JUMP_FORCE;
             isMidAir = true;
             hasJumped = true;
         }

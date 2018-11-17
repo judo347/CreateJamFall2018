@@ -44,8 +44,6 @@ public class AnimatedObject extends RenderObject {
         this.animation = new Animation[NUMBER_OF_FRAMES];
         TextureRegion[][] resourceTextureSheet = TextureRegion.split(texture, texture.getWidth() / NUMBER_OF_FRAMES, texture.getHeight());
 
-        System.out.println(texture.getWidth() / NUMBER_OF_FRAMES);
-
         for(int i = 0; i < NUMBER_OF_FRAMES; i++){
             animation[i] = new Animation(ANIMATION_SPEED, resourceTextureSheet[0][i]);
         }

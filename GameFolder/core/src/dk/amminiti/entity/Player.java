@@ -16,13 +16,13 @@ import dk.amminiti.spells.Spell;
 
 public class Player extends TextureObject {
 
-    public static final float WIDTH = 0.56f;
-    public static final float HEIGHT = 1.35f;
+    private static final float BODY_WIDTH = 1.9f;
+    private static final float BODY_HEIGHT = 1.1f;
 
-    private static final float FEET_WIDTH = WIDTH - 0.05f;
+    private static final float FEET_WIDTH = 1.2f;
     private static final float FEET_HEIGHT = 0.23f;
 
-    private static final Vector2 FEET_Y_OFFSET = new Vector2(0, -.55f);
+    private static final Vector2 FEET_Y_OFFSET = new Vector2(0, -.74f);
     private static final float MAX_X_VEL = 6f;
     private static final float JUMP_FORCE = 11.4f;
     private static final float JUMP_FORCE_IN_AIR = 9f;
@@ -30,14 +30,14 @@ public class Player extends TextureObject {
     private static final float AIR_WALK_FORCE = 2f;
     private static final float AIR_DRAG = 2f;
 
-    private static Texture playerTexture = new Texture("baby.png");
-
-    private PlayerInputProcessor inputs;
     private Body feet;
+    private PlayerInputProcessor inputs;
     private int lookingDir = -1;
     private boolean isMidAir = false;
     private boolean hasJumped = false;
     private GameMap map;
+
+    private boolean isDead = false;
 
     private boolean isFacingRight;
     private PlayerWalkAnimationController walkAnimationController = new PlayerWalkAnimationController(new PlayerWalkAnimation(new Texture("baby_crawl.png")));
@@ -47,13 +47,11 @@ public class Player extends TextureObject {
     private int spellLevel = 0;
 
     public Player(GameMap map, Vector2 pos, PlayerInputProcessor inputs) {
-        super(map.getWorld(), pos, createPlayerBodyDef(), createTextureFixtureDef(playerTexture), new TextureRegion(playerTexture));
+        super(map.getWorld(), pos, createPlayerBodyDef(), createPlayerFixtureDef(), null);
         this.inputs = inputs;
         this.map = map;
         this.spell = new CultSpell();
 
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(FEET_WIDTH / 2f, FEET_HEIGHT / 2f);
         createFeet();
         body.setLinearDamping(0);
         body.setUserData(this);
@@ -87,7 +85,7 @@ public class Player extends TextureObject {
         super.render(batch, dt);
     }
 
-    void movement(float dt) {
+    private void movement(float dt) {
         Vector2 vel = body.getLinearVelocity();
         isMidAir = !(ContactManager.feetCollisions > 0 && Math.abs(vel.y) <= 1e-2);
 
@@ -138,17 +136,17 @@ public class Player extends TextureObject {
         return body.getPosition();
     }
 
-    public void CollectEnergyDrink(EnergyDrink.EnergyDrinkType pickedUpType){
+    public void CollectEnergyDrink(EnergyDrink.EnergyDrinkType pickedUpType) {
         System.out.println("Collected " + pickedUpType.toString());
 
         Spell pickedUpSpell = EnergyDrink.EnergyDrinkType.getSpellFromType(pickedUpType);
 
         //Is the pickedUp the same type as the one we already have?
-        if(this.spell != null && this.spell.getType() == pickedUpType){
+        if (this.spell != null && this.spell.getType() == pickedUpType) {
 
             this.spellLevel++;
 
-        }else{
+        } else {
 
             //New spell is picked up!
             this.spell = pickedUpSpell;
@@ -178,5 +176,24 @@ public class Player extends TextureObject {
         bodyDef.fixedRotation = true;
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         return bodyDef;
+    }
+
+
+    public void killPlayer() {
+        this.isDead = true;
+        System.out.println("Player dead");
+    }
+
+    private static FixtureDef createPlayerFixtureDef() {
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(BODY_WIDTH / 2f, BODY_HEIGHT / 2f);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1f;
+        fixtureDef.friction = 0f;
+        fixtureDef.restitution = 0;
+
+        return fixtureDef;
     }
 }

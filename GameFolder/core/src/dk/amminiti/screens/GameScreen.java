@@ -28,7 +28,7 @@ public class GameScreen implements Screen {
 
     private MainGame game;
     private SpriteBatch spriteBatch;
-    private OrthographicCamera camera;
+    private OrthographicTargetedCamera camera;
     private Stage stage;
     private GameMap gameMap;
     private InputController inputs = new InputController();
@@ -53,10 +53,7 @@ public class GameScreen implements Screen {
         this.spriteBatch = new SpriteBatch();
 
         //Position of the camera
-        this.camera = new OrthographicCamera(GameInfo.SCREEN_WIDTH, GameInfo.SCREEN_HEIGHT);
-        this.camera.zoom = GameInfo.ZOOM;
-        //camera.position.y = 500;
-        camera.position.y = camera.position.y + 8;
+        this.camera = new OrthographicTargetedCamera(GameInfo.SCREEN_WIDTH, GameInfo.SCREEN_HEIGHT);
         this.camera.update();
         this.debugRenderer = new Box2DDebugRenderer();
         gameObjectsListforRender = new ArrayList<TextureObject>();
@@ -74,11 +71,9 @@ public class GameScreen implements Screen {
         gameObjectsListforRender.add(fooster);
         gameObjectsListforRender.add(redcow);
 
+        camera.targets.add(p1);
+        camera.targets.add(p2);
 
-
-
-
-        //TODO Stage MAYBE
         spriteBatch.setProjectionMatrix(camera.combined);
     }
 
@@ -89,22 +84,21 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        camera.update();
 
         world.step(delta, 3, 3);
         Gdx.gl.glClearColor(0f, 0.0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
-//        p1.render(spriteBatch, delta);
 
         for (TextureObject to:gameObjectsListforRender) {
             to.render(spriteBatch,delta);
         }
 
-
-        gameMap.render(spriteBatch, delta); //TODO
-        //TODO STAGE THINGS
+        gameMap.render(spriteBatch, delta);
         spriteBatch.end();
+
+        camera.update();
+        spriteBatch.setProjectionMatrix(camera.combined);
         debugRenderer.render(world, camera.combined);
     }
 

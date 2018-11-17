@@ -8,4 +8,5 @@ public class GameInfo {
     public static final int SCREEN_HEIGHT = 800;
     public static final int MAPSIZE_WIDTH = 1280;
     public static final int MAPSIZE_HEIGHT = 800;
+    public static final float RESPAWN_COOLDOWN = 3;
 }

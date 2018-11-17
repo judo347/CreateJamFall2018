@@ -40,18 +40,16 @@ public class GameScreen implements Screen {
 
         img = new Texture("badlogic.jpg");
 
-        this.world = new World(new Vector2(0, -18f), true);
-        this.gameMap = new GameMap(this, inputs);
-        world.setContactListener(new ContactManager(world, gameMap)); //TODO CHRIS!
-        this.spriteBatch = new SpriteBatch();
-
         //Position of the camera
         this.camera = new OrthographicTargetedCamera(GameInfo.SCREEN_WIDTH, GameInfo.SCREEN_HEIGHT);
         this.camera.update();
         this.debugRenderer = new Box2DDebugRenderer();
 
-        camera.targets.add(gameMap.getP1());
-        camera.targets.add(gameMap.getP2());
+        this.world = new World(new Vector2(0, -18f), true);
+        this.gameMap = new GameMap(this, inputs);
+        world.setContactListener(new ContactManager(world, gameMap)); //TODO CHRIS!
+        this.spriteBatch = new SpriteBatch();
+
 
         spriteBatch.setProjectionMatrix(camera.combined);
     }

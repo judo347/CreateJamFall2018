@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.amminiti.InputController;
 import dk.amminiti.entity.*;
+import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.screens.GameScreen;
 
 import java.util.ArrayList;
@@ -29,6 +30,11 @@ public class GameMap {
     private Platform levelOneRight;
     private Platform levelTwoMiddle;
     private ArrayList<Platform> platforms;
+
+    private float playerOneDeathTimer;
+    private float playerTwoDeathTimer;
+    private boolean isPlayerOneDead;
+    private boolean isPlayerTwoDead;
 
     private Player p1, p2;
     private EnergyDrink wonster;
@@ -63,10 +69,24 @@ public class GameMap {
     }
 
     private void initializePlayers(){
-        this.p1 = new Player(this, new Vector2(0, 2),inputs.getPlayerInput(0));
-        this.p2 = new Player(this,new Vector2(0,6),inputs.getPlayerInput(1));
+        initializePlayerOne();
+        initializePlayerTwo();
+    }
 
-        gameObjects.addAll(Arrays.asList(p1, p2));
+    private void initializePlayerOne(){
+        this.p1 = new Player(this, new Vector2(0, 2),inputs.getPlayerInput(0));
+        this.isPlayerOneDead = false;
+        this.playerOneDeathTimer = 0;
+        this.gameObjects.add(p1);
+        this.screen.getCamera().targets.add(p1);
+    }
+
+    private void initializePlayerTwo(){
+        this.p2 = new Player(this,new Vector2(0,6),inputs.getPlayerInput(1));
+        this.isPlayerTwoDead = false;
+        this.playerTwoDeathTimer = 0;
+        this.gameObjects.add(p2);
+        this.screen.getCamera().targets.add(p2);
     }
 
     private void initializeEnergyDrink(){
@@ -81,6 +101,17 @@ public class GameMap {
     public void update(float delta){
         removeProcess();
         addProcess();
+
+        if(isPlayerOneDead)
+            playerOneDeathTimer += delta;
+        if(isPlayerTwoDead)
+            playerTwoDeathTimer += delta;
+
+        if(playerOneDeathTimer > GameInfo.RESPAWN_COOLDOWN)
+            initializePlayerOne();
+
+        if(playerTwoDeathTimer > GameInfo.RESPAWN_COOLDOWN)
+            initializePlayerTwo();
     }
 
     private void removeProcess(){
@@ -144,5 +175,11 @@ public class GameMap {
         player.killPlayer();
         this.screen.getCamera().targets.remove(player);
         this.itemsToBeRemoved.add(player);
+
+        if(player == p1)
+            isPlayerOneDead = true;
+        else
+            isPlayerTwoDead = true;
+
     }
 }

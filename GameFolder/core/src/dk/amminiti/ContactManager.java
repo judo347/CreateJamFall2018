@@ -36,6 +36,14 @@ public class ContactManager implements ContactListener {
                     gameMap.killPlayer((Player)fb.getBody().getUserData());
             }
 
+            //RedCow collision
+            if ((fa.getBody().getUserData() instanceof RedCowSpellEffect) && fb.getBody().getUserData() instanceof Platform){
+                ((RedCowSpellEffect)fa.getBody().getUserData()).returnUserData();
+            }
+            if ((fb.getBody().getUserData() instanceof RedCowSpellEffect) && fa.getBody().getUserData() instanceof Platform){
+                ((RedCowSpellEffect)fb.getBody().getUserData()).returnUserData();
+            }
+
             //EnergyDrink collision with platforms
             if ((fa.getBody().getUserData() instanceof EnergyDrink && fb.getBody().getUserData() instanceof Platform)){
                 fa.getBody().setGravityScale(0);
@@ -98,7 +106,6 @@ public class ContactManager implements ContactListener {
                     break;
                 case REDCOW:
                     ((RedCowSpellEffect) spell).applyForce(player);
-                    spell.getOwner().getMap().addToDestroyQueue(spell);
                     break;
                 case FOOSTER:
                     ((FoosterSpellEffect) spell).applyForce(player);

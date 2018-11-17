@@ -44,7 +44,8 @@ public class RedCowSpell implements Spell {
     public void use(Player player) {
         if (!isOnCooldown()) {
             player.useMana(manacost);
-            player.getMap().addToWorldQueue(new RedCowSpellEffect(player));
+
+            new RedCowSpellEffect(player);
             cooldownLeft = cooldownTotal;
         }}
 

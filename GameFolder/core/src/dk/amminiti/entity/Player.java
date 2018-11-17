@@ -48,6 +48,7 @@ public class Player extends TextureObject {
     private Sound crawlingSound;
     private Sound deathSound;
     private Sound drinkSound;
+    private Sound hurtSound;
 
 
     private boolean isDead = false;
@@ -55,6 +56,8 @@ public class Player extends TextureObject {
     private boolean isFacingRight;
     private PlayerWalkAnimation cultWalkAnimation = new PlayerWalkAnimation(new Texture("baby_crawl_cult.png"));
     private PlayerWalkAnimationController walkAnimationController = new PlayerWalkAnimationController(cultWalkAnimation);
+
+    private boolean isCrawlSoundPlaying = false;
 
     // SPELL SECTION -------------
     private Spell spell;
@@ -76,9 +79,10 @@ public class Player extends TextureObject {
     }
 
     private void initiateSounds() { //TODO MIKKEL LYD
-        crawlingSound = Gdx.audio.newSound(Gdx.files.internal(""));
-        deathSound = Gdx.audio.newSound(Gdx.files.internal(""));
-        drinkSound = Gdx.audio.newSound(Gdx.files.internal(""));
+        crawlingSound = Gdx.audio.newSound(Gdx.files.internal("sound/crawl.wav"));
+        deathSound = Gdx.audio.newSound(Gdx.files.internal("sound/death.wav"));
+        drinkSound = Gdx.audio.newSound(Gdx.files.internal("sound/drink.wav"));
+        hurtSound = Gdx.audio.newSound(Gdx.files.internal("sound/hurt.wav"));
     }
 
     private void createFeet() {
@@ -134,10 +138,20 @@ public class Player extends TextureObject {
         movementParalysis = movementParalysis <= 0 ? 0 : movementParalysis - MOVEMENT_PARALYSIS_DECAY * dt;
         if (!isMidAir) {
             // Grounded
-            crawlingSound.play(); //TODO Set volume
+            if(!isCrawlSoundPlaying){
+                isCrawlSoundPlaying = true;
+                crawlingSound.loop(0.3f);
+            }
+
             vel.x = WALK_SPEED * dir * control;
 
         } else {
+
+            if(isCrawlSoundPlaying){
+                isCrawlSoundPlaying = false;
+                crawlingSound.stop();
+            }
+
             // Mid air
             if (dir != 0) {
                 float walkForce = 0;
@@ -181,6 +195,7 @@ public class Player extends TextureObject {
     }
 
     public void applyHitForce(Vector2 force) {
+        this.hurtSound.play();
         movementParalysis = 1;
         Vector2 vel = body.getLinearVelocity();
         vel.scl(0.5f).add(force);
@@ -200,7 +215,7 @@ public class Player extends TextureObject {
         System.out.println("Collected " + pickedUpType.toString());
 
         Spell pickedUpSpell = EnergyDrink.EnergyDrinkType.getSpellFromType(pickedUpType);
-        drinkSound.play(); //TODO SET VOLUMe
+        drinkSound.play(); //TODO SET VOLUME
 
         //Is the pickedUp the same type as the one we already have?
         if (this.spell != null && this.spell.getType() == pickedUpType) {
@@ -246,6 +261,7 @@ public class Player extends TextureObject {
     }
 
     public void killPlayer() {
+        this.deathSound.play();
         this.isDead = true;
         System.out.println("Player dead");
     }

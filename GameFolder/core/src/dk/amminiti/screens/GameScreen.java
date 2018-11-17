@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import dk.amminiti.ContactManager;
 import dk.amminiti.InputController;
 import dk.amminiti.MainGame;
+import dk.amminiti.ui.UiManager;
 import dk.amminiti.world.GameMap;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class GameScreen implements Screen {
     private MainGame game;
     private SpriteBatch spriteBatch;
     private OrthographicTargetedCamera camera;
-    private Stage stage;
+    private UiManager ui;
     private GameMap gameMap;
     private InputController inputs = new InputController();
     private Box2DDebugRenderer debugRenderer;
@@ -49,6 +50,7 @@ public class GameScreen implements Screen {
         world.setContactListener(new ContactManager(world, gameMap)); //TODO CHRIS!
         this.spriteBatch = new SpriteBatch();
 
+        this.ui = new UiManager(this);
 
         spriteBatch.setProjectionMatrix(camera.combined);
     }
@@ -75,6 +77,8 @@ public class GameScreen implements Screen {
         camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);
         debugRenderer.render(world, camera.combined);
+
+        ui.render(camera, gameMap.getP1(), gameMap.getP2());
     }
 
     @Override

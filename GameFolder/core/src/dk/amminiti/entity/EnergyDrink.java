@@ -66,7 +66,7 @@ public class EnergyDrink extends TextureObject {
         return bodyDef;
     }
 
-    TextureRegion getTexture(EnergyDrinkType type){
+    public static TextureRegion getTexture(EnergyDrinkType type){
         switch (type){
             case FIRE:
                 return new TextureRegion(fireTexture);

@@ -10,10 +10,10 @@ import java.util.ArrayList;
 public class OrthographicTargetedCamera extends OrthographicCamera {
 
     private static final float SPEED = 0.15f; // Opposite of smooth movement. 1 = instant, 0 = no movement
-    private static final float ZOOM = GameInfo.PPM/1.2f;
+    private static final float ZOOM = GameInfo.PPM/1f;
 
     public final ArrayList<Player> targets = new ArrayList<Player>();
-    private static final Vector2 ARENA_CENTER = new Vector2(0, 6);
+    private static final Vector2 ARENA_CENTER = new Vector2(0, 12);
 
     public OrthographicTargetedCamera(float viewportWidth, float viewportHeight) {
         super(viewportWidth, viewportHeight);

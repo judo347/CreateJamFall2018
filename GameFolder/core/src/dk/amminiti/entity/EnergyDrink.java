@@ -21,8 +21,8 @@ public class EnergyDrink extends TextureObject {
     static Texture cultTexture = new Texture("energydrinks/fire.png");
 
     public enum EnergyDrinkType {
-        WONSTER,
         CULT,
+        WONSTER,
         FOOSTER,
         REDCOW,
         FIRE;

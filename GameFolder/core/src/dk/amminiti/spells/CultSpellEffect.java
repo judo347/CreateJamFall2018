@@ -1,34 +1,28 @@
 package dk.amminiti.spells;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
 import dk.amminiti.entity.Player;
-import dk.amminiti.entity.TextureObject;
+import dk.amminiti.helpers.GameInfo;
 
-import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
-import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.KinematicBody;
 
-public class CultSpellEffect extends TextureObject {
+public class CultSpellEffect extends SpellEffect {
 
-    static Texture cultTexture = new Texture("cult effect.png");
+    static Texture texture = new Texture("cult effect.png");
+    static float lifeTime = 3f;
+    static float speed = 2000;
+
 
     /**
      * An GameObject that always have a textre drawn at the body's position.
      *
      */
     public CultSpellEffect(Player player) {
-        super(player.getBody().getWorld(), player.getBodyPos(), createBodyDef() ,createSensorFixtureDef(cultTexture), new TextureRegion(cultTexture));
+        super(player,  lifeTime, texture);
+        System.out.println(getBody().getPosition() + " Positionen for spell effect");
+        System.out.println(player.getBodyPos() + " Positionen for player");
+        this.body.applyForce(new Vector2(player.getLookingDir()*speed* GameInfo.PPM,0),body.getPosition(),true);
+
     }
 
-
-    private static BodyDef createBodyDef() {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.fixedRotation = true;
-        bodyDef.type = KinematicBody;
-        return bodyDef;
-    }
 }

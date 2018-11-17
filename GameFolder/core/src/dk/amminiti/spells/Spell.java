@@ -1,6 +1,7 @@
 package dk.amminiti.spells;
 
 import com.badlogic.gdx.graphics.Texture;
+import dk.amminiti.PlayerWalkAnimation;
 import dk.amminiti.entity.EnergyDrink;
 import dk.amminiti.entity.Player;
 
@@ -13,6 +14,6 @@ public interface Spell {
     boolean canBeUsed();
     void use(Player player);
     Texture getIcon();
-    Texture getBabyTexture();
+    PlayerWalkAnimation getBabyAnimation();
     EnergyDrink.EnergyDrinkType getType();
 }

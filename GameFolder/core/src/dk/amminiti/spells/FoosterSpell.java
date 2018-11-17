@@ -1,6 +1,7 @@
 package dk.amminiti.spells;
 
 import com.badlogic.gdx.graphics.Texture;
+import dk.amminiti.PlayerWalkAnimation;
 import dk.amminiti.entity.EnergyDrink;
 import dk.amminiti.entity.Player;
 
@@ -8,7 +9,7 @@ public class FoosterSpell implements Spell {
 
     private EnergyDrink.EnergyDrinkType type = EnergyDrink.EnergyDrinkType.FOOSTER;
 
-    private Texture baby = new Texture("baby.png");
+    private PlayerWalkAnimation babyAnimation = new PlayerWalkAnimation(new Texture("baby_crawl_fooster.png"));
 
     private final float cooldownTotal = 5;
     private float cooldownLeft = 0;
@@ -52,8 +53,8 @@ public class FoosterSpell implements Spell {
     }
 
     @Override
-    public Texture getBabyTexture() {
-        return baby;
+    public PlayerWalkAnimation getBabyAnimation() {
+        return babyAnimation;
     }
 
     @Override

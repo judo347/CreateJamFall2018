@@ -147,11 +147,12 @@ public class Player extends TextureObject {
 
             this.spellLevel++;
 
-        } else {
+        } else if (pickedUpSpell != null) {
 
             //New spell is picked up!
             this.spell = pickedUpSpell;
             this.spellLevel = 1;
+            walkAnimationController.setAnimation(pickedUpSpell.getBabyAnimation());
 
         }
 

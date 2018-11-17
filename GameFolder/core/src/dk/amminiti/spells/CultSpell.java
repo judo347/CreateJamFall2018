@@ -1,6 +1,7 @@
 package dk.amminiti.spells;
 
 import com.badlogic.gdx.graphics.Texture;
+import dk.amminiti.PlayerWalkAnimation;
 import dk.amminiti.entity.EnergyDrink;
 import dk.amminiti.entity.Player;
 
@@ -8,11 +9,10 @@ public class CultSpell implements Spell {
 
     private EnergyDrink.EnergyDrinkType type = EnergyDrink.EnergyDrinkType.CULT;
 
-    private Texture baby = new Texture("baby.png");
+    private PlayerWalkAnimation babyAnimation = new PlayerWalkAnimation(new Texture("baby_crawl_cult.png"));
 
     private final float cooldownTotal = 5;
     private float cooldownLeft = 0;
-    private float range = baby.getWidth();
 
     @Override
     public float getCooldownTotal() {
@@ -53,8 +53,8 @@ public class CultSpell implements Spell {
     }
 
     @Override
-    public Texture getBabyTexture() {
-        return baby;
+    public PlayerWalkAnimation getBabyAnimation() {
+        return babyAnimation;
     }
 
     @Override

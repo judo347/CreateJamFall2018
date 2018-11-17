@@ -24,15 +24,22 @@ public class EnergyDrink extends TextureObject {
         Redcow,
         Fire;
     }
+
+    private energyDrinkType type;
+
     /**
      * An GameObject that always have a textre drawn at the body's position.
      * @param world
      * @param pos
      */
     public EnergyDrink(World world, Vector2 pos,energyDrinkType type ) {
-        super(world,pos,createBodyDef(),createTextureFixtureDef(fireTexture),new TextureRegion(fireTexture));
+        super(world,pos,createBodyDef(),createSensorFixtureDef(fireTexture),new TextureRegion(fireTexture));
         this.texture = getTexture(type);
+        this.type = type;
+    }
 
+    public energyDrinkType getType(){
+        return this.type;
     }
 
     /** The BodyDef used for something like players */

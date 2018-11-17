@@ -118,6 +118,9 @@ public class Player extends TextureObject {
         return body.getPosition();
     }
 
+    public void CollectEnergyDrink(EnergyDrink.energyDrinkType type){
+        System.out.println("Collected " + type.toString());
+    }
 
     /** The BodyDef used for something like players */
     private static BodyDef createPlayerBodyDef() {

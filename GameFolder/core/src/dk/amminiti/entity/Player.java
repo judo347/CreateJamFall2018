@@ -181,7 +181,7 @@ public class Player extends TextureObject {
         return map;
     }
     public void useMana(float i){
-        mana=-i;
+        mana-=i;
     }
 
     /** The BodyDef used for something like players */

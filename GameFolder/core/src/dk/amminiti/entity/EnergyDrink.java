@@ -30,32 +30,8 @@ public class EnergyDrink extends TextureObject {
      * @param pos
      */
     public EnergyDrink(World world, Vector2 pos,energyDrinkType type ) {
-        super(world,pos,createBodyDef(),createFixtureDef(),new TextureRegion(fireTexture));
+        super(world,pos,createBodyDef(),createTextureFixtureDef(fireTexture),new TextureRegion(fireTexture));
         this.texture = getTexture(type);
-
-    }
-    private static FixtureDef createFixtureDef() {
-        float cornerSize = 0.043f;
-        float width = fireTexture.getWidth()* GameInfo.PPM / 2f;
-        float widthShort = fireTexture.getWidth()* GameInfo.PPM / 2f - cornerSize;
-        float height = fireTexture.getHeight()* GameInfo.PPM / 2f;
-        float heightShort = fireTexture.getHeight()* GameInfo.PPM / 2f - cornerSize;
-        PolygonShape shape = new PolygonShape();
-        shape.set(new Vector2[]{
-                new Vector2(-width, height),
-                new Vector2(width, height),
-                new Vector2(width, -heightShort),
-                new Vector2(0, -height),
-                new Vector2(-width, -heightShort),
-        });
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-        fixtureDef.friction = 0f;
-        fixtureDef.restitution = 0;
-
-        return fixtureDef;
 
     }
 

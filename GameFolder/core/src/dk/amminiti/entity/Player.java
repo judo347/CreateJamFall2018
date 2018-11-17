@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.amminiti.ContactManager;
 import dk.amminiti.PlayerInputProcessor;
+import dk.amminiti.helpers.GameInfo;
 
 public class Player extends TextureObject {
 
@@ -15,6 +16,7 @@ public class Player extends TextureObject {
 
     private static final float FEET_WIDTH = WIDTH - 0.05f;
     private static final float FEET_HEIGHT = 0.23f;
+
     private static final Vector2 FEET_Y_OFFSET = new Vector2(0, -.85f);
     private static final float MAX_X_VEL = 6f;
     private static final float JUMP_FORCE = 11.4f;
@@ -34,7 +36,7 @@ public class Player extends TextureObject {
     private boolean isFacingRight;
 
     public Player(World world, Vector2 pos, PlayerInputProcessor inputs) {
-        super(world, pos, createPlayerBodyDef(), createPlayerFixtureDef(), new TextureRegion(playerTexture));
+        super(world, pos, createPlayerBodyDef(), createTextureFixtureDef(playerTexture), new TextureRegion(playerTexture));
         this.inputs = inputs;
 
         PolygonShape shape = new PolygonShape();
@@ -116,31 +118,6 @@ public class Player extends TextureObject {
         return body.getPosition();
     }
 
-    /** The default fixturedef for players */
-    private static FixtureDef createPlayerFixtureDef() {
-        float cornerSize = 0.043f;
-        float width = Player.WIDTH / 2f;
-        float widthShort = Player.WIDTH / 2f - cornerSize;
-        float height = Player.HEIGHT / 2f;
-        float heightShort = Player.HEIGHT / 2f - cornerSize;
-        PolygonShape shape = new PolygonShape();
-        shape.set(new Vector2[]{
-                new Vector2(-width, height),
-                new Vector2(width, height),
-                new Vector2(width, -heightShort),
-                new Vector2(0, -height),
-                new Vector2(-width, -heightShort),
-        });
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-        fixtureDef.friction = 0f;
-        fixtureDef.restitution = 0;
-
-        return fixtureDef;
-
-    }
 
     /** The BodyDef used for something like players */
     private static BodyDef createPlayerBodyDef() {

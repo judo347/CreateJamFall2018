@@ -32,6 +32,9 @@ public class GameMap {
     private Platform levelOneLeft;
     private Platform levelOneRight;
     private Platform levelTwoMiddle;
+    private PlatformWithoutTexture levelOneLeftBottom;
+    private PlatformWithoutTexture levelTwoMiddleBottom;
+    private PlatformWithoutTexture levelOneRightBottom;
     private ArrayList<Platform> platforms;
 
     private float playerOneDeathTimer;
@@ -68,8 +71,18 @@ public class GameMap {
         this.levelOneRight = new Platform(world, new Vector2(6, 4), Platform.PlatformSizeType.SMALL);
         this.levelTwoMiddle = new Platform(world, new Vector2(0, 7), Platform.PlatformSizeType.SMALL);
 
+        this.levelOneRightBottom = new PlatformWithoutTexture(world, new Vector2(-6, 4), 3,4);
+        levelOneRightBottom.getBody().setUserData("Nothing");
+
+        this.levelOneLeftBottom = new PlatformWithoutTexture(world, new Vector2(6, 4), 3,4);
+        levelOneLeftBottom.getBody().setUserData("Nothing");
+
+        this.levelTwoMiddleBottom = new PlatformWithoutTexture(world, new Vector2(0, 0), 3,4);
+        levelTwoMiddleBottom.getBody().setUserData("Nothing");
+
         this.platforms = new ArrayList<Platform>();
         platforms.addAll(Arrays.asList(groundBox, levelOneLeft, levelOneRight, levelTwoMiddle));
+
     }
 
     private void initializePlayers(){

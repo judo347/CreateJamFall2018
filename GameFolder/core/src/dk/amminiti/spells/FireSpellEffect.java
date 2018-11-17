@@ -19,7 +19,7 @@ public class FireSpellEffect extends SpellEffect {
     static float speed = 200;
 
     public FireSpellEffect(Player player) {
-        super(createFixtureDef(), getTexture(player), 3, 0.08f, lifeTime, player, EnergyDrink.EnergyDrinkType.FIRE);
+        super(createFixtureDef(), getTexture(player), 1f, 3, 0.08f, lifeTime, player, EnergyDrink.EnergyDrinkType.FIRE);
         power = owner.getSpellLevel()*basePower;
 
         applyMovement();

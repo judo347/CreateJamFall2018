@@ -22,25 +22,25 @@ public abstract class SpellEffect extends AnimatedObject {
     protected float basePower = 100;
     protected float power;
 
-    public SpellEffect(FixtureDef fixtureDef, Texture texture, int numberOfFrames, float animationSpeed, float lifeTime, Player owner, EnergyDrink.EnergyDrinkType type) {
-        super(owner.getBody().getWorld(), getSpellPosRelativToHead(owner, texture), createBodyDef(), fixtureDef, texture, numberOfFrames, animationSpeed);
+    public SpellEffect(FixtureDef fixtureDef, Texture texture, float offsetFromHead, int numberOfFrames, float animationSpeed, float lifeTime, Player owner, EnergyDrink.EnergyDrinkType type) {
+        super(owner.getBody().getWorld(), getSpellPosRelativToHead(owner, offsetFromHead), createBodyDef(), fixtureDef, texture, numberOfFrames, animationSpeed);
         //super(owner.getBody().getWorld(), owner.getHeadPos(), createBodyDef(), fixtureDef, texture, numberOfFrames, animationSpeed);
         this.lifeTime = lifeTime;
         this.owner = owner;
         this.type = type;
     }
 
-    private static Vector2 getSpellPosRelativToHead(Player player, Texture texture ){
+    private static Vector2 getSpellPosRelativToHead(Player player, float offset){
 
         float x, y;
 
         if(player.getLookingDir() < 0){
 
-            x = player.getHeadPos().x - texture.getWidth() / 100f;
+            x = player.getHeadPos().x - offset;
             y = player.getHeadPos().y;
 
         }else{ //RIGHT
-            x = player.getHeadPos().x + 1;
+            x = player.getHeadPos().x + offset;
             y = player.getHeadPos().y;
         }
 

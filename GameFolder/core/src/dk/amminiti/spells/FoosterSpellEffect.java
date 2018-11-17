@@ -23,8 +23,8 @@ public class FoosterSpellEffect extends SpellEffect {
      *
      */
     public FoosterSpellEffect(Player player) {
-        super(createFixtureDef(), texture, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.FOOSTER);
-        this.basePower = 400000;
+        super(createFixtureDef(), texture, 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.FOOSTER);
+        this.basePower = 4000;
         this.power = player.getSpellLevel()*basePower;
         this.owner = player;
         applyMovement();
@@ -56,7 +56,6 @@ public class FoosterSpellEffect extends SpellEffect {
     }
 
     private void applyMovement() {
-        System.out.println(power*GameInfo.PPM*owner.getLookingDir());
         owner.getBody().applyForce(new Vector2(power*GameInfo.PPM*owner.getLookingDir(), 500), owner.getBodyPos(), true);
         //owner.getBody().setLinearVelocity(new Vector2(speed*GameInfo.PPM*owner.getLookingDir(),2000));
     }

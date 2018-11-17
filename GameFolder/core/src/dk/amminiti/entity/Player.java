@@ -10,6 +10,7 @@ import dk.amminiti.PlayerInputProcessor;
 import dk.amminiti.PlayerWalkAnimation;
 import dk.amminiti.PlayerWalkAnimationController;
 import dk.amminiti.helpers.GameInfo;
+import dk.amminiti.world.GameMap;
 import dk.amminiti.spells.Spell;
 
 public class Player extends TextureObject {
@@ -35,6 +36,7 @@ public class Player extends TextureObject {
     private int lookingDir = 1;
     private boolean isMidAir = false;
     private boolean hasJumped = false;
+    private GameMap map;
 
     private boolean isFacingRight;
     private PlayerWalkAnimationController walkAnimationController = new PlayerWalkAnimationController(new PlayerWalkAnimation(new Texture("baby_crawl.png")));
@@ -43,9 +45,10 @@ public class Player extends TextureObject {
     private Spell spell;
     private int spellLevel = 0;
 
-    public Player(World world, Vector2 pos, PlayerInputProcessor inputs) {
-        super(world, pos, createPlayerBodyDef(), createTextureFixtureDef(playerTexture), new TextureRegion(playerTexture));
+    public Player(GameMap map, Vector2 pos, PlayerInputProcessor inputs) {
+        super(map.getWorld(), pos, createPlayerBodyDef(), createTextureFixtureDef(playerTexture), new TextureRegion(playerTexture));
         this.inputs = inputs;
+        this.map = map;
         this.spell = null;
 
         PolygonShape shape = new PolygonShape();
@@ -110,6 +113,7 @@ public class Player extends TextureObject {
                 int sgn = vel.x > 0 ? 1 : -1;
                 vel.x = Math.max(Math.abs(vel.x) - AIR_DRAG, 0);
             }
+
         }
 
         // Restrict vel x
@@ -149,6 +153,10 @@ public class Player extends TextureObject {
 
         System.out.println("Spell Level: " + spellLevel);
 
+    }
+
+    public GameMap getMap(){
+        return map;
     }
 
     /** The BodyDef used for something like players */

@@ -10,6 +10,8 @@ public class CultSpellEffect extends SpellEffect {
 
     static Texture texture = new Texture("cult effect.png");
     static float lifeTime = 3f;
+    static float speed = 2000;
+
 
     /**
      * An GameObject that always have a textre drawn at the body's position.
@@ -17,7 +19,8 @@ public class CultSpellEffect extends SpellEffect {
      */
     public CultSpellEffect(Player player) {
         super(player,  lifeTime, texture);
-        this.body.applyForce(new Vector2(2000* GameInfo.PPM,0),body.getPosition(),true);
+        this.body.applyForce(new Vector2(player.getLookingDir()*speed* GameInfo.PPM,0),body.getPosition(),true);
+
     }
 
 }

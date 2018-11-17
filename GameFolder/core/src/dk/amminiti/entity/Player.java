@@ -34,7 +34,7 @@ public class Player extends TextureObject {
 
     private PlayerInputProcessor inputs;
     private Body feet;
-    private int lookingDir = 1;
+    private int lookingDir = -1;
     private boolean isMidAir = false;
     private boolean hasJumped = false;
     private GameMap map;
@@ -158,6 +158,14 @@ public class Player extends TextureObject {
 
         System.out.println("Spell Level: " + spellLevel);
 
+    }
+
+    public Vector2 getHeadPos(){
+        return new Vector2(getBodyPos().x+ (0.4f*lookingDir),getBodyPos().y);
+    }
+
+    public int getLookingDir(){
+        return lookingDir;
     }
 
     public GameMap getMap(){

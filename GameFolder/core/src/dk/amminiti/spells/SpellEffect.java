@@ -21,7 +21,7 @@ public abstract class SpellEffect extends TextureObject {
      * @param texture
      */
     public SpellEffect(Player player, float lifeTime, Texture texture) {
-        super(player.getBody().getWorld(),player.getBodyPos(),createBodyDef(),createSensorFixtureDef(texture),new TextureRegion(texture));
+        super(player.getBody().getWorld(),player.getHeadPos(),createBodyDef(),createSensorFixtureDef(texture),new TextureRegion(texture));
         this.lifeTime = lifeTime;
         this.owner = player;
 

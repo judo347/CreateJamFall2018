@@ -30,33 +30,8 @@ public class Platform extends TextureObject{
     private PlatformSizeType type;
 
     public Platform(World world, Vector2 pos, PlatformSizeType type) {
-        super(world, pos, createBodyDef(), createFixtureDef(), new TextureRegion(type.getTexture()));
+        super(world, pos, createBodyDef(), TextureObject.createTextureFixtureDef(type.getTexture()), new TextureRegion(type.getTexture()));
         this.type = type;
-    }
-
-    private FixtureDef createFixtureDef() {
-        float cornerSize = 0.043f;
-        float width = type.getTexture().getWidth()* GameInfo.PPM / 2f;
-        float widthShort = type.getTexture().getWidth()* GameInfo.PPM / 2f - cornerSize;
-        float height = type.getTexture().getHeight()* GameInfo.PPM / 2f;
-        float heightShort = type.getTexture().getHeight()* GameInfo.PPM / 2f - cornerSize;
-        PolygonShape shape = new PolygonShape();
-        shape.set(new Vector2[]{
-                new Vector2(-width, height),
-                new Vector2(width, height),
-                new Vector2(width, -heightShort),
-                new Vector2(0, -height),
-                new Vector2(-width, -heightShort),
-        });
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-        fixtureDef.friction = 0f;
-        fixtureDef.restitution = 0;
-
-        return fixtureDef;
-
     }
 
     /** The BodyDef used for something like players */

@@ -17,6 +17,11 @@ public class PlayerWalkAnimationController {
         this.animation = animation;
     }
 
+    public void setAnimation(PlayerWalkAnimation animation) {
+        if (animation == null) return;
+        this.animation = animation;
+    }
+
     public TextureRegion getTexture(int dir, boolean midAir, float dt) {
         if (dir == 0) {
             currentFrame = midAir ? 1 : 0;

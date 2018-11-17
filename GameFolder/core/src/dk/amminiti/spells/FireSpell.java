@@ -21,7 +21,7 @@ public class FireSpell implements Spell {
 
     @Override
     public float getCooldownLeft() {
-        return 0;
+        return cooldownLeft;
     }
 
     @Override

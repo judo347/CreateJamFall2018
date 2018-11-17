@@ -14,12 +14,12 @@ public class RedCowSpell implements Spell {
 
     @Override
     public float getCooldownTotal() {
-        return 4;
+        return cooldownTotal;
     }
 
     @Override
     public float getCooldownLeft() {
-        return 0;
+        return cooldownLeft;
     }
 
     @Override

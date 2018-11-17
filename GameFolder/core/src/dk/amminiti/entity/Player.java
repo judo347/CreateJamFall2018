@@ -36,6 +36,8 @@ public class Player extends TextureObject {
     private boolean isMidAir = false;
     private boolean hasJumped = false;
 
+    private boolean isDead = false;
+
     private boolean isFacingRight;
     private PlayerWalkAnimationController walkAnimationController = new PlayerWalkAnimationController(new PlayerWalkAnimation(new Texture("baby_crawl.png")));
 
@@ -157,5 +159,10 @@ public class Player extends TextureObject {
         bodyDef.fixedRotation = true;
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         return bodyDef;
+    }
+
+    public void killPlayer(){
+        this.isDead = true;
+        System.out.println("Player dead");
     }
 }

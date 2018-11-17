@@ -2,10 +2,10 @@ package dk.amminiti;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import dk.amminiti.entity.EnergyDrink;
-import dk.amminiti.entity.Platform;
-import dk.amminiti.entity.Player;
+import dk.amminiti.entity.*;
 import dk.amminiti.world.GameMap;
+
+import java.util.Map;
 
 public class ContactManager implements ContactListener {
 
@@ -26,6 +26,15 @@ public class ContactManager implements ContactListener {
             Fixture fa = contact.getFixtureA();
             Fixture fb = contact.getFixtureB();
 
+
+            //Kill walls detection
+            if(fa.getBody().getUserData() instanceof PlatformWithoutTexture || fb.getBody().getUserData() instanceof PlatformWithoutTexture){
+                if(fa.getBody().getUserData() instanceof Player)
+                    ((Player)fa.getBody().getUserData()).killPlayer();
+
+                if(fb.getBody().getUserData() instanceof Player)
+                    ((Player)fb.getBody().getUserData()).killPlayer();
+            }
 
             //EnergyDrink collision with platforms
             if ((fa.getBody().getUserData() instanceof EnergyDrink && fb.getBody().getUserData() instanceof Platform)){
@@ -68,11 +77,6 @@ public class ContactManager implements ContactListener {
                 }
 
             }
-
-
-
-
-
         }
 
     private void resolveEnergyDrinkPlayerCollision(Player player, EnergyDrink energyDrink) {
@@ -82,23 +86,23 @@ public class ContactManager implements ContactListener {
     }
 
     @Override
-        public void endContact(Contact contact) {
-            Fixture fa = contact.getFixtureA();
-            Fixture fb = contact.getFixtureB();
+    public void endContact(Contact contact) {
+        Fixture fa = contact.getFixtureA();
+        Fixture fb = contact.getFixtureB();
 
-            if (fa.getBody().getUserData() == FEET || fb.getBody().getUserData() == FEET) {
-                feetCollisions--;
-            }
-            }
+        if (fa.getBody().getUserData() == FEET || fb.getBody().getUserData() == FEET) {
+            feetCollisions--;
+        }
+    }
 
-            @Override
-            public void preSolve (Contact contact, Manifold oldManifold){
+    @Override
+    public void preSolve (Contact contact, Manifold oldManifold){
 
-            }
+    }
 
-            @Override
-            public void postSolve (Contact contact, ContactImpulse impulse){
+    @Override
+    public void postSolve (Contact contact, ContactImpulse impulse){
 
-            }
+    }
 
 }

@@ -3,9 +3,9 @@ package dk.amminiti;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.amminiti.entity.*;
+import dk.amminiti.spells.*;
 import dk.amminiti.world.GameMap;
 
-import java.util.Map;
 
 public class ContactManager implements ContactListener {
 
@@ -60,20 +60,46 @@ public class ContactManager implements ContactListener {
                 resolveEnergyDrinkPlayerCollision((Player) fa.getBody().getUserData(),(EnergyDrink) fb.getBody().getUserData());
             }
 
-            //Check for player collison with energy drink
-
-            if (fa.getBody().getUserData() instanceof Player || fb.getBody().getUserData() instanceof Player) {
-                Player player;
-                Object other;
-                if (fa.getBody().getUserData() instanceof Player) {
-                    player = (Player) fa.getBody().getUserData();
-                    other = fb.getBody().getUserData();
-                } else {
-                    player = (Player) fb.getBody().getUserData();
-                    other = fa.getBody().getUserData();
-                }
-
+            //Spell collision with player
+            if ((fa.getBody().getUserData() instanceof SpellEffect && fb.getBody().getUserData() instanceof Player)){
+                spellPlayerCollision((Player) fb.getBody().getUserData(),(SpellEffect) fa.getBody().getUserData());
             }
+            //Spell collision with player
+            if ((fb.getBody().getUserData() instanceof SpellEffect && fa.getBody().getUserData() instanceof Player)){
+                spellPlayerCollision((Player) fa.getBody().getUserData(),(SpellEffect) fb.getBody().getUserData());
+            }
+
+
+
+        }
+
+    private void spellPlayerCollision(Player player, SpellEffect spell) {
+
+            if (player.equals(spell.getOwner())) return;
+        else{
+            switch (spell.getType()){
+                case CULT:
+                    ((CultSpellEffect) spell).applyForce(player);
+                    spell.getOwner().getMap().addToDestroyQueue(spell);
+                    break;
+                case FIRE:
+                    ((FireSpellEffect) spell).applyForce(player);
+                    spell.getOwner().getMap().addToDestroyQueue(spell);
+                    break;
+                case REDCOW:
+                    ((RedCowSpellEffect) spell).applyForce(player);
+                    spell.getOwner().getMap().addToDestroyQueue(spell);
+                    break;
+                case FOOSTER:
+                    ((FoosterSpellEffect) spell).applyForce(player);
+                    spell.getOwner().getMap().addToDestroyQueue(spell);
+                    break;
+                case WONSTER:
+                    ((WonsterSpellEffect) spell).applyForce(player);
+                    spell.getOwner().getMap().addToDestroyQueue(spell);
+                    break;
+            }
+        }
         }
 
     private void resolveEnergyDrinkPlayerCollision(Player player, EnergyDrink energyDrink) {

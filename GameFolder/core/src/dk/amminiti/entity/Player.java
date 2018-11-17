@@ -200,4 +200,8 @@ public class Player extends TextureObject {
 
         return fixtureDef;
     }
+
+    public int getSpellLevel() {
+        return spellLevel;
+    }
 }

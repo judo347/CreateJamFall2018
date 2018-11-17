@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
+import dk.amminiti.entity.EnergyDrink;
 import dk.amminiti.entity.Player;
 import dk.amminiti.entity.TextureObject;
 import dk.amminiti.helpers.GameInfo;
@@ -17,8 +18,10 @@ public class CultSpellEffect extends SpellEffect {
     static float speed = 0;
 
     public CultSpellEffect(Player player) {
-        super(createFixtureDef(player), texture, 1, 2, lifeTime, player);
-        this.body.applyForce(new Vector2(player.getLookingDir()*speed* GameInfo.PPM,0),body.getPosition(),true);
+        super(createFixtureDef(player), texture, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.CULT);
+
+        power = owner.getSpellLevel()*basePower;
+        applyMovement();
     }
 
     private static FixtureDef createFixtureDef(Player player){
@@ -28,7 +31,16 @@ public class CultSpellEffect extends SpellEffect {
         fixtureDef.isSensor = true;
 
         return fixtureDef;
+
     }
+    public Vector2 calculateForce() {
+        return (this.getBody().getLinearVelocity().scl(power));
+    }
+    public void applyForce(Player target){
+        target.getBody().applyForceToCenter(calculateForce(),true);
+    }
+
+
 
     private static Shape getRightDirectionShape(){
         PolygonShape shape = new PolygonShape();
@@ -52,5 +64,9 @@ public class CultSpellEffect extends SpellEffect {
         });
 
         return shape;
+    }
+
+    private void applyMovement() {
+        body.setLinearVelocity(new Vector2( speed*GameInfo.PPM*owner.getLookingDir(),0));
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import dk.amminiti.entity.EnergyDrink;
 import dk.amminiti.entity.Player;
 import dk.amminiti.helpers.GameInfo;
 
@@ -20,9 +21,14 @@ public class FireSpellEffect extends SpellEffect {
      *
      */
     public FireSpellEffect(Player player) {
-        super(createFixtureDef(), texture, 1, 2, lifeTime, player);
-        this.body.applyForce(new Vector2(player.getLookingDir()*speed* GameInfo.PPM,0),body.getPosition(),true);
+        super(createFixtureDef(), texture, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.FIRE);
+        power = owner.getSpellLevel()*basePower;
 
+        applyMovement();
+    }
+
+    public Vector2 calculateForce() {
+        return (this.getBody().getLinearVelocity().scl(power));
     }
 
     //TODO TEMP SHOULD BE CHANGED!
@@ -41,4 +47,14 @@ public class FireSpellEffect extends SpellEffect {
 
         return fixtureDef;
     }
+
+    public void applyForce(Player target){
+        target.getBody().applyForceToCenter(calculateForce(),true);
+    }
+
+
+    private void applyMovement() {
+        body.setLinearVelocity(new Vector2( speed*GameInfo.PPM*owner.getLookingDir(),0));
+    }
+
 }

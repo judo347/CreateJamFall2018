@@ -12,7 +12,6 @@ public class CultSpell implements Spell {
 
     private final float cooldownTotal = 5;
     private float cooldownLeft = 0;
-    private float range = baby.getWidth();
 
     @Override
     public float getCooldownTotal() {

@@ -253,4 +253,8 @@ public class Player extends TextureObject {
     public int getSpellLevel() {
         return spellLevel;
     }
+
+    public Spell getSpell() {
+        return spell;
+    }
 }

@@ -7,6 +7,7 @@ import dk.amminiti.InputController;
 import dk.amminiti.entity.*;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.screens.GameScreen;
+import dk.amminiti.ui.UiManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

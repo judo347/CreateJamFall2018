@@ -42,6 +42,7 @@ public class UiManager {
 
         private void initialize(Image secondaryImage, Label secondaryLabel, int currentMana){
             contentTable.clearChildren();
+
             contentTable.add(new Label(playerName, skin)).row();
             contentTable.add(getAbilitiesPanel(secondaryImage, secondaryLabel, currentMana));
 
@@ -50,6 +51,8 @@ public class UiManager {
         private Table getAbilitiesPanel(Image secondaryImage, Label secondaryLabel, int currentMana){
 
             Table table = new Table();
+            //table.setFillParent(true);
+            table.setDebug(true);
 
             table.add(getAbilityCell(primaryAbility, primaryLevel, currentMana));
             table.add(getAbilityCell(secondaryImage, secondaryLabel, currentMana));
@@ -60,12 +63,16 @@ public class UiManager {
         private Table getAbilityCell(Image image, Label levelLabel, int currentMana){
 
             Table table = new Table();
+            //table.setFillParent(true);
+            table.setDebug(true);
 
             if(image != primaryAbility){
                 secondaryProcessBar = new ProgressBar(0, 100, 25, false, skin);
                 secondaryProcessBar.setValue(currentMana);
 
                 table.add(secondaryProcessBar).row();
+            }else{
+                table.add(new Label("", skin)).row();
             }
 
             table.add(image).row();

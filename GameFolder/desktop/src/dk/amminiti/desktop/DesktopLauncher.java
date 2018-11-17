@@ -6,11 +6,14 @@ import dk.amminiti.MainGame;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.world.GameMap;
 
+import java.awt.*;
+
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.height = GameInfo.SCREEN_HEIGHT;
-		config.width = GameInfo.SCREEN_WIDTH;
+		config.height = Toolkit.getDefaultToolkit().getScreenSize().height;
+		config.width = Toolkit.getDefaultToolkit().getScreenSize().width;
+		config.title ="Cult of Energy Babies!";
 		new LwjglApplication(new MainGame(), config);
 	}
 }

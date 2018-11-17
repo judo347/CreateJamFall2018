@@ -21,7 +21,6 @@ import java.util.List;
 
 public class GameScreen implements Screen {
 
-    Texture img;
 
     private MainGame game;
     private SpriteBatch spriteBatch;
@@ -38,7 +37,6 @@ public class GameScreen implements Screen {
     public GameScreen(MainGame game) {
         this.game = game;
 
-        img = new Texture("badlogic.jpg");
 
         //Position of the camera
         this.camera = new OrthographicTargetedCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -76,7 +74,7 @@ public class GameScreen implements Screen {
 
         camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);
-        debugRenderer.render(world, camera.combined);
+     //   debugRenderer.render(world, camera.combined);
 
         ui.render(camera, gameMap.getP1(), gameMap.getP2());
     }

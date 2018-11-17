@@ -68,7 +68,7 @@ public class Player extends TextureObject {
         this.spell = null;
         this.cultSpell = new CultSpell();
 
-        initiateSounds();
+ //       initiateSounds();
         
         createFeet();
         body.setLinearDamping(0);
@@ -134,7 +134,7 @@ public class Player extends TextureObject {
         movementParalysis = movementParalysis <= 0 ? 0 : movementParalysis - MOVEMENT_PARALYSIS_DECAY * dt;
         if (!isMidAir) {
             // Grounded
-            crawlingSound.play(); //TODO Set volume
+          //  crawlingSound.play(); //TODO Set volume
             vel.x = WALK_SPEED * dir * control;
 
         } else {
@@ -197,10 +197,9 @@ public class Player extends TextureObject {
     }
 
     public void CollectEnergyDrink(EnergyDrink.EnergyDrinkType pickedUpType) {
-        System.out.println("Collected " + pickedUpType.toString());
 
         Spell pickedUpSpell = EnergyDrink.EnergyDrinkType.getSpellFromType(pickedUpType);
-        drinkSound.play(); //TODO SET VOLUMe
+//        drinkSound.play(); //TODO SET VOLUMe
 
         //Is the pickedUp the same type as the one we already have?
         if (this.spell != null && this.spell.getType() == pickedUpType) {
@@ -217,7 +216,6 @@ public class Player extends TextureObject {
             this.mana = 100;
         }
 
-        System.out.println("Spell Level: " + spellLevel);
 
     }
 
@@ -247,7 +245,6 @@ public class Player extends TextureObject {
 
     public void killPlayer() {
         this.isDead = true;
-        System.out.println("Player dead");
     }
 
     public void destroyFeet(){

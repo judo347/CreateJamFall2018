@@ -92,7 +92,7 @@ public class GameMap {
     }
 
     private void initializePlayerOne(){
-        this.p1 = new Player(this, new Vector2(0, 2),inputs.getPlayerInput(0));
+        this.p1 = new Player(this, new Vector2(-6, 5),inputs.getPlayerInput(1));
         this.isPlayerOneDead = false;
         this.playerOneDeathTimer = 0;
         this.gameObjects.add(p1);
@@ -100,7 +100,7 @@ public class GameMap {
     }
 
     private void initializePlayerTwo(){
-        this.p2 = new Player(this,new Vector2(0,6),inputs.getPlayerInput(1));
+        this.p2 = new Player(this,new Vector2(6,5),inputs.getPlayerInput(0));
         this.isPlayerTwoDead = false;
         this.playerTwoDeathTimer = 0;
         this.gameObjects.add(p2);

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.amminiti.entity.GameObject;
+import dk.amminiti.entity.Platform;
 import dk.amminiti.entity.TextureObject;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.screens.GameScreen;
@@ -14,7 +15,7 @@ import dk.amminiti.screens.GameScreen;
 
 public class GameMap {
 
-    private TextureObject groundBox;
+    private Platform groundBox;
     private World world;
 
     public GameMap(GameScreen screen) {
@@ -25,7 +26,7 @@ public class GameMap {
 
     private void initializePlatforms(){
 
-        this.groundBox = getPlatform();
+        this.groundBox = new Platform(world, new Vector2(0,0));
     }
 
     private void update(float delta){

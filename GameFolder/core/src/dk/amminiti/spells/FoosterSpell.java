@@ -25,17 +25,17 @@ public class FoosterSpell implements Spell {
 
     @Override
     public void reduceCooldown(float dt) {
-
+        cooldownLeft -= dt;
     }
 
     @Override
     public boolean isOnCooldown() {
-        return false;
+        return cooldownLeft > 0;
     }
 
     @Override
     public boolean canBeUsed() {
-        return false;
+        return cooldownLeft <= 0;
     }
 
     @Override

@@ -19,6 +19,8 @@ public class CultSpellEffect extends SpellEffect {
      */
     public CultSpellEffect(Player player) {
         super(player,  lifeTime, texture);
+        System.out.println(getBody().getPosition() + " Positionen for spell effect");
+        System.out.println(player.getBodyPos() + " Positionen for player");
         this.body.applyForce(new Vector2(player.getLookingDir()*speed* GameInfo.PPM,0),body.getPosition(),true);
 
     }

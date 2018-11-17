@@ -114,9 +114,10 @@ public class Player extends TextureObject {
                 vel.x = Math.max(Math.abs(vel.x) - AIR_DRAG, 0);
             }
 
-            if (inputs.isPrimaryPressed()){
-                spell.use(this);
-            }
+
+        }
+        if (inputs.isPrimaryPressed()){
+            spell.use(this);
         }
 
         // Restrict vel x

@@ -97,8 +97,6 @@ public class GameMap {
 
         while(itemsToBeAdded.size() != 0){
             for (TextureObject textureObject : new ArrayList<TextureObject>(itemsToBeAdded)) {
-
-
                 gameObjects.add(textureObject);
                 itemsToBeAdded.remove(textureObject);
             }

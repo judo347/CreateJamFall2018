@@ -36,14 +36,11 @@ public class CultSpellEffect extends SpellEffect {
 
     }
 
-    public Vector2 calculateForce() {
-        float power = 1f + (0.2f * level);
-        return new Vector2(7, 2).scl(power).scl(directionWhenCast, 1);
-    }
-
+    @Override
     public void applyForce(Player target){
-        System.out.println("BAM");
-        target.applyHitForce(calculateForce());
+        float power = 1f + (0.5f * level);
+        Vector2 force = new Vector2(7.5f, 3f).scl(power).scl(directionWhenCast, 1);
+        target.applyHitForce(force);
     }
 
     private static Shape getRightDirectionShape(){

@@ -40,15 +40,12 @@ public class WonsterSpellEffect extends SpellEffect {
         return fixtureDef;
     }
 
-    public Vector2 calculateForce() {
-        float power = 1f * (0.2f * level);
-        return new Vector2(7, 2).scl(power).scl(directionWhenCast, 1);
-    }
-
+    @Override
     public void applyForce(Player target){
-        target.applyHitForce(calculateForce());
+        float power = 1f + (0.5f * level);
+        Vector2 force = new Vector2(7.5f, 3f).scl(power).scl(directionWhenCast, 1);
+        target.applyHitForce(force);
     }
-
 
     private void applyMovement() {
         body.setLinearVelocity(new Vector2( speed*GameInfo.PPM*owner.getLookingDir(),0));

@@ -27,8 +27,8 @@ public class Player extends TextureObject {
     private static final float JUMP_FORCE = 11.4f;
     private static final float JUMP_FORCE_IN_AIR = 9f;
     private static final float WALK_SPEED = 6f;
-    private static final float AIR_WALK_FORCE = 2f;
-    private static final float AIR_DRAG = 2f;
+    private static final float AIR_WALK_FORCE = 0.5f;
+    private static final float AIR_DRAG = 0.08f;
     private static final float MOVEMENT_PARALYSIS_DECAY = 0.35f;
 
     private Body feet;
@@ -39,6 +39,7 @@ public class Player extends TextureObject {
     private GameMap map;
     private float mana = 0;
     private int feetCollisions = 0;
+    private float movementParalysis = 0;
 
     private boolean isDead = false;
 
@@ -50,7 +51,6 @@ public class Player extends TextureObject {
     private Spell spell;
     private int spellLevel = 0;
     private CultSpell cultSpell;
-    private float movementParalysis = 0;
 
     public Player(GameMap map, Vector2 pos, PlayerInputProcessor inputs) {
         super(map.getWorld(), pos, createPlayerBodyDef(), createPlayerFixtureDef(), null);
@@ -167,7 +167,7 @@ public class Player extends TextureObject {
     public void applyHitForce(Vector2 force) {
         movementParalysis = 1;
         Vector2 vel = body.getLinearVelocity();
-        vel.add(force);
+        vel.scl(0.5f).add(force);
         body.setLinearVelocity(vel);
     }
 

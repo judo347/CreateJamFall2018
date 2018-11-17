@@ -60,23 +60,11 @@ public class TextureObject extends RenderObject {
 
     }
 
-
-
-
     public static FixtureDef createTextureFixtureDef(Texture text){
-        float cornerSize = 0.043f;
         float width = text.getWidth()* GameInfo.PPM / 2f;
-        float widthShort = text.getWidth()* GameInfo.PPM / 2f - cornerSize;
         float height = text.getHeight()* GameInfo.PPM / 2f;
-        float heightShort = text.getHeight()* GameInfo.PPM / 2f - cornerSize;
         PolygonShape shape = new PolygonShape();
-        shape.set(new Vector2[]{
-                new Vector2(-width, height),
-                new Vector2(width, height),
-                new Vector2(width, -heightShort),
-                new Vector2(0, -height),
-                new Vector2(-width, -heightShort),
-        });
+        shape.setAsBox(width, height);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -85,8 +73,6 @@ public class TextureObject extends RenderObject {
         fixtureDef.restitution = 0;
 
         return fixtureDef;
-
-
     }
 
     public void destroyBody(){

@@ -1,10 +1,12 @@
 package dk.amminiti.entity;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import dk.amminiti.helpers.GameInfo;
 
@@ -32,4 +34,31 @@ public class TextureObject extends RenderObject {
     public void setTexture(TextureRegion texture) {
         this.texture = texture;
     }
+
+    public static FixtureDef createTextureFixtureDef(Texture text){
+        float cornerSize = 0.043f;
+        float width = text.getWidth()* GameInfo.PPM / 2f;
+        float widthShort = text.getWidth()* GameInfo.PPM / 2f - cornerSize;
+        float height = text.getHeight()* GameInfo.PPM / 2f;
+        float heightShort = text.getHeight()* GameInfo.PPM / 2f - cornerSize;
+        PolygonShape shape = new PolygonShape();
+        shape.set(new Vector2[]{
+                new Vector2(-width, height),
+                new Vector2(width, height),
+                new Vector2(width, -heightShort),
+                new Vector2(0, -height),
+                new Vector2(-width, -heightShort),
+        });
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1f;
+        fixtureDef.friction = 0f;
+        fixtureDef.restitution = 0;
+
+        return fixtureDef;
+
+
+    }
+
 }

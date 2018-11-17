@@ -32,8 +32,20 @@ public abstract class SpellEffect extends AnimatedObject {
 
     private static Vector2 getSpellPosRelativToHead(Player player, Texture texture ){
 
-        float x = player.getHeadPos().x + (texture.getWidth() / 100f) * player.getLookingDir();
-        float y = player.getHeadPos().y;
+        float x, y;
+
+        if(player.getLookingDir() < 0){
+
+            x = player.getHeadPos().x - texture.getWidth() / 100f;
+            y = player.getHeadPos().y;
+
+        }else{ //RIGHT
+            x = player.getHeadPos().x + 1;
+            y = player.getHeadPos().y;
+        }
+
+        //float x = player.getHeadPos().x + (texture.getWidth() / 100f) * player.getLookingDir();
+        //float y = player.getHeadPos().y;
 
         return new Vector2(x, y);
     }

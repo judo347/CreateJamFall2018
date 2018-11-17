@@ -21,7 +21,6 @@ public abstract class SpellEffect extends TextureObject {
 
     /**
      * An GameObject that always have a textre drawn at the body's position.
-     *
      * @param texture
      */
     public SpellEffect(Player player, float lifeTime, Texture texture, EnergyDrink.EnergyDrinkType type) {
@@ -29,7 +28,6 @@ public abstract class SpellEffect extends TextureObject {
         this.lifeTime = lifeTime;
         this.type = type;
         this.owner = player;
-
     }
 
     public void render(SpriteBatch batch, float delta) {
@@ -61,6 +59,4 @@ public abstract class SpellEffect extends TextureObject {
         bodyDef.gravityScale = 0;
         return bodyDef;
     }
-
-
 }

@@ -42,6 +42,7 @@ public class GameMap {
         this.inputs = inputs;
         this.gameObjects = new ArrayList<TextureObject>();
         this.itemsToBeRemoved = new ArrayList<TextureObject>();
+        this.itemsToBeAdded = new ArrayList<TextureObject>();
 
         initializePlatforms();
         initializePlayers();
@@ -77,6 +78,7 @@ public class GameMap {
 
     public void update(float delta){
         removeProcess();
+        addProcess();
     }
 
     private void removeProcess(){
@@ -96,9 +98,9 @@ public class GameMap {
         while(itemsToBeAdded.size() != 0){
             for (TextureObject textureObject : new ArrayList<TextureObject>(itemsToBeAdded)) {
 
-                textureObject.destroyBody();
-                itemsToBeAdded.remove(textureObject);
+
                 gameObjects.add(textureObject);
+                itemsToBeAdded.remove(textureObject);
             }
         }
     }

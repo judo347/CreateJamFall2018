@@ -10,6 +10,7 @@ import dk.amminiti.PlayerInputProcessor;
 import dk.amminiti.PlayerWalkAnimation;
 import dk.amminiti.PlayerWalkAnimationController;
 import dk.amminiti.helpers.GameInfo;
+import dk.amminiti.spells.CultSpell;
 import dk.amminiti.world.GameMap;
 import dk.amminiti.spells.Spell;
 
@@ -49,7 +50,7 @@ public class Player extends TextureObject {
         super(map.getWorld(), pos, createPlayerBodyDef(), createTextureFixtureDef(playerTexture), new TextureRegion(playerTexture));
         this.inputs = inputs;
         this.map = map;
-        this.spell = null;
+        this.spell = new CultSpell();
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(FEET_WIDTH / 2f, FEET_HEIGHT / 2f);
@@ -82,6 +83,7 @@ public class Player extends TextureObject {
 
     public void render(SpriteBatch batch, float dt) {
         movement(dt);
+        spell.reduceCooldown(dt);
         super.render(batch, dt);
     }
 
@@ -114,6 +116,9 @@ public class Player extends TextureObject {
                 vel.x = Math.max(Math.abs(vel.x) - AIR_DRAG, 0);
             }
 
+            if (inputs.isPrimaryPressed()){
+                spell.use(this);
+            }
         }
 
         // Restrict vel x

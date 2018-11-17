@@ -40,7 +40,10 @@ public class FoosterSpell implements Spell {
 
     @Override
     public void use(Player player) {
-
+        if (!isOnCooldown()) {
+            player.getMap().addToWorldQueue(new FoosterSpellEffect(player));
+            cooldownLeft = cooldownTotal;
+        }
     }
 
     @Override

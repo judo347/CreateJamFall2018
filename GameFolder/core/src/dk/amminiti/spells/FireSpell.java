@@ -41,9 +41,10 @@ public class FireSpell implements Spell {
 
     @Override
     public void use(Player player) {
-
-        cooldownLeft = cooldownTotal;
-    }
+        if (!isOnCooldown()) {
+            player.getMap().addToWorldQueue(new FireSpellEffect(player));
+            cooldownLeft = cooldownTotal;
+        }}
 
     @Override
     public Texture getIcon() {

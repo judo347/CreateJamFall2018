@@ -41,8 +41,10 @@ public class CultSpell implements Spell {
 
     @Override
     public void use(Player player) {
-        cooldownLeft = cooldownTotal;
-        player.getMap().addToWorldQueue(new CultSpellEffect(player));
+        if (!isOnCooldown()) {
+            player.getMap().addToWorldQueue(new CultSpellEffect(player));
+            cooldownLeft = cooldownTotal;
+        }
     }
 
     @Override

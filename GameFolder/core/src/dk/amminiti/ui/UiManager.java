@@ -4,18 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dk.amminiti.entity.EnergyDrink;
-import dk.amminiti.entity.Platform;
 import dk.amminiti.entity.Player;
-import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.screens.GameScreen;
 import dk.amminiti.screens.OrthographicTargetedCamera;
 
@@ -32,6 +25,8 @@ public class UiManager {
         private Label primaryLevel;
         private Label secondaryLevel;
 
+        private ProgressBar secondaryProcessBar;
+
         private Table contentTable;
         private Skin skin;
         private String playerName;
@@ -42,28 +37,36 @@ public class UiManager {
             this.skin = skin;
             primaryLevel = new Label("1", skin);
             secondaryLevel = new Label("0", skin);
-            initialize(secondaryAbility, secondaryLevel);
+            initialize(secondaryAbility, secondaryLevel, 0);
         }
 
-        private void initialize(Image secondaryImage, Label secondaryLabel){
+        private void initialize(Image secondaryImage, Label secondaryLabel, int currentMana){
+            contentTable.clearChildren();
             contentTable.add(new Label(playerName, skin)).row();
-            contentTable.add(getAbilitiesPanel(secondaryImage, secondaryLabel));
+            contentTable.add(getAbilitiesPanel(secondaryImage, secondaryLabel, currentMana));
 
         }
 
-        private Table getAbilitiesPanel(Image secondaryImage, Label secondaryLabel){
+        private Table getAbilitiesPanel(Image secondaryImage, Label secondaryLabel, int currentMana){
 
             Table table = new Table();
 
-            table.add(getAbilityCell(primaryAbility, primaryLevel));
-            table.add(getAbilityCell(secondaryImage, secondaryLabel));
+            table.add(getAbilityCell(primaryAbility, primaryLevel, currentMana));
+            table.add(getAbilityCell(secondaryImage, secondaryLabel, currentMana));
 
             return table;
         }
 
-        private Table getAbilityCell(Image image, Label levelLabel){
+        private Table getAbilityCell(Image image, Label levelLabel, int currentMana){
 
             Table table = new Table();
+
+            if(image != primaryAbility){
+                secondaryProcessBar = new ProgressBar(0, 100, 25, false, skin);
+                secondaryProcessBar.setValue(currentMana);
+
+                table.add(secondaryProcessBar).row();
+            }
 
             table.add(image).row();
             table.pad(10);
@@ -77,11 +80,10 @@ public class UiManager {
         }
 
         protected void update(Player player){
-            System.out.println(player.getSpell());
             if(player.getSpell() != null){
-                contentTable.clearChildren();
-                initialize(new Image(EnergyDrink.getTexture(player.getSpell().getType())), new Label(String.valueOf(player.getSpellLevel()), skin));
-            }
+                initialize(new Image(EnergyDrink.getTexture(player.getSpell().getType())), new Label(String.valueOf(player.getSpellLevel()), skin), (int)player.getMana());
+            }else
+                initialize(secondaryAbility, secondaryLevel, 0);
         }
     }
 

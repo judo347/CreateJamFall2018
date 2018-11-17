@@ -13,7 +13,7 @@ public class FireSpell implements Spell {
 
     private final float cooldownTotal = 5f;
     private float cooldownLeft = 0;
-    private float manacost = 30;
+    private float manacost = 25;
 
     @Override
     public float getCooldownTotal() {

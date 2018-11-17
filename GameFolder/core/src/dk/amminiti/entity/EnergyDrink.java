@@ -6,10 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-import dk.amminiti.spells.CultSpell;
-import dk.amminiti.spells.FireSpell;
-import dk.amminiti.spells.RedCowSpell;
-import dk.amminiti.spells.Spell;
+import dk.amminiti.spells.*;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.world.GameMap;
 
@@ -21,6 +18,7 @@ public class EnergyDrink extends TextureObject {
     static Texture foosterTexture = new Texture("energydrinks/fooster.png");
     static Texture redcowTexture = new Texture("energydrinks/redcow.png");
     static Texture fireTexture = new Texture("energydrinks/fire.png");
+    static Texture cultTexture = new Texture("energydrinks/fire.png");
 
     public enum EnergyDrinkType {
         WONSTER,
@@ -33,9 +31,9 @@ public class EnergyDrink extends TextureObject {
             switch (type){
                 case CULT: return new CultSpell();
                 case FIRE: return new FireSpell();
-                case FOOSTER: return null;
+                case FOOSTER: return new FoosterSpell();
                 case REDCOW: return new RedCowSpell();
-                case WONSTER: return null;
+                case WONSTER: return new WonsterSpell();
             }
 
             System.out.println("SHOULD NOT GET HERE! EnergyDrink.EnergyDrinkType.getSpellFromType!");
@@ -78,6 +76,8 @@ public class EnergyDrink extends TextureObject {
                 return new TextureRegion(foosterTexture);
             case WONSTER:
                 return new TextureRegion(wonsterTexture);
+            case CULT:
+                return new TextureRegion(cultTexture);
         }
         return null;
     }

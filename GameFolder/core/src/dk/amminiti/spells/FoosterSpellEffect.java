@@ -1,34 +1,21 @@
 package dk.amminiti.spells;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.math.Vector2;
 import dk.amminiti.entity.Player;
-import dk.amminiti.entity.TextureObject;
+import dk.amminiti.helpers.GameInfo;
 
-import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.KinematicBody;
 
-public class FoosterSpellEffect extends TextureObject {
+public class FoosterSpellEffect extends SpellEffect {
 
-    static Texture cultTexture = new Texture("cult effect.png");
-
+    static Texture texture = new Texture("cult effect.png");
+    static float lifeTime = 5f;
     /**
      * An GameObject that always have a textre drawn at the body's position.
      *
      */
     public FoosterSpellEffect(Player player) {
-        super(player.getBody().getWorld(), player.getBodyPos(), createBodyDef() ,createSensorFixtureDef(cultTexture), new TextureRegion(cultTexture));
+        super(player,  lifeTime, texture);
+        this.body.applyForce(new Vector2(2000* GameInfo.PPM,0),body.getPosition(),true);
     }
-
-
-    private static BodyDef createBodyDef() {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.fixedRotation = true;
-        bodyDef.type = KinematicBody;
-        return bodyDef;
-    }
-
-
-
-
 }

@@ -79,4 +79,6 @@ public abstract class SpellEffect extends AnimatedObject {
         bodyDef.gravityScale = 0;
         return bodyDef;
     }
+
+    public abstract void applyForce(Player target);
 }

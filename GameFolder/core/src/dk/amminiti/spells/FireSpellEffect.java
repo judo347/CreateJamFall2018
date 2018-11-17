@@ -16,7 +16,6 @@ public class FireSpellEffect extends SpellEffect {
     static Texture textureLeft = new Texture("fireEffectLeft.png");
     static Texture textureRight = new Texture("fireEffectRight.png");
     static float lifeTime = 6f;
-    static float speed = 200;
 
     public FireSpellEffect(Player player) {
         super(createFixtureDef(), getTexture(player), 1f, 3, 0.08f, lifeTime, player, EnergyDrink.EnergyDrinkType.FIRE);
@@ -28,13 +27,11 @@ public class FireSpellEffect extends SpellEffect {
         return (player.getLookingDir() < 0) ? textureLeft : textureRight;
     }
 
-    public Vector2 calculateForce() {
-        float power = 1f + (0.2f * level);
-        return new Vector2(7, 2).scl(power).scl(directionWhenCast, 1);
-    }
-
+    @Override
     public void applyForce(Player target){
-        target.applyHitForce(calculateForce());
+        float power = 1f + (0.5f * level);
+        Vector2 force = new Vector2(10f, 4.2f).scl(power).scl(directionWhenCast, 1);
+        target.applyHitForce(force);
     }
 
     private static FixtureDef createFixtureDef(){
@@ -51,7 +48,7 @@ public class FireSpellEffect extends SpellEffect {
     }
 
     private void applyMovement() {
-        body.setLinearVelocity(new Vector2( speed*GameInfo.PPM*owner.getLookingDir(),0));
+        body.setLinearVelocity(new Vector2( 300*GameInfo.PPM*owner.getLookingDir(),0));
     }
 
 }

@@ -14,8 +14,6 @@ public class FoosterSpellEffect extends SpellEffect {
 
     static Texture texture = new Texture("energydrinks/fooster.png");
     static float lifeTime = 5f;
-    static float speed = 2000;
-    static float power;
     private Player owner;
 
     /**
@@ -24,8 +22,6 @@ public class FoosterSpellEffect extends SpellEffect {
      */
     public FoosterSpellEffect(Player player) {
         super(createFixtureDef(), texture, 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.FOOSTER);
-        this.basePower = 4000;
-        this.power = player.getSpellLevel()*basePower;
         this.owner = player;
         applyMovement();
     }
@@ -48,15 +44,16 @@ public class FoosterSpellEffect extends SpellEffect {
     }
 
     public Vector2 calculateForce() {
-        return (this.getBody().getLinearVelocity().scl(power));
+        float power = 1f + (0.2f * level);
+        return new Vector2(7, 2).scl(power).scl(directionWhenCast, 1);
     }
 
     public void applyForce(Player target){
-        target.getBody().applyForceToCenter(calculateForce(),true);
+        target.applyHitForce(calculateForce());
     }
 
     private void applyMovement() {
-        owner.getBody().applyForce(new Vector2(power*GameInfo.PPM*owner.getLookingDir(), 500), owner.getBodyPos(), true);
+        owner.getBody().applyForce(new Vector2(10*GameInfo.PPM*owner.getLookingDir(), 500), owner.getBodyPos(), true);
         //owner.getBody().setLinearVelocity(new Vector2(speed*GameInfo.PPM*owner.getLookingDir(),2000));
     }
 }

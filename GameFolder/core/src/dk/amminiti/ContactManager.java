@@ -96,7 +96,8 @@ public class ContactManager implements ContactListener {
 
     private void spellPlayerCollision(Player player, SpellEffect spell) {
 
-            if (player.equals(spell.getOwner())) return;
+        if (player.equals(spell.getOwner())) return;
+
         else{
             switch (spell.getType()){
                 case CULT:
@@ -120,7 +121,7 @@ public class ContactManager implements ContactListener {
                     break;
             }
         }
-        }
+    }
 
     private void resolveEnergyDrinkPlayerCollision(Player player, EnergyDrink energyDrink) {
         player.CollectEnergyDrink(energyDrink.getType());

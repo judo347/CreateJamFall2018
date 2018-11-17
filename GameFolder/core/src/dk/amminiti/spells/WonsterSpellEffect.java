@@ -17,7 +17,7 @@ public class WonsterSpellEffect extends SpellEffect {
      */
     public WonsterSpellEffect(Player player) {
         super(player,  lifeTime, texture);
-        this.body.applyForce(new Vector2(speed* GameInfo.PPM,0),body.getPosition(),true);
+        this.body.applyForce(new Vector2(player.getLookingDir()*speed* GameInfo.PPM,0),body.getPosition(),true);
 
     }
 }

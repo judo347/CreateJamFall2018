@@ -32,10 +32,7 @@ public class GameMap {
     private ArrayList<Platform> platforms;
 
     private Player p1, p2;
-    private EnergyDrink wonster;
-    private EnergyDrink fooster;
-    private EnergyDrink fire;
-    private EnergyDrink redcow;
+    private DrinkSpawner drinkSpawner;
 
     public GameMap(GameScreen screen, InputController inputs) {
         this.world = screen.getWorld();
@@ -46,7 +43,7 @@ public class GameMap {
 
         initializePlatforms();
         initializePlayers();
-        initializeEnergyDrink();
+        drinkSpawner = new DrinkSpawner(this);
     }
 
     private void initializePlatforms(){
@@ -67,17 +64,9 @@ public class GameMap {
         gameObjects.addAll(Arrays.asList(p1, p2));
     }
 
-    private void initializeEnergyDrink(){
-        wonster = new EnergyDrink(this, new Vector2(1,3), EnergyDrink.EnergyDrinkType.WONSTER);
-        fire = new EnergyDrink(this, new Vector2(-1,4), EnergyDrink.EnergyDrinkType.FIRE);
-        fooster = new EnergyDrink(this, new Vector2(2,5), EnergyDrink.EnergyDrinkType.FOOSTER);
-        redcow = new EnergyDrink(this, new Vector2(-2,6), EnergyDrink.EnergyDrinkType.REDCOW);
-
-        gameObjects.addAll(Arrays.asList(wonster, fire, fooster, redcow));
-    }
-
     public void update(float delta){
         removeProcess();
+        drinkSpawner.update(delta);
         addProcess();
     }
 

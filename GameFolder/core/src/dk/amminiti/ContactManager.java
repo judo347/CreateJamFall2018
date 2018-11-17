@@ -46,9 +46,13 @@ public class ContactManager implements ContactListener {
                 fb.getBody().setGravityScale(0);
                 fb.getBody().setLinearVelocity(new Vector2(0,0));
             }
-            if ((fa.getBody().getUserData() == FEET)
-                    || (fb.getBody().getUserData() == FEET)) {
-                feetCollisions++;
+            if (fa.getBody().getUserData() instanceof Player && (fb.getBody().getUserData() instanceof Player || fb.getBody().getUserData() instanceof Platform))
+            {
+                ((Player)fa.getBody().getUserData()).feetCollision();
+            }
+            if (fb.getBody().getUserData() instanceof Player && (fa.getBody().getUserData() instanceof Player || fa.getBody().getUserData() instanceof Platform))
+            {
+                ((Player)fb.getBody().getUserData()).feetCollision();
             }
 
             //EnergyDrink collision with player

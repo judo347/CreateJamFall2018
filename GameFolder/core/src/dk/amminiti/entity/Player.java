@@ -37,6 +37,7 @@ public class Player extends TextureObject {
     private boolean hasJumped = false;
     private GameMap map;
     private float mana = 0;
+    private int feetCollisions = 0;
 
     private boolean isDead = false;
 
@@ -56,6 +57,8 @@ public class Player extends TextureObject {
         this.cultSpell = new CultSpell();
 
         createFeet();
+        System.out.println(feet.getUserData());
+        System.out.println(this.getBody().getUserData());
         body.setLinearDamping(0);
         body.setUserData(this);
     }
@@ -78,7 +81,7 @@ public class Player extends TextureObject {
 
         feet = world.createBody(bodyDef);
         feet.createFixture(feetDef);
-        feet.setUserData(ContactManager.FEET);
+        feet.setUserData(this.body.getUserData());
         feet.setGravityScale(0);
     }
 
@@ -93,11 +96,12 @@ public class Player extends TextureObject {
 
     private void movement(float dt) {
         Vector2 vel = body.getLinearVelocity();
-        isMidAir = !(ContactManager.feetCollisions > 0 && Math.abs(vel.y) <= 1e-2);
+        isMidAir = !(this.feetCollisions > 0 && Math.abs(vel.y) <= 1e-2);
 
         // Jump
         if (!isMidAir) hasJumped = false;
         if (!hasJumped && (inputs.isUpPressed())) {
+            feetCollisions = 0;
             vel.y = isMidAir ? JUMP_FORCE_IN_AIR : JUMP_FORCE;
             isMidAir = true;
             hasJumped = true;
@@ -141,6 +145,11 @@ public class Player extends TextureObject {
 
         texture = walkAnimationController.getTexture(dir, isMidAir, dt);
     }
+
+    public void feetCollision(){
+        this.feetCollisions++;
+    }
+
 
     public Vector2 getBodyPos() {
         return body.getPosition();

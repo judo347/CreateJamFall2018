@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.amminiti.ContactManager;
 import dk.amminiti.PlayerInputProcessor;
+import dk.amminiti.PlayerWalkAnimation;
+import dk.amminiti.PlayerWalkAnimationController;
 import dk.amminiti.helpers.GameInfo;
 
 public class Player extends TextureObject {
@@ -34,6 +36,7 @@ public class Player extends TextureObject {
     private boolean hasJumped = false;
 
     private boolean isFacingRight;
+    private PlayerWalkAnimationController walkAnimationController = new PlayerWalkAnimationController(new PlayerWalkAnimation(new Texture("baby_crawl.png")));
 
     public Player(World world, Vector2 pos, PlayerInputProcessor inputs) {
         super(world, pos, createPlayerBodyDef(), createTextureFixtureDef(playerTexture), new TextureRegion(playerTexture));
@@ -68,12 +71,12 @@ public class Player extends TextureObject {
         feet.setGravityScale(0);
     }
 
-    public void render(SpriteBatch batch, float delta) {
-        movement();
-        super.render(batch, delta);
+    public void render(SpriteBatch batch, float dt) {
+        movement(dt);
+        super.render(batch, dt);
     }
 
-    void movement() {
+    void movement(float dt) {
         Vector2 vel = body.getLinearVelocity();
         isMidAir = !(ContactManager.feetCollisions > 0 && Math.abs(vel.y) <= 1e-2);
 
@@ -112,6 +115,8 @@ public class Player extends TextureObject {
         // Move feet
         feet.setTransform(new Vector2(body.getPosition()).add(FEET_Y_OFFSET), 0);
         feet.setLinearVelocity(vel);
+
+        texture = walkAnimationController.getTexture(dir, isMidAir, dt);
     }
 
     public Vector2 getBodyPos() {

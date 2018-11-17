@@ -5,10 +5,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+
 import dk.amminiti.spells.CultSpell;
 import dk.amminiti.spells.FireSpell;
 import dk.amminiti.spells.RedCowSpell;
 import dk.amminiti.spells.Spell;
+import dk.amminiti.helpers.GameInfo;
+import dk.amminiti.world.GameMap;
 
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 
@@ -41,14 +44,14 @@ public class EnergyDrink extends TextureObject {
     }
 
     private EnergyDrinkType type;
+    private GameMap map;
 
     /**
      * An GameObject that always have a textre drawn at the body's position.
-     * @param world
-     * @param pos
      */
-    public EnergyDrink(World world, Vector2 pos, EnergyDrinkType type ) {
-        super(world,pos,createBodyDef(),createSensorFixtureDef(fireTexture),new TextureRegion(fireTexture));
+    public EnergyDrink(GameMap map, Vector2 pos, EnergyDrinkType type ) {
+        super(map.getWorld(), pos, createBodyDef(), createSensorFixtureDef(fireTexture), new TextureRegion(fireTexture));
+        this.map = map;
         this.texture = getTexture(type);
         this.type = type;
     }
@@ -78,6 +81,8 @@ public class EnergyDrink extends TextureObject {
         }
         return null;
     }
-
+    public void removeFromWorld() {
+        map.addToDestroyQueue(this);
+    }
 
 }

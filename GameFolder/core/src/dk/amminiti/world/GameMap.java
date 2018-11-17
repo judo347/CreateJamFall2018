@@ -66,10 +66,10 @@ public class GameMap {
     }
 
     private void initializeEnergyDrink(){
-        wonster = new EnergyDrink(this.world, new Vector2(1,3), EnergyDrink.EnergyDrinkType.WONSTER);
-        fire = new EnergyDrink(this.world, new Vector2(-1,4), EnergyDrink.EnergyDrinkType.FIRE);
-        fooster = new EnergyDrink(this.world, new Vector2(2,5), EnergyDrink.EnergyDrinkType.FOOSTER);
-        redcow = new EnergyDrink(this.world, new Vector2(-2,6), EnergyDrink.EnergyDrinkType.REDCOW);
+        wonster = new EnergyDrink(this, new Vector2(1,3), EnergyDrink.EnergyDrinkType.WONSTER);
+        fire = new EnergyDrink(this, new Vector2(-1,4), EnergyDrink.EnergyDrinkType.FIRE);
+        fooster = new EnergyDrink(this, new Vector2(2,5), EnergyDrink.EnergyDrinkType.FOOSTER);
+        redcow = new EnergyDrink(this, new Vector2(-2,6), EnergyDrink.EnergyDrinkType.REDCOW);
 
         gameObjects.addAll(Arrays.asList(wonster, fire, fooster, redcow));
     }
@@ -85,6 +85,7 @@ public class GameMap {
 
                 textureObject.destroyBody();
                 itemsToBeRemoved.remove(textureObject);
+                gameObjects.remove(textureObject);
             }
         }
     }
@@ -105,6 +106,10 @@ public class GameMap {
 
     public Player getP2() {
         return p2;
+    }
+
+    public World getWorld(){
+        return this.world;
     }
 
     public void addToDestroyQueue(TextureObject to){

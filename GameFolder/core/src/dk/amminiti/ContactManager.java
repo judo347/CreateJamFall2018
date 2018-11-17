@@ -44,18 +44,11 @@ public class ContactManager implements ContactListener {
 
             //EnergyDrink collision with player
             if ((fa.getBody().getUserData() instanceof EnergyDrink && fb.getBody().getUserData() instanceof Player)){
-                EnergyDrink energyDrink =(EnergyDrink) fa.getBody().getUserData();
-                Player player =(Player) fb.getBody().getUserData();
-
-                player.CollectEnergyDrink(energyDrink.getType());
-
+                resolveEnergyDrinkPlayerCollision((Player) fb.getBody().getUserData(),(EnergyDrink) fa.getBody().getUserData());
             }
             //EnergyDrink collision with player
             if ((fb.getBody().getUserData() instanceof EnergyDrink && fa.getBody().getUserData() instanceof Player)){
-                EnergyDrink energyDrink =(EnergyDrink) fb.getBody().getUserData();
-                Player player =(Player) fa.getBody().getUserData();
-
-                player.CollectEnergyDrink(energyDrink.getType());
+                resolveEnergyDrinkPlayerCollision((Player) fa.getBody().getUserData(),(EnergyDrink) fb.getBody().getUserData());
             }
 
 
@@ -81,7 +74,14 @@ public class ContactManager implements ContactListener {
 
 
         }
-        @Override
+
+    private void resolveEnergyDrinkPlayerCollision(Player player, EnergyDrink energyDrink) {
+        player.CollectEnergyDrink(energyDrink.getType());
+        energyDrink.removeFromWorld();
+
+    }
+
+    @Override
         public void endContact(Contact contact) {
             Fixture fa = contact.getFixtureA();
             Fixture fb = contact.getFixtureB();

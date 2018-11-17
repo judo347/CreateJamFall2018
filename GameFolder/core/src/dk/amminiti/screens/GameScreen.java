@@ -31,10 +31,10 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
     private Stage stage;
     private GameMap gameMap;
-    private InputController inputs;
+    private InputController inputs = new InputController();
     private Box2DDebugRenderer debugRenderer;
     private World world;
-    private Player p1;
+    private Player p1, p2;
     private EnergyDrink wonster;
     private EnergyDrink fooster;
     private EnergyDrink fire;
@@ -60,13 +60,15 @@ public class GameScreen implements Screen {
         this.camera.update();
         this.debugRenderer = new Box2DDebugRenderer();
         gameObjectsListforRender = new ArrayList<TextureObject>();
-        p1 = new Player(this.world, new Vector2(0, 2));
+        p1 = new Player(this.world, new Vector2(0, 2),inputs.getPlayerInput(0));
+        p2 = new Player(this.world,new Vector2(0,6),inputs.getPlayerInput(1));
         wonster = new EnergyDrink(this.world, new Vector2(0,3), EnergyDrink.energyDrinkType.Wonster);
         fire = new EnergyDrink(this.world, new Vector2(0,4), EnergyDrink.energyDrinkType.Fire);
         fooster = new EnergyDrink(this.world, new Vector2(0,5), EnergyDrink.energyDrinkType.Fooster);
         redcow = new EnergyDrink(this.world, new Vector2(0,6), EnergyDrink.energyDrinkType.Redcow);
 
         gameObjectsListforRender.add(p1);
+        gameObjectsListforRender.add(p2);
         gameObjectsListforRender.add(wonster);
         gameObjectsListforRender.add(fire);
         gameObjectsListforRender.add(fooster);

@@ -4,14 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.amminiti.ContactManager;
-import dk.amminiti.InputController;
 import dk.amminiti.PlayerInputProcessor;
-
-import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
-
 
 public class Player extends TextureObject {
 
@@ -25,19 +20,22 @@ public class Player extends TextureObject {
     private static final float JUMP_FORCE = 11.4f;
     private static final float JUMP_FORCE_IN_AIR = 9f;
     private static final float WALK_SPEED = 6f;
-    private static final float AIR_WALK_FORCE = 0.3f;
+    private static final float AIR_WALK_FORCE = 2f;
+    private static final float AIR_DRAG = 2f;
 
-    private static Texture playerTexture = new Texture("badlogic.jpg");
+    private static Texture playerTexture = new Texture("baby.png");
 
+    private PlayerInputProcessor inputs;
+    private Body feet;
     private int lookingDir = 1;
     private boolean isMidAir = false;
     private boolean hasJumped = false;
-    private Body feet;
 
     private boolean isFacingRight;
 
-    public Player(World world, Vector2 pos) {
+    public Player(World world, Vector2 pos, PlayerInputProcessor inputs) {
         super(world, pos, createPlayerBodyDef(), createPlayerFixtureDef(), new TextureRegion(playerTexture));
+        this.inputs = inputs;
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(FEET_WIDTH / 2f, FEET_HEIGHT / 2f);
@@ -47,31 +45,39 @@ public class Player extends TextureObject {
     }
 
     private void createFeet() {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.fixedRotation = true;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(new Vector2(body.getPosition().add(FEET_Y_OFFSET)));
+
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(FEET_WIDTH / 2f, FEET_HEIGHT / 2f);
+
         FixtureDef feetDef = new FixtureDef();
         feetDef.shape = shape;
         feetDef.density = 0;
         feetDef.friction = 1;
         feetDef.restitution = 0;
         feetDef.isSensor = false;
-        feet = new GameObject(world, new Vector2(body.getPosition().add(FEET_Y_OFFSET)), createPlayerBodyDef(), feetDef).getBody();
+
+        feet = world.createBody(bodyDef);
+        feet.createFixture(feetDef);
         feet.setUserData(ContactManager.FEET);
         feet.setGravityScale(0);
     }
 
-    public void render(PlayerInputProcessor inputs, SpriteBatch batch, float delta) {
-        movement(inputs);
+    public void render(SpriteBatch batch, float delta) {
+        movement();
         super.render(batch, delta);
     }
 
-    void movement(PlayerInputProcessor inputs) {
+    void movement() {
         Vector2 vel = body.getLinearVelocity();
         isMidAir = !(ContactManager.feetCollisions > 0 && Math.abs(vel.y) <= 1e-2);
 
         // Jump
         if (!isMidAir) hasJumped = false;
-        if (!hasJumped && (inputs.isJumpPressed())) {
+        if (!hasJumped && (inputs.isUpPressed())) {
             vel.y = isMidAir ? JUMP_FORCE_IN_AIR : JUMP_FORCE;
             isMidAir = true;
             hasJumped = true;
@@ -86,7 +92,13 @@ public class Player extends TextureObject {
 
         } else {
             // Mid air
-            vel.add(AIR_WALK_FORCE * dir, 0);
+            if (dir != 0) {
+                vel.add(AIR_WALK_FORCE * dir, 0);
+            } else if (vel.x != 0) {
+                // Air drag
+                int sgn = vel.x > 0 ? 1 : -1;
+                vel.x = Math.max(Math.abs(vel.x) - AIR_DRAG, 0);
+            }
         }
 
         // Restrict vel x
@@ -134,7 +146,7 @@ public class Player extends TextureObject {
     private static BodyDef createPlayerBodyDef() {
         BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = true;
-        bodyDef.type = DynamicBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         return bodyDef;
     }
 }

@@ -22,6 +22,8 @@ public class GameMap {
 
     private List<TextureObject> gameObjects;
 
+    private ArrayList<TextureObject> itemsToBeRemoved;
+
     private Platform groundBox;
     private Platform levelOneLeft;
     private Platform levelOneRight;
@@ -38,6 +40,7 @@ public class GameMap {
         this.world = screen.getWorld();
         this.inputs = inputs;
         this.gameObjects = new ArrayList<TextureObject>();
+        this.itemsToBeRemoved = new ArrayList<TextureObject>();
 
         initializePlatforms();
         initializePlayers();
@@ -71,6 +74,21 @@ public class GameMap {
         gameObjects.addAll(Arrays.asList(wonster, fire, fooster, redcow));
     }
 
+    public void update(float delta){
+        removeProcess();
+    }
+
+    private void removeProcess(){
+
+        while(itemsToBeRemoved.size() != 0){
+            for (TextureObject textureObject : new ArrayList<TextureObject>(itemsToBeRemoved)) {
+
+                textureObject.destroyBody();
+                itemsToBeRemoved.remove(textureObject);
+            }
+        }
+    }
+
     public void render(SpriteBatch batch, float delta){
         for (Platform platform : platforms) {
             platform.render(batch, delta);
@@ -87,5 +105,9 @@ public class GameMap {
 
     public Player getP2() {
         return p2;
+    }
+
+    public void addToDestroyQueue(TextureObject to){
+        this.itemsToBeRemoved.add(to);
     }
 }

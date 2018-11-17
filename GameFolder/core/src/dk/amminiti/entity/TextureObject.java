@@ -61,4 +61,11 @@ public class TextureObject extends RenderObject {
 
     }
 
+    public void destroyBody(){
+        if(body != null){
+            world.destroyBody(body);
+            //body = null; //TODO DAMN IT!
+        }
+    }
+
 }

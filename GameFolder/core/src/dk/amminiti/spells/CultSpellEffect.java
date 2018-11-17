@@ -14,11 +14,13 @@ public class CultSpellEffect extends SpellEffect {
 
     private static Texture textureLeft = new Texture("spellEffects/cultLeft.png");
     private static Texture textureRight = new Texture("spellEffects/cultRight.png");
-    private static float lifeTime = 1f;
-    private static float speed = 0.2f;
+    private static int FRAME_COUNT = 4;
+
+    private static float lifeTime = 0.4f;
+    private static float speed = 0.8f;
 
     public CultSpellEffect(Player player) {
-        super(createFixtureDef(player), getTexture(player), 1.2f, 1, 1, lifeTime, player, EnergyDrink.EnergyDrinkType.CULT);
+        super(createFixtureDef(player), getTexture(player), 1.2f, FRAME_COUNT, lifeTime/FRAME_COUNT, lifeTime, player, EnergyDrink.EnergyDrinkType.CULT);
         applyMovement();
     }
 
@@ -38,7 +40,7 @@ public class CultSpellEffect extends SpellEffect {
 
     @Override
     public void applyForce(Player target){
-        float power = 1f + (0.5f * level);
+        float power = 0.9f + (0.5f * level);
         Vector2 force = new Vector2(6f, 3f).scl(power).scl(directionWhenCast, 1);
         target.applyHitForce(force);
     }
@@ -68,6 +70,6 @@ public class CultSpellEffect extends SpellEffect {
     }
 
     private void applyMovement() {
-        body.setLinearVelocity(new Vector2( speed*GameInfo.PPM*owner.getLookingDir(),0));
+        body.setLinearVelocity(new Vector2( speed * owner.getLookingDir(),0));
     }
 }

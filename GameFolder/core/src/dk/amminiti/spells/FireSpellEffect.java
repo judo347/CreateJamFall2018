@@ -20,7 +20,7 @@ public class FireSpellEffect extends SpellEffect {
 
     public FireSpellEffect(Player player) {
         super(createFixtureDef(), getTexture(player), 1f, 3, 0.08f, lifeTime, player, EnergyDrink.EnergyDrinkType.FIRE);
-        power = owner.getSpellLevel()*basePower;
+        power = owner.getSpellLevel() * basePower;
 
         applyMovement();
     }
@@ -47,7 +47,7 @@ public class FireSpellEffect extends SpellEffect {
     }
 
     public void applyForce(Player target){
-        target.getBody().applyForceToCenter(calculateForce(),true);
+        target.applyHitForce(calculateForce());
     }
 
 

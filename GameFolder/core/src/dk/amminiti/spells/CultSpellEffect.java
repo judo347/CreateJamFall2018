@@ -41,7 +41,7 @@ public class CultSpellEffect extends SpellEffect {
         return (this.getBody().getLinearVelocity().scl(power));
     }
     public void applyForce(Player target){
-        target.getBody().applyForceToCenter(calculateForce(),true);
+        target.applyHitForce(new Vector2(7, 2));
     }
 
 

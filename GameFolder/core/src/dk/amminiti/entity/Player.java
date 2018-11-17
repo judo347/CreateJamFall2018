@@ -29,6 +29,7 @@ public class Player extends TextureObject {
     private static final float WALK_SPEED = 6f;
     private static final float AIR_WALK_FORCE = 2f;
     private static final float AIR_DRAG = 2f;
+    private static final float MOVEMENT_PARALYSIS_DECAY = 0.4f;
 
     private Body feet;
     private PlayerInputProcessor inputs;
@@ -49,6 +50,7 @@ public class Player extends TextureObject {
     private Spell spell;
     private int spellLevel = 0;
     private CultSpell cultSpell;
+    private float movementParalysis = 0;
 
     public Player(GameMap map, Vector2 pos, PlayerInputProcessor inputs) {
         super(map.getWorld(), pos, createPlayerBodyDef(), createPlayerFixtureDef(), null);
@@ -113,18 +115,28 @@ public class Player extends TextureObject {
         // Movement
         int dir = inputs.isRightPressed() ? 1 : inputs.isLeftPressed() ? -1 : 0;
         lookingDir = dir == 0 ? lookingDir : dir;
+        float control = 1 - movementParalysis*movementParalysis;
+        movementParalysis = movementParalysis <= 0 ? 0 : movementParalysis - MOVEMENT_PARALYSIS_DECAY * dt;
         if (!isMidAir) {
             // Grounded
-            vel.x = WALK_SPEED * dir;
+            vel.x = WALK_SPEED * dir * control;
 
         } else {
             // Mid air
             if (dir != 0) {
-                vel.add(AIR_WALK_FORCE * dir, 0);
+                float walkForce = 0;
+                float vd = vel.x > 0 ? 1 : -1;
+                if (dir == vd) {
+                    walkForce = Math.min(AIR_WALK_FORCE, MAX_X_VEL - Math.abs(vel.x));
+                } else {
+                    walkForce = AIR_WALK_FORCE;
+                }
+
+                vel.add(walkForce * dir * control, 0);
             } else if (vel.x != 0) {
                 // Air drag
-                int sgn = vel.x > 0 ? 1 : -1;
-                vel.x = Math.max(Math.abs(vel.x) - AIR_DRAG, 0);
+                float sgn = vel.x > 0 ? 1f : -1f;
+                vel.x = sgn * Math.max(Math.abs(vel.x) - AIR_DRAG * control, 0);
             }
 
 
@@ -140,7 +152,7 @@ public class Player extends TextureObject {
             }
         }
         // Restrict vel x
-        vel.x = Math.min(Math.max(-MAX_X_VEL, vel.x), MAX_X_VEL);
+        // vel.x = Math.min(Math.max(-MAX_X_VEL, vel.x), MAX_X_VEL);
 
         // Apply new vel
         body.setLinearVelocity(vel);
@@ -150,6 +162,13 @@ public class Player extends TextureObject {
         feet.setLinearVelocity(vel);
 
         texture = walkAnimationController.getTexture(dir, isMidAir, dt);
+    }
+
+    public void applyHitForce(Vector2 force) {
+        movementParalysis = 1;
+        Vector2 vel = body.getLinearVelocity();
+        vel.add(force);
+        body.setLinearVelocity(vel);
     }
 
     public void feetCollision(){

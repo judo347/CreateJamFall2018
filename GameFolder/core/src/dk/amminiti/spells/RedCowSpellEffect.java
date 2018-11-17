@@ -21,7 +21,6 @@ public class RedCowSpellEffect extends SpellEffect {
      */
     public RedCowSpellEffect(Player player) {
         super(createFixtureDef(), texture, 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.REDCOW);
-        power = owner.getSpellLevel()*basePower;
 
         applyMovement();
     }
@@ -44,11 +43,12 @@ public class RedCowSpellEffect extends SpellEffect {
     }
 
     public Vector2 calculateForce() {
-        return (this.getBody().getLinearVelocity().scl(power));
+        float power = 1f + (0.2f * level);
+        return new Vector2(7, 2).scl(power).scl(directionWhenCast, 1);
     }
 
     public void applyForce(Player target){
-        target.getBody().applyForceToCenter(calculateForce(),true);
+        target.applyHitForce(calculateForce());
     }
 
     private void applyMovement() {

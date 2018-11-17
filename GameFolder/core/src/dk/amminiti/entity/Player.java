@@ -29,7 +29,7 @@ public class Player extends TextureObject {
     private static final float WALK_SPEED = 6f;
     private static final float AIR_WALK_FORCE = 2f;
     private static final float AIR_DRAG = 2f;
-    private static final float MOVEMENT_PARALYSIS_DECAY = 0.4f;
+    private static final float MOVEMENT_PARALYSIS_DECAY = 0.35f;
 
     private Body feet;
     private PlayerInputProcessor inputs;

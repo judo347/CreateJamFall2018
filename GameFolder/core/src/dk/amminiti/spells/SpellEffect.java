@@ -19,15 +19,16 @@ public abstract class SpellEffect extends AnimatedObject {
     protected float lifeTime;
     protected Player owner;
     protected EnergyDrink.EnergyDrinkType type;
-    protected float basePower = 100;
-    protected float power;
+    protected int directionWhenCast;
+    protected int level;
 
     public SpellEffect(FixtureDef fixtureDef, Texture texture, float offsetFromHead, int numberOfFrames, float animationSpeed, float lifeTime, Player owner, EnergyDrink.EnergyDrinkType type) {
         super(owner.getBody().getWorld(), getSpellPosRelativToHead(owner, offsetFromHead), createBodyDef(), fixtureDef, texture, numberOfFrames, animationSpeed);
-        //super(owner.getBody().getWorld(), owner.getHeadPos(), createBodyDef(), fixtureDef, texture, numberOfFrames, animationSpeed);
         this.lifeTime = lifeTime;
         this.owner = owner;
         this.type = type;
+        this.level = owner.getSpellLevel();
+        this.directionWhenCast = owner.getLookingDir();
     }
 
     private static Vector2 getSpellPosRelativToHead(Player player, float offset){

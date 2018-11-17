@@ -66,10 +66,10 @@ public class GameMap {
     }
 
     private void initializeEnergyDrink(){
-        wonster = new EnergyDrink(this.world, new Vector2(1,3), EnergyDrink.energyDrinkType.Wonster);
-        fire = new EnergyDrink(this.world, new Vector2(-1,4), EnergyDrink.energyDrinkType.Fire);
-        fooster = new EnergyDrink(this.world, new Vector2(2,5), EnergyDrink.energyDrinkType.Fooster);
-        redcow = new EnergyDrink(this.world, new Vector2(-2,6), EnergyDrink.energyDrinkType.Redcow);
+        wonster = new EnergyDrink(this.world, new Vector2(1,3), EnergyDrink.EnergyDrinkType.WONSTER);
+        fire = new EnergyDrink(this.world, new Vector2(-1,4), EnergyDrink.EnergyDrinkType.FIRE);
+        fooster = new EnergyDrink(this.world, new Vector2(2,5), EnergyDrink.EnergyDrinkType.FOOSTER);
+        redcow = new EnergyDrink(this.world, new Vector2(-2,6), EnergyDrink.EnergyDrinkType.REDCOW);
 
         gameObjects.addAll(Arrays.asList(wonster, fire, fooster, redcow));
     }

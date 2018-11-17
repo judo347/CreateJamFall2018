@@ -1,10 +1,12 @@
 package dk.amminiti.spells;
 
 import com.badlogic.gdx.graphics.Texture;
+import dk.amminiti.entity.EnergyDrink;
 import dk.amminiti.entity.Player;
 
 public class RedCowSpell implements Spell {
 
+    private EnergyDrink.EnergyDrinkType type = EnergyDrink.EnergyDrinkType.REDCOW;
     private Texture baby = new Texture("baby.png");
 
     private final float cooldownTotal = 5;
@@ -49,5 +51,10 @@ public class RedCowSpell implements Spell {
     @Override
     public Texture getBabyTexture() {
         return baby;
+    }
+
+    @Override
+    public EnergyDrink.EnergyDrinkType getType() {
+        return type;
     }
 }

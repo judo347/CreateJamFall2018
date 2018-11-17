@@ -4,10 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import dk.amminiti.helpers.GameInfo;
+import dk.amminiti.spells.CultSpell;
+import dk.amminiti.spells.FireSpell;
+import dk.amminiti.spells.RedCowSpell;
+import dk.amminiti.spells.Spell;
 
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 
@@ -18,27 +19,41 @@ public class EnergyDrink extends TextureObject {
     static Texture redcowTexture = new Texture("energydrinks/redcow.png");
     static Texture fireTexture = new Texture("energydrinks/fire.png");
 
-    public enum energyDrinkType{
-        Wonster,
-        Fooster,
-        Redcow,
-        Fire;
+    public enum EnergyDrinkType {
+        WONSTER,
+        CULT,
+        FOOSTER,
+        REDCOW,
+        FIRE;
+
+        public static Spell getSpellFromType(EnergyDrinkType type){
+            switch (type){
+                case CULT: return new CultSpell();
+                case FIRE: return new FireSpell();
+                case FOOSTER: return null;
+                case REDCOW: return new RedCowSpell();
+                case WONSTER: return null;
+            }
+
+            System.out.println("SHOULD NOT GET HERE! EnergyDrink.EnergyDrinkType.getSpellFromType!");
+            return null;
+        }
     }
 
-    private energyDrinkType type;
+    private EnergyDrinkType type;
 
     /**
      * An GameObject that always have a textre drawn at the body's position.
      * @param world
      * @param pos
      */
-    public EnergyDrink(World world, Vector2 pos,energyDrinkType type ) {
+    public EnergyDrink(World world, Vector2 pos, EnergyDrinkType type ) {
         super(world,pos,createBodyDef(),createSensorFixtureDef(fireTexture),new TextureRegion(fireTexture));
         this.texture = getTexture(type);
         this.type = type;
     }
 
-    public energyDrinkType getType(){
+    public EnergyDrinkType getType(){
         return this.type;
     }
 
@@ -50,15 +65,15 @@ public class EnergyDrink extends TextureObject {
         return bodyDef;
     }
 
-    TextureRegion getTexture(energyDrinkType type){
+    TextureRegion getTexture(EnergyDrinkType type){
         switch (type){
-            case Fire:
+            case FIRE:
                 return new TextureRegion(fireTexture);
-            case Redcow:
+            case REDCOW:
                 return new TextureRegion(redcowTexture);
-            case Fooster:
+            case FOOSTER:
                 return new TextureRegion(foosterTexture);
-            case Wonster:
+            case WONSTER:
                 return new TextureRegion(wonsterTexture);
         }
         return null;

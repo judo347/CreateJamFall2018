@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import dk.amminiti.ContactManager;
 import dk.amminiti.PlayerInputProcessor;
-import dk.amminiti.helpers.GameInfo;
+import dk.amminiti.spells.Spell;
 
 public class Player extends TextureObject {
 
@@ -35,9 +35,14 @@ public class Player extends TextureObject {
 
     private boolean isFacingRight;
 
+    // SPELL SECTION -------------
+    private Spell spell;
+    private int spellLevel = 0;
+
     public Player(World world, Vector2 pos, PlayerInputProcessor inputs) {
         super(world, pos, createPlayerBodyDef(), createTextureFixtureDef(playerTexture), new TextureRegion(playerTexture));
         this.inputs = inputs;
+        this.spell = null;
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(FEET_WIDTH / 2f, FEET_HEIGHT / 2f);
@@ -118,8 +123,26 @@ public class Player extends TextureObject {
         return body.getPosition();
     }
 
-    public void CollectEnergyDrink(EnergyDrink.energyDrinkType type){
-        System.out.println("Collected " + type.toString());
+    public void CollectEnergyDrink(EnergyDrink.EnergyDrinkType pickedUpType){
+        System.out.println("Collected " + pickedUpType.toString());
+
+        Spell pickedUpSpell = EnergyDrink.EnergyDrinkType.getSpellFromType(pickedUpType);
+
+        //Is the pickedUp the same type as the one we already have?
+        if(this.spell != null && this.spell.getType() == pickedUpType){
+
+            this.spellLevel++;
+
+        }else{
+
+            //New spell is picked up!
+            this.spell = pickedUpSpell;
+            this.spellLevel = 1;
+
+        }
+
+        System.out.println("Spell Level: " + spellLevel);
+
     }
 
     /** The BodyDef used for something like players */

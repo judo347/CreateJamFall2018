@@ -103,7 +103,7 @@ public class Player extends TextureObject {
         if (!isMidAir) hasJumped = false;
         if (!hasJumped && (inputs.isUpPressed())) {
             feetCollisions = 0;
-            if (spell.getType() == EnergyDrink.EnergyDrinkType.REDCOW){
+            if (spell!=null && spell.getType() == EnergyDrink.EnergyDrinkType.REDCOW){
                 vel.y = isMidAir ? JUMP_FORCE_IN_AIR*1.8f : JUMP_FORCE*1.8f;
             }else vel.y = isMidAir ? JUMP_FORCE_IN_AIR : JUMP_FORCE;
             isMidAir = true;

@@ -73,8 +73,14 @@ public class ContactManager implements ContactListener {
                 spellPlayerCollision((Player) fa.getBody().getUserData(),(SpellEffect) fb.getBody().getUserData());
             }
 
-
-
+            //FireSpell collision with platform
+            if ((fa.getBody().getUserData() instanceof FireSpellEffect && fb.getBody().getUserData() instanceof Platform)){
+                gameMap.addToDestroyQueue((FireSpellEffect)fa.getBody().getUserData());
+            }
+            //FireSpell collision with platform
+            if ((fb.getBody().getUserData() instanceof FireSpellEffect && fa.getBody().getUserData() instanceof Platform)){
+                gameMap.addToDestroyQueue((FireSpellEffect)fb.getBody().getUserData());
+            }
         }
 
     private void spellPlayerCollision(Player player, SpellEffect spell) {

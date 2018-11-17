@@ -57,7 +57,7 @@ public class Player extends TextureObject {
         this.spell = null;
         this.cultSpell = new CultSpell();
 
-        this.CollectEnergyDrink(EnergyDrink.EnergyDrinkType.REDCOW); //TODO TEMP
+        //this.CollectEnergyDrink(EnergyDrink.EnergyDrinkType.FOOSTER); //TODO TEMP
 
         createFeet();
         body.setLinearDamping(0);
@@ -187,7 +187,7 @@ public class Player extends TextureObject {
 
     public Vector2 getHeadPos(){
         //return new Vector2(getBodyPos().x, getBodyPos().y);
-        return new Vector2(getBodyPos().x + (0.4f*lookingDir),getBodyPos().y);
+        return new Vector2(getBodyPos().x + (0.4f * lookingDir), getBodyPos().y);
     }
 
     public int getLookingDir(){

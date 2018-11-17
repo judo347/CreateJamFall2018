@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import dk.amminiti.entity.EnergyDrink;
+import dk.amminiti.entity.Platform;
 import dk.amminiti.entity.Player;
 import dk.amminiti.helpers.GameInfo;
 
@@ -15,15 +16,17 @@ public class FoosterSpellEffect extends SpellEffect {
     static float lifeTime = 5f;
     static float speed = 2000;
     static float power;
+    private Player owner;
 
     /**
      * An GameObject that always have a textre drawn at the body's position.
      *
      */
     public FoosterSpellEffect(Player player) {
-        super(createFixtureDef(), texture, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.FOOSTER);
+        super(createFixtureDef(), texture, 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.FOOSTER);
         this.basePower = 4000;
         this.power = player.getSpellLevel()*basePower;
+        this.owner = player;
         applyMovement();
     }
 
@@ -47,11 +50,13 @@ public class FoosterSpellEffect extends SpellEffect {
     public Vector2 calculateForce() {
         return (this.getBody().getLinearVelocity().scl(power));
     }
+
     public void applyForce(Player target){
         target.getBody().applyForceToCenter(calculateForce(),true);
     }
 
     private void applyMovement() {
-        body.setLinearVelocity(new Vector2(speed*GameInfo.PPM*owner.getLookingDir(),0));
+        owner.getBody().applyForce(new Vector2(power*GameInfo.PPM*owner.getLookingDir(), 500), owner.getBodyPos(), true);
+        //owner.getBody().setLinearVelocity(new Vector2(speed*GameInfo.PPM*owner.getLookingDir(),2000));
     }
 }

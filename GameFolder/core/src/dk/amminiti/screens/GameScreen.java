@@ -41,7 +41,7 @@ public class GameScreen implements Screen {
         img = new Texture("badlogic.jpg");
 
         //Position of the camera
-        this.camera = new OrthographicTargetedCamera(GameInfo.SCREEN_WIDTH, GameInfo.SCREEN_HEIGHT);
+        this.camera = new OrthographicTargetedCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.camera.update();
         this.debugRenderer = new Box2DDebugRenderer();
 
@@ -80,7 +80,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        camera.viewportHeight = height;
+        camera.viewportWidth = width;
+        camera.update();
     }
 
     @Override

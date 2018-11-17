@@ -21,7 +21,7 @@ public class FoosterSpellEffect extends SpellEffect {
      *
      */
     public FoosterSpellEffect(Player player) {
-        super(createFixtureDef(), texture, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.FOOSTER);
+        super(createFixtureDef(), texture, 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.FOOSTER);
         this.basePower = 4000;
         this.power = player.getSpellLevel()*basePower;
         applyMovement();

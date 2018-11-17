@@ -21,7 +21,7 @@ public class FireSpellEffect extends SpellEffect {
      *
      */
     public FireSpellEffect(Player player) {
-        super(createFixtureDef(), texture, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.FIRE);
+        super(createFixtureDef(), texture, 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.FIRE);
         power = owner.getSpellLevel()*basePower;
 
         applyMovement();

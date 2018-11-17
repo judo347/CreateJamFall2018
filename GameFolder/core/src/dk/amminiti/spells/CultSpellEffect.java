@@ -18,7 +18,7 @@ public class CultSpellEffect extends SpellEffect {
     static float speed = 0;
 
     public CultSpellEffect(Player player) {
-        super(createFixtureDef(player), getTexture(player), 1, 1, lifeTime, player, EnergyDrink.EnergyDrinkType.CULT);
+        super(createFixtureDef(player), getTexture(player), 1.2f, 1, 1, lifeTime, player, EnergyDrink.EnergyDrinkType.CULT);
 
         power = owner.getSpellLevel()*basePower;
         applyMovement();
@@ -49,10 +49,10 @@ public class CultSpellEffect extends SpellEffect {
     private static Shape getRightDirectionShape(){
         PolygonShape shape = new PolygonShape();
         shape.set(new Vector2[]{
-                new Vector2(40 * GameInfo.PPM, 60 * GameInfo.PPM), //Up right
-                new Vector2(40 * GameInfo.PPM, 0), //down right
-                new Vector2(0, 10 * GameInfo.PPM), //down left
-                new Vector2(0, 50 * GameInfo.PPM), //up left
+                new Vector2(0.5f, .7f), //Up right
+                new Vector2(0.5f, -.7f), //down right
+                new Vector2(-.5f, -0.5f), //down left
+                new Vector2(-.5f, 0.5f), //up left
         });
 
         return shape;
@@ -61,10 +61,10 @@ public class CultSpellEffect extends SpellEffect {
     private static Shape getLeftDirectionShape(){
         PolygonShape shape = new PolygonShape();
         shape.set(new Vector2[]{
-                new Vector2(-40 * GameInfo.PPM, 60 * GameInfo.PPM), //Up right
-                new Vector2(-40 * GameInfo.PPM, 0), //down right
-                new Vector2(0, 10 * GameInfo.PPM), //down left
-                new Vector2(0, 50 * GameInfo.PPM), //up left
+                new Vector2(-0.5f, .7f), //Up right
+                new Vector2(-0.5f, -.7f), //down right
+                new Vector2(.5f, -0.5f), //down left
+                new Vector2(.5f, 0.5f), //up left
         });
 
         return shape;

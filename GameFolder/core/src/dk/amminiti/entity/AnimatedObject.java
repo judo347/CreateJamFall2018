@@ -18,7 +18,6 @@ public class AnimatedObject extends RenderObject {
     private final int NUMBER_OF_FRAMES;
     private final float ANIMATION_SPEED;
 
-    private boolean isAnimationDirectionForward;
     private int currentFrame;
     private float stateTime;
 
@@ -32,7 +31,6 @@ public class AnimatedObject extends RenderObject {
         this.NUMBER_OF_FRAMES = numberOfFrames;
         this.ANIMATION_SPEED = animationSpeed;
 
-        this.isAnimationDirectionForward = true;
         this.texture = texture;
         this.currentFrame = 0;
         this.stateTime = 0f;

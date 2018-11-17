@@ -176,7 +176,7 @@ public class Player extends TextureObject {
 
     public Vector2 getHeadPos(){
         //return new Vector2(getBodyPos().x, getBodyPos().y);
-        return new Vector2(getBodyPos().x + (0.4f*lookingDir),getBodyPos().y);
+        return new Vector2(getBodyPos().x + (0.4f * lookingDir), getBodyPos().y);
     }
 
     public int getLookingDir(){

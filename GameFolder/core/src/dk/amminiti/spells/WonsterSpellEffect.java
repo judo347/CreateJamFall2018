@@ -18,7 +18,7 @@ public class WonsterSpellEffect extends SpellEffect {
 
 
     public WonsterSpellEffect(Player player) {
-        super(createFixtureDef(), texture, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.WONSTER);
+        super(createFixtureDef(), texture, 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.WONSTER);
 
         this.body.applyForce(new Vector2(player.getLookingDir()*speed* GameInfo.PPM,0),body.getPosition(),true);
         power = owner.getSpellLevel()*basePower;

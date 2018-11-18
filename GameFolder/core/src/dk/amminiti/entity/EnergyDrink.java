@@ -1,11 +1,13 @@
 package dk.amminiti.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import dk.amminiti.spells.*;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.world.GameMap;
@@ -18,7 +20,7 @@ public class EnergyDrink extends TextureObject {
     static Texture foosterTexture = new Texture("energydrinks/fooster.png");
     static Texture redcowTexture = new Texture("energydrinks/redcow.png");
     static Texture fireTexture = new Texture("energydrinks/fire.png");
-    static Texture cultTexture = new Texture("energydrinks/fire.png");
+    static Texture cultTexture = new Texture("energydrinks/cult.png");
 
     public enum EnergyDrinkType {
         CULT,
@@ -37,6 +39,18 @@ public class EnergyDrink extends TextureObject {
             }
 
             System.out.println("SHOULD NOT GET HERE! EnergyDrink.EnergyDrinkType.getSpellFromType!");
+            return null;
+        }
+
+        public static Image getImageFromType(EnergyDrinkType type){
+            switch (type){
+                case CULT: return new Image(new TextureRegion(new Texture(Gdx.files.internal("energydrinks/cultGrey.png"))));
+                case FIRE: return new Image(new TextureRegion(new Texture(Gdx.files.internal("energydrinks/fireGrey.png"))));
+                case REDCOW: return new Image(new TextureRegion(new Texture(Gdx.files.internal("energydrinks/redcowGrey.png"))));
+                case FOOSTER: return new Image(new TextureRegion(new Texture(Gdx.files.internal("energydrinks/foosterGrey.png"))));
+                case WONSTER: return new Image(new TextureRegion(new Texture(Gdx.files.internal("energydrinks/wonsterGrey.png"))));
+            }
+
             return null;
         }
     }

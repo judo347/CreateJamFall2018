@@ -18,6 +18,8 @@ public class UiManager {
     private GameScreen screen;
     private Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
+    enum SecOrPriCall{ SECOND, PRIMARY;}
+
     private class PlayerData{
 
         private Image primaryAbility = new Image(new TextureRegion(new Texture("energydrinks/cult.png")));
@@ -37,32 +39,32 @@ public class UiManager {
             this.skin = skin;
             primaryLevel = new Label("1", skin);
             secondaryLevel = new Label("0", skin);
-            initialize(secondaryAbility, secondaryLevel, 0, 0f, 0f);
+            initialize(secondaryAbility, secondaryLevel, 0, 0f, EnergyDrink.EnergyDrinkType.FIRE, 0f);
         }
 
-        private void initialize(Image secondaryImage, Label secondaryLabel, int currentMana, float primaryCooldown, float secondaryCooldown){
+        private void initialize(Image secondaryImage, Label secondaryLabel, int currentMana, float primaryCooldown, EnergyDrink.EnergyDrinkType primaryType, float secondaryCooldown){
             contentTable.clearChildren();
 
             contentTable.add(new Label(playerName, skin)).row();
-            contentTable.add(getAbilitiesPanel(secondaryImage, secondaryLabel, currentMana, primaryCooldown, secondaryCooldown));
+            contentTable.add(getAbilitiesPanel(secondaryImage, secondaryLabel, currentMana, primaryCooldown, primaryType, secondaryCooldown));
 
         }
 
-        private Table getAbilitiesPanel(Image secondaryImage, Label secondaryLabel, int currentMana, float primaryCooldown, float secondaryCooldown){
+        private Table getAbilitiesPanel(Image secondaryImage, Label secondaryLabel, int currentMana, float primaryCooldown, EnergyDrink.EnergyDrinkType primaryType, float secondaryCooldown){
 
             Table table = new Table();
 
-            table.add(getAbilityCell(primaryAbility, primaryLevel, currentMana, primaryCooldown));
-            table.add(getAbilityCell(secondaryImage, secondaryLabel, currentMana, secondaryCooldown));
+            table.add(getAbilityCell(SecOrPriCall.PRIMARY, (primaryCooldown > 0) ? EnergyDrink.EnergyDrinkType.getImageFromType(EnergyDrink.EnergyDrinkType.CULT) : primaryAbility, primaryLevel, currentMana, primaryCooldown));
+            table.add(getAbilityCell(SecOrPriCall.SECOND, (secondaryCooldown > 0) ? EnergyDrink.EnergyDrinkType.getImageFromType(primaryType) : secondaryImage, secondaryLabel, currentMana, secondaryCooldown));
 
             return table;
         }
 
-        private Table getAbilityCell(Image image, Label levelLabel, int currentMana, float cooldown){
+        private Table getAbilityCell(SecOrPriCall secOrPriCall, Image image, Label levelLabel, int currentMana, float cooldown){
 
             Table table = new Table();
 
-            if(image != primaryAbility){
+            if(secOrPriCall == SecOrPriCall.SECOND){
                 secondaryProcessBar = new ProgressBar(0, 100, 25, false, skin);
                 secondaryProcessBar.setValue(currentMana);
 
@@ -71,16 +73,9 @@ public class UiManager {
                 table.add(new Label("", skin)).row();
             }
 
-
-
             table.add(image).row();
             table.pad(10);
             table.add(levelLabel);
-
-            float cooldownLeft = (cooldown > 0) ? cooldown : 0f;
-            String cooldownLeftString = String.format("%.2f", cooldownLeft);
-
-            table.add(new Label(cooldownLeftString, skin));
 
             return table;
         }
@@ -91,9 +86,9 @@ public class UiManager {
 
         protected void update(Player player){
             if(player.getSpell() != null){
-                initialize(new Image(EnergyDrink.getTexture(player.getSpell().getType())), new Label(String.valueOf(player.getSpellLevel()), skin), (int)player.getMana(), player.getCultSpell().getCooldownLeft(), player.getSpell().getCooldownLeft());
+                initialize(new Image(EnergyDrink.getTexture(player.getSpell().getType())), new Label(String.valueOf(player.getSpellLevel()), skin), (int)player.getMana(), player.getCultSpell().getCooldownLeft(), player.getSpell().getType(), player.getSpell().getCooldownLeft());
             }else
-                initialize(secondaryAbility, secondaryLevel, 0, player.getCultSpell().getCooldownLeft(), 0);
+                initialize(secondaryAbility, secondaryLevel, 0, player.getCultSpell().getCooldownLeft(), EnergyDrink.EnergyDrinkType.CULT, 0);
         }
     }
 

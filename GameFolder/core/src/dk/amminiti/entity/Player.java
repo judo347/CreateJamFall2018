@@ -139,8 +139,15 @@ public class Player extends TextureObject {
         if (!isMidAir) {
             // Grounded
             if(!isCrawlSoundPlaying){
-                isCrawlSoundPlaying = true;
-                crawlingSound.loop(0.3f);
+                if(this.body.getLinearVelocity().len() > 0.1f){
+                    isCrawlSoundPlaying = true;
+                    crawlingSound.loop(0.3f);
+                }
+            }else{
+                if(this.body.getLinearVelocity().len() < 0.1f){
+                    isCrawlSoundPlaying = false;
+                    crawlingSound.stop();
+                }
             }
 
             vel.x = WALK_SPEED * dir * control;

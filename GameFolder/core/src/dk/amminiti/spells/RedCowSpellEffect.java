@@ -28,8 +28,9 @@ public class RedCowSpellEffect extends SpellEffect {
      *
      */
     public RedCowSpellEffect(Player player) {
-        super(createFixtureDef(player), getTexture(player), 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.REDCOW);
+        super(createFixtureDef(player), getTexture(player), 1f, 3, 0.2f, lifeTime, player, EnergyDrink.EnergyDrinkType.REDCOW);
         applyMovement();
+        loop = true;
         wingFlabSound.play();
     }
 

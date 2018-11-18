@@ -71,6 +71,8 @@ public class Player extends TextureObject {
         this.cultSpell = new CultSpell();
 
         initiateSounds();
+
+        //this.CollectEnergyDrink(EnergyDrink.EnergyDrinkType.REDCOW);
         
         createFeet();
         body.setLinearDamping(0);

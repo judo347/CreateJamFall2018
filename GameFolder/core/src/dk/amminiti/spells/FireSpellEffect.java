@@ -1,5 +1,7 @@
 package dk.amminiti.spells;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
@@ -7,20 +9,23 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import dk.amminiti.entity.EnergyDrink;
+
 import dk.amminiti.entity.Player;
 import dk.amminiti.helpers.GameInfo;
-
 
 public class FireSpellEffect extends SpellEffect {
 
     static Texture textureLeft = new Texture("fireEffectLeft.png");
     static Texture textureRight = new Texture("fireEffectRight.png");
+
+    private static Sound fireSound = Gdx.audio.newSound(Gdx.files.internal("sound/spellSounds/fire.wav"));
     static float lifeTime = 6f;
 
     public FireSpellEffect(Player player) {
-        super(createFixtureDef(), getTexture(player), 1f, 3, 0.08f, lifeTime, player, EnergyDrink.EnergyDrinkType.FIRE);
-
+        super(createFixtureDef(), getTexture(player), 1f, 3, 0.1f, lifeTime, player, EnergyDrink.EnergyDrinkType.FIRE);
         applyMovement();
+        loop = true;
+        fireSound.play();
     }
 
     private static Texture getTexture(Player player){

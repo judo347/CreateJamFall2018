@@ -52,6 +52,7 @@ public class FoosterSpell implements Spell {
         if (!isOnCooldown()) {
             player.useMana(manacost);
             player.getMap().addToWorldQueue(new FoosterSpellEffect(player));
+            player.getMap().addToWorldQueue(new FoosterMovementEffect(player));
             cooldownLeft = cooldownTotal;
         }
     }

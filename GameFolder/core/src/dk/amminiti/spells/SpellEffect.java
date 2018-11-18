@@ -31,6 +31,12 @@ public abstract class SpellEffect extends AnimatedObject {
         this.directionWhenCast = owner.getLookingDir();
     }
 
+
+
+
+
+
+
     private static Vector2 getSpellPosRelativToHead(Player player, float offset){
 
         float x, y;

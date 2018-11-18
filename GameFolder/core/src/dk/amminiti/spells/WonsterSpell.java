@@ -1,5 +1,7 @@
 package dk.amminiti.spells;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import dk.amminiti.PlayerWalkAnimation;
 import dk.amminiti.entity.EnergyDrink;
@@ -10,6 +12,7 @@ public class WonsterSpell implements Spell {
     private EnergyDrink.EnergyDrinkType type = EnergyDrink.EnergyDrinkType.WONSTER;
 
     private PlayerWalkAnimation babyAnimation = new PlayerWalkAnimation(new Texture("baby_crawl_wonster.png"));
+    private Sound slimeAttack = Gdx.audio.newSound(Gdx.files.internal("sound/spellSounds/slime_attack.wav"));
 
     private final float cooldownTotal = 2.4f;
     private float cooldownLeft = 0;
@@ -46,6 +49,7 @@ public class WonsterSpell implements Spell {
         if (!isOnCooldown()) {
             player.useMana(manacost);
             player.getMap().addToWorldQueue(new WonsterSpellEffect(player));
+            slimeAttack.play();
             cooldownLeft = cooldownTotal;
         }
 

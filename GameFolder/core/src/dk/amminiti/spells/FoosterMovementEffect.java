@@ -1,5 +1,7 @@
 package dk.amminiti.spells;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -25,10 +27,13 @@ public class FoosterMovementEffect extends SpellEffect {
     private static Texture  textRight = new Texture("fart_from_right.png");
     private float lifetime = 0.3f;
     private Texture text;
+    private Sound fart = Gdx.audio.newSound(Gdx.files.internal("sound/spellSounds/fart_dash.wav"));
+
     //(FixtureDef fixtureDef, Texture texture, float offsetFromHead, int numberOfFrames, float animationSpeed, float lifeTime, Player owner, EnergyDrink.EnergyDrinkType type)
 
     public FoosterMovementEffect(Player player) {
         super(createSensorFixtureDef(), getTexture(player), 0.3f,3, 0.1f, 0.3f, player, null);
+        fart.play();
     }
 
     private static Texture getTexture(Player player){

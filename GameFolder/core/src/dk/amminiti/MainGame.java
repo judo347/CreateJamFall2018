@@ -1,8 +1,6 @@
 package dk.amminiti;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import dk.amminiti.screens.GameScreen;
 
 public class MainGame extends Game {

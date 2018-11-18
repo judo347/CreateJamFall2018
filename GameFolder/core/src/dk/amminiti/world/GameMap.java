@@ -1,5 +1,7 @@
 package dk.amminiti.world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -47,6 +49,8 @@ public class GameMap {
     private Player p1, p2;
     private DrinkSpawner drinkSpawner;
 
+    private final Music music =  Gdx.audio.newMusic(Gdx.files.internal("sound/music.wav"));
+
     public GameMap(GameScreen screen, InputController inputs) {
         this.screen = screen;
         this.world = screen.getWorld();
@@ -60,6 +64,8 @@ public class GameMap {
         this.mapBox = new MapBox(world);
         this.itemsToBeAdded = new ArrayList<TextureObject>();
 
+        this.music.setVolume(0.2f);
+        this.music.play();
 
         initializePlatforms();
         initializePlayers();

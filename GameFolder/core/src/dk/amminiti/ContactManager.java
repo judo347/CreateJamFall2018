@@ -101,7 +101,7 @@ public class ContactManager implements ContactListener {
         if (effect instanceof RedCowSpellEffect){
             effect.applyForce(player);
         }
-        else{
+        else if (!(effect instanceof FoosterMovementEffect)){
             effect.applyForce(player);
             player.getMap().addToDestroyQueue(effect);
         }

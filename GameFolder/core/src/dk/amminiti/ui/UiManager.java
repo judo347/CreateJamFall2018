@@ -135,7 +135,6 @@ public class UiManager {
         this.playerTwoUi = new PlayerData("Player 2", skin);
 
         Table content = new Table();
-        //content.setDebug(true);
         content.setFillParent(true);
 
         Table left = new Table();

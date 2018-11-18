@@ -27,7 +27,6 @@ public class FoosterSpellEffect extends SpellEffect {
 
     @Override
     public void render(SpriteBatch batch, float delta) {
-        System.out.println(lifeTime);
         lifeTime-=delta;
         if (lifeTime <= 0) {
             owner.getMap().addToDestroyQueue(this);

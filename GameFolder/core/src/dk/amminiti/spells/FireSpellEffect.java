@@ -9,9 +9,9 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import dk.amminiti.entity.EnergyDrink;
+
 import dk.amminiti.entity.Player;
 import dk.amminiti.helpers.GameInfo;
-
 
 public class FireSpellEffect extends SpellEffect {
 
@@ -19,13 +19,12 @@ public class FireSpellEffect extends SpellEffect {
     static Texture textureRight = new Texture("fireEffectRight.png");
 
     private static Sound fireSound = Gdx.audio.newSound(Gdx.files.internal("sound/spellSounds/fire.wav"));
-
-
     static float lifeTime = 6f;
 
     public FireSpellEffect(Player player) {
-        super(createFixtureDef(), getTexture(player), 1f, 3, 0.08f, lifeTime, player, EnergyDrink.EnergyDrinkType.FIRE);
+        super(createFixtureDef(), getTexture(player), 1f, 3, 0.1f, lifeTime, player, EnergyDrink.EnergyDrinkType.FIRE);
         applyMovement();
+        loop = true;
         fireSound.play();
     }
 

@@ -2,7 +2,6 @@ package dk.amminiti;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
 import dk.amminiti.entity.*;
 import dk.amminiti.spells.*;
 import dk.amminiti.world.GameMap;

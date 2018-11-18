@@ -20,6 +20,7 @@ public class AnimatedObject extends RenderObject {
     private final int FRAME_WIDTH;
     private final int FRAME_HEIGHT;
 
+    protected boolean loop = false;
     private int currentFrame;
     private float stateTime;
 
@@ -72,7 +73,9 @@ public class AnimatedObject extends RenderObject {
         if (stateTime >= TIME_PER_FRAME) { //Has enough time passed to switch frame?
 
             if (currentFrame + 1 == NUMBER_OF_FRAMES) { //Have we reached the end of animation?
-                // nothing
+                if (loop){
+                    currentFrame=0;
+                }
             } else
                 currentFrame++;
 

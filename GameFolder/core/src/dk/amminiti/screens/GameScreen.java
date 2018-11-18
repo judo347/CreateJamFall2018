@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
 
         camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);
-     //   debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined);
 
         ui.render(camera, gameMap.getP1(), gameMap.getP2());
     }

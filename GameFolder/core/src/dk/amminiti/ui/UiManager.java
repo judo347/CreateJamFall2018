@@ -12,6 +12,8 @@ import dk.amminiti.entity.Player;
 import dk.amminiti.screens.GameScreen;
 import dk.amminiti.screens.OrthographicTargetedCamera;
 
+import java.util.ArrayList;
+
 public class UiManager {
 
     private Stage stage;
@@ -35,29 +37,37 @@ public class UiManager {
 
         public PlayerData(String playerName, Skin skin) {
             contentTable = new Table();
+            contentTable.setFillParent(true);
             this.playerName = playerName;
             this.skin = skin;
             primaryLevel = new Label("1", skin);
             secondaryLevel = new Label("0", skin);
-            initialize(secondaryAbility, secondaryLevel, 0, 0f, EnergyDrink.EnergyDrinkType.FIRE, 0f);
+            initialize(secondaryAbility, secondaryLevel, 0, 0f, EnergyDrink.EnergyDrinkType.FIRE, 0f, 0);
         }
 
-        private void initialize(Image secondaryImage, Label secondaryLabel, int currentMana, float primaryCooldown, EnergyDrink.EnergyDrinkType primaryType, float secondaryCooldown){
+        private void initialize(Image secondaryImage, Label secondaryLabel, int currentMana, float primaryCooldown, EnergyDrink.EnergyDrinkType primaryType, float secondaryCooldown, int deathCounter){
             contentTable.clearChildren();
 
-            contentTable.add(new Label(playerName, skin)).row();
-            contentTable.add(getAbilitiesPanel(secondaryImage, secondaryLabel, currentMana, primaryCooldown, primaryType, secondaryCooldown));
+            contentTable.add(new Label(playerName, skin));
+            contentTable.add(new Label("Deaths: " + deathCounter, skin)).row();
+
+            ArrayList<Table> tables = getAbilitiesPanel(secondaryImage, secondaryLabel, currentMana, primaryCooldown, primaryType, secondaryCooldown);
+
+            contentTable.add(tables.get(0));
+            contentTable.add(tables.get(1));
+
+            //contentTable.add(getAbilitiesPanel(secondaryImage, secondaryLabel, currentMana, primaryCooldown, primaryType, secondaryCooldown));
 
         }
 
-        private Table getAbilitiesPanel(Image secondaryImage, Label secondaryLabel, int currentMana, float primaryCooldown, EnergyDrink.EnergyDrinkType primaryType, float secondaryCooldown){
+        private ArrayList<Table> getAbilitiesPanel(Image secondaryImage, Label secondaryLabel, int currentMana, float primaryCooldown, EnergyDrink.EnergyDrinkType primaryType, float secondaryCooldown){
 
-            Table table = new Table();
+            ArrayList<Table> tables = new ArrayList<Table>();
 
-            table.add(getAbilityCell(SecOrPriCall.PRIMARY, (primaryCooldown > 0) ? EnergyDrink.EnergyDrinkType.getImageFromType(EnergyDrink.EnergyDrinkType.CULT) : primaryAbility, primaryLevel, currentMana, primaryCooldown));
-            table.add(getAbilityCell(SecOrPriCall.SECOND, (secondaryCooldown > 0) ? EnergyDrink.EnergyDrinkType.getImageFromType(primaryType) : secondaryImage, secondaryLabel, currentMana, secondaryCooldown));
+            tables.add(getAbilityCell(SecOrPriCall.PRIMARY, (primaryCooldown > 0) ? EnergyDrink.EnergyDrinkType.getImageFromType(EnergyDrink.EnergyDrinkType.CULT) : primaryAbility, primaryLevel, currentMana, primaryCooldown));
+            tables.add(getAbilityCell(SecOrPriCall.SECOND, (secondaryCooldown > 0) ? EnergyDrink.EnergyDrinkType.getImageFromType(primaryType) : secondaryImage, secondaryLabel, currentMana, secondaryCooldown));
 
-            return table;
+            return tables;
         }
 
         private Table getAbilityCell(SecOrPriCall secOrPriCall, Image image, Label levelLabel, int currentMana, float cooldown){
@@ -86,9 +96,9 @@ public class UiManager {
 
         protected void update(Player player){
             if(player.getSpell() != null){
-                initialize(new Image(EnergyDrink.getTexture(player.getSpell().getType())), new Label(String.valueOf(player.getSpellLevel()), skin), (int)player.getMana(), player.getCultSpell().getCooldownLeft(), player.getSpell().getType(), player.getSpell().getCooldownLeft());
+                initialize(new Image(EnergyDrink.getTexture(player.getSpell().getType())), new Label(String.valueOf(player.getSpellLevel()), skin), (int)player.getMana(), player.getCultSpell().getCooldownLeft(), player.getSpell().getType(), player.getSpell().getCooldownLeft(), 0);
             }else
-                initialize(secondaryAbility, secondaryLevel, 0, player.getCultSpell().getCooldownLeft(), EnergyDrink.EnergyDrinkType.CULT, 0);
+                initialize(secondaryAbility, secondaryLevel, 0, player.getCultSpell().getCooldownLeft(), EnergyDrink.EnergyDrinkType.CULT, 0, 0);
         }
     }
 
@@ -115,13 +125,28 @@ public class UiManager {
         this.playerOneUi = new PlayerData("Player 1", skin);
         this.playerTwoUi = new PlayerData("Player 2", skin);
 
-        Table table = new Table();
-        table.setFillParent(true);
-        table.bottom();
-        table.add(playerOneUi.getContentTable());
-        table.add(playerTwoUi.getContentTable());
+        Table content = new Table();
+        content.setDebug(true);
+        content.setFillParent(true);
 
-        stage.addActor(table);
+        Table left = new Table();
+        Table right = new Table();
+        left.add(playerOneUi.getContentTable());
+        right.add(playerTwoUi.getContentTable());
+        //left.setFillParent(true);
+        //right.setFillParent(true);
+        //left.top().right();
+        //right.top().left();
+        //left.setDebug(true);
+        //right.setDebug(true);
+
+        content.add(left);
+        content.add(new Label("", skin)).expandX();
+        content.add(right).row();
+        content.add(new Label("", skin)).expandY();
+        //content.add(new Label("", skin));
+
+        stage.addActor(content);
     }
 
     public void render(OrthographicTargetedCamera camera, Player p1, Player p2){

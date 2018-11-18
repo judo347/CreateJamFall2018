@@ -7,7 +7,6 @@ import dk.amminiti.InputController;
 import dk.amminiti.entity.*;
 import dk.amminiti.helpers.GameInfo;
 import dk.amminiti.screens.GameScreen;
-import dk.amminiti.ui.UiManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +41,8 @@ public class GameMap {
     private float playerTwoDeathTimer;
     private boolean isPlayerOneDead;
     private boolean isPlayerTwoDead;
+    private int playerOneDeathCount = 0;
+    private int playerTwoDeathCount = 0;
 
     private Player p1, p2;
     private DrinkSpawner drinkSpawner;
@@ -225,10 +226,23 @@ public class GameMap {
             this.itemsToBeRemoved.add(player);
         }
 
-        if(player == p1)
+        if(player == p1){
             isPlayerOneDead = true;
-        else
+            playerOneDeathCount++;
+        }
+        else {
             isPlayerTwoDead = true;
-
+            playerTwoDeathCount++;
+        }
     }
+
+    public int getPlayerOneDeathCount() {
+        return playerOneDeathCount;
+    }
+
+    public int getPlayerTwoDeathCount() {
+        return playerTwoDeathCount;
+    }
+
+
 }

@@ -11,8 +11,8 @@ import java.awt.*;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.height = Toolkit.getDefaultToolkit().getScreenSize().height;
-		config.width = Toolkit.getDefaultToolkit().getScreenSize().width;
+		config.height = Toolkit.getDefaultToolkit().getScreenSize().height - 100;
+		config.width = Toolkit.getDefaultToolkit().getScreenSize().width - 100;
 		config.title ="Cult of Energy Babies!";
 		new LwjglApplication(new MainGame(), config);
 	}

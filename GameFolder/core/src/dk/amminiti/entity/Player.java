@@ -141,7 +141,7 @@ public class Player extends TextureObject {
             if(!isCrawlSoundPlaying){
                 if(this.body.getLinearVelocity().len() > 0.1f){
                     isCrawlSoundPlaying = true;
-                    crawlingSound.loop(0.3f);
+                    crawlingSound.loop(0.1f);
                 }
             }else{
                 if(this.body.getLinearVelocity().len() < 0.1f){
@@ -298,5 +298,9 @@ public class Player extends TextureObject {
 
     public float getMana() {
         return mana;
+    }
+
+    public CultSpell getCultSpell() {
+        return cultSpell;
     }
 }

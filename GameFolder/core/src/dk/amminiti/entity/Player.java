@@ -140,7 +140,7 @@ public class Player extends TextureObject {
             if(!isCrawlSoundPlaying){
                 if(this.body.getLinearVelocity().len() > 0.1f){
                     isCrawlSoundPlaying = true;
-                    crawlingSound.loop(0.1f);
+                    crawlingSound.loop(0.16f);
                 }
             }else{
                 if(this.body.getLinearVelocity().len() < 0.1f){

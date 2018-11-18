@@ -153,16 +153,18 @@ public class GameMap {
     private void addProcess(){
         while(itemsToBeAdded.size() != 0){
             for (TextureObject textureObject : new ArrayList<TextureObject>(itemsToBeAdded)) {
-
-                gameObjects.add(textureObject);
+                if (!gameObjects.contains(textureObject)) {
+                    gameObjects.add(textureObject);
+                }
                 itemsToBeAdded.remove(textureObject);
             }
         }
 
         while(aniObjToBeAdded.size() != 0){
             for(AnimatedObject aniObj : new ArrayList<AnimatedObject>(aniObjToBeAdded)){
-
-                animatedObjects.add(aniObj);
+                if (!animatedObjects.contains(aniObj)){
+                    animatedObjects.add(aniObj);
+                }
                 aniObjToBeAdded.remove(aniObj);
             }
         }
@@ -196,25 +198,32 @@ public class GameMap {
     }
 
     public void addToDestroyQueue(TextureObject to){
-        this.itemsToBeRemoved.add(to);
+        if (!itemsToBeRemoved.contains(to)) {
+            this.itemsToBeRemoved.add(to);
+        }
     }
 
     public void addToDestroyQueue(AnimatedObject aniObj){
-
         if (!aniObjToBeRemoved.contains(aniObj)){
         this.aniObjToBeRemoved.add(aniObj);}
     }
     public void addToWorldQueue(TextureObject to){
-        this.itemsToBeAdded.add(to);
+        if (!itemsToBeAdded.contains(to)) {
+            this.itemsToBeAdded.add(to);
+        }
     }
     public void addToWorldQueue(AnimatedObject aniObj){
-        this.aniObjToBeAdded.add(aniObj);
+        if (!aniObjToBeRemoved.contains(aniObj)) {
+            this.aniObjToBeAdded.add(aniObj);
+        }
     }
 
     public void killPlayer(Player player){
         player.killPlayer();
         this.screen.getCamera().targets.remove(player);
-        this.itemsToBeRemoved.add(player);
+        if (!itemsToBeRemoved.contains(player)) {
+            this.itemsToBeRemoved.add(player);
+        }
 
         if(player == p1)
             isPlayerOneDead = true;

@@ -96,9 +96,9 @@ public class UiManager {
 
         protected void update(Player player){
             if(player.getSpell() != null){
-                initialize(new Image(EnergyDrink.getTexture(player.getSpell().getType())), new Label(String.valueOf(player.getSpellLevel()), skin), (int)player.getMana(), player.getCultSpell().getCooldownLeft(), player.getSpell().getType(), player.getSpell().getCooldownLeft(), 0);
+                initialize(new Image(EnergyDrink.getTexture(player.getSpell().getType())), new Label(String.valueOf(player.getSpellLevel()), skin), (int)player.getMana(), player.getCultSpell().getCooldownLeft(), player.getSpell().getType(), player.getSpell().getCooldownLeft(), player.getMap().getPlayerDeathCount(player));
             }else
-                initialize(secondaryAbility, secondaryLevel, 0, player.getCultSpell().getCooldownLeft(), EnergyDrink.EnergyDrinkType.CULT, 0, 0);
+                initialize(secondaryAbility, secondaryLevel, 0, player.getCultSpell().getCooldownLeft(), EnergyDrink.EnergyDrinkType.CULT, 0, player.getMap().getPlayerDeathCount(player));
         }
     }
 

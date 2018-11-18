@@ -235,6 +235,7 @@ public class GameMap {
             playerTwoDeathCount++;
         }
     }
+
     public int getPlayerOneDeathCount() {
         return playerOneDeathCount;
     }
@@ -242,4 +243,13 @@ public class GameMap {
     public int getPlayerTwoDeathCount() {
         return playerTwoDeathCount;
     }
+
+    public int getPlayerDeathCount(Player player) {
+        if(player == p1)
+            return playerOneDeathCount;
+        else
+            return playerTwoDeathCount;
+    }
+
+
 }

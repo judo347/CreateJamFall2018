@@ -57,6 +57,8 @@ public class ContactManager implements ContactListener {
                 fb.getBody().setGravityScale(0);
                 fb.getBody().setLinearVelocity(new Vector2(0,0));
             }
+
+
             if (fa.getBody().getUserData() instanceof Player && (fb.getBody().getUserData() instanceof Player || fb.getBody().getUserData() instanceof Platform))
             {
                 ((Player)fa.getBody().getUserData()).feetCollision();
@@ -127,6 +129,23 @@ public class ContactManager implements ContactListener {
 
     @Override
     public void postSolve (Contact contact, ContactImpulse impulse){
+        Fixture fa = contact.getFixtureA();
+        Fixture fb = contact.getFixtureB();
+
+
+        //EnergyDrink collision with platforms
+        if ((fa.getBody().getUserData() instanceof EnergyDrink && fb.getBody().getUserData() instanceof Platform)){
+            fa.getBody().setGravityScale(0);
+            fa.getBody().setLinearVelocity(new Vector2(0,0));
+        }
+        //EnergyDrink collision with platforms
+        if ((fb.getBody().getUserData() instanceof EnergyDrink && fa.getBody().getUserData() instanceof Platform)){
+            fb.getBody().setGravityScale(0);
+            fb.getBody().setLinearVelocity(new Vector2(0,0));
+        }
+
+
+
 
     }
 

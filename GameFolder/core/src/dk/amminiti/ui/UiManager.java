@@ -20,7 +20,7 @@ public class UiManager {
 
     private class PlayerData{
 
-        private Image primaryAbility = new Image(new TextureRegion(new Texture("energydrinks/blank.png")));
+        private Image primaryAbility = new Image(new TextureRegion(new Texture("energydrinks/cult.png")));
         private Image secondaryAbility = new Image(new TextureRegion(new Texture("energydrinks/blank.png")));
         private Label primaryLevel;
         private Label secondaryLevel;
@@ -37,28 +37,28 @@ public class UiManager {
             this.skin = skin;
             primaryLevel = new Label("1", skin);
             secondaryLevel = new Label("0", skin);
-            initialize(secondaryAbility, secondaryLevel, 0);
+            initialize(secondaryAbility, secondaryLevel, 0, 0f, 0f);
         }
 
-        private void initialize(Image secondaryImage, Label secondaryLabel, int currentMana){
+        private void initialize(Image secondaryImage, Label secondaryLabel, int currentMana, float primaryCooldown, float secondaryCooldown){
             contentTable.clearChildren();
 
             contentTable.add(new Label(playerName, skin)).row();
-            contentTable.add(getAbilitiesPanel(secondaryImage, secondaryLabel, currentMana));
+            contentTable.add(getAbilitiesPanel(secondaryImage, secondaryLabel, currentMana, primaryCooldown, secondaryCooldown));
 
         }
 
-        private Table getAbilitiesPanel(Image secondaryImage, Label secondaryLabel, int currentMana){
+        private Table getAbilitiesPanel(Image secondaryImage, Label secondaryLabel, int currentMana, float primaryCooldown, float secondaryCooldown){
 
             Table table = new Table();
 
-            table.add(getAbilityCell(primaryAbility, primaryLevel, currentMana));
-            table.add(getAbilityCell(secondaryImage, secondaryLabel, currentMana));
+            table.add(getAbilityCell(primaryAbility, primaryLevel, currentMana, primaryCooldown));
+            table.add(getAbilityCell(secondaryImage, secondaryLabel, currentMana, secondaryCooldown));
 
             return table;
         }
 
-        private Table getAbilityCell(Image image, Label levelLabel, int currentMana){
+        private Table getAbilityCell(Image image, Label levelLabel, int currentMana, float cooldown){
 
             Table table = new Table();
 
@@ -71,9 +71,16 @@ public class UiManager {
                 table.add(new Label("", skin)).row();
             }
 
+            
+
             table.add(image).row();
             table.pad(10);
             table.add(levelLabel);
+
+            float cooldownLeft = (cooldown > 0) ? cooldown : 0f;
+            String cooldownLeftString = String.format("%.2f", cooldownLeft);
+
+            table.add(new Label(cooldownLeftString, skin));
 
             return table;
         }
@@ -84,9 +91,9 @@ public class UiManager {
 
         protected void update(Player player){
             if(player.getSpell() != null){
-                initialize(new Image(EnergyDrink.getTexture(player.getSpell().getType())), new Label(String.valueOf(player.getSpellLevel()), skin), (int)player.getMana());
+                initialize(new Image(EnergyDrink.getTexture(player.getSpell().getType())), new Label(String.valueOf(player.getSpellLevel()), skin), (int)player.getMana(), player.getCultSpell().getCooldownLeft(), player.getSpell().getCooldownLeft());
             }else
-                initialize(secondaryAbility, secondaryLevel, 0);
+                initialize(secondaryAbility, secondaryLevel, 0, player.getCultSpell().getCooldownLeft(), 0);
         }
     }
 

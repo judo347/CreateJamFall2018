@@ -71,7 +71,7 @@ public class UiManager {
                 table.add(new Label("", skin)).row();
             }
 
-            
+
 
             table.add(image).row();
             table.pad(10);

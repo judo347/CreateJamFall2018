@@ -114,8 +114,6 @@ public class Player extends TextureObject {
         if (mana<=0){spell=null;}
         if (spell!=null){spell.reduceCooldown(dt);}
         super.render(batch, dt);
-
-        //System.out.println("Primary cooldown: " + cultSpell.getCooldownLeft());
     }
 
     private void movement(float dt) {
@@ -143,7 +141,7 @@ public class Player extends TextureObject {
             if(!isCrawlSoundPlaying){
                 if(this.body.getLinearVelocity().len() > 0.1f){
                     isCrawlSoundPlaying = true;
-                    crawlingSound.loop(0.3f);
+                    crawlingSound.loop(0.1f);
                 }
             }else{
                 if(this.body.getLinearVelocity().len() < 0.1f){

@@ -48,7 +48,7 @@ public class EnergyDrink extends TextureObject {
      * An GameObject that always have a textre drawn at the body's position.
      */
     public EnergyDrink(GameMap map, Vector2 pos, EnergyDrinkType type ) {
-        super(map.getWorld(), pos, createBodyDef(), createSensorFixtureDef(fireTexture), new TextureRegion(fireTexture));
+        super(map.getWorld(), pos, createBodyDef(), createTextureFixtureDef(fireTexture), new TextureRegion(fireTexture));
         this.map = map;
         this.texture = getTexture(type);
         this.type = type;

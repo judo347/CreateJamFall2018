@@ -114,6 +114,8 @@ public class Player extends TextureObject {
         if (mana<=0){spell=null;}
         if (spell!=null){spell.reduceCooldown(dt);}
         super.render(batch, dt);
+
+        //System.out.println("Primary cooldown: " + cultSpell.getCooldownLeft());
     }
 
     private void movement(float dt) {
@@ -298,5 +300,9 @@ public class Player extends TextureObject {
 
     public float getMana() {
         return mana;
+    }
+
+    public CultSpell getCultSpell() {
+        return cultSpell;
     }
 }

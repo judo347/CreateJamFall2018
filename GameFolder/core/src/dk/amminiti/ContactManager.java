@@ -94,32 +94,13 @@ public class ContactManager implements ContactListener {
             }
         }
 
-    private void spellPlayerCollision(Player player, SpellEffect spell) {
+    private void spellPlayerCollision(Player player, SpellEffect effect) {
 
-        if (player.equals(spell.getOwner())) return;
+        if (player.equals(effect.getOwner())) return;
 
         else{
-            switch (spell.getType()){
-                case CULT:
-                    ((CultSpellEffect) spell).applyForce(player);
-                    spell.getOwner().getMap().addToDestroyQueue(spell);
-                    break;
-                case FIRE:
-                    ((FireSpellEffect) spell).applyForce(player);
-                    spell.getOwner().getMap().addToDestroyQueue(spell);
-                    break;
-                case REDCOW:
-                    ((RedCowSpellEffect) spell).applyForce(player);
-                    break;
-                case FOOSTER:
-                    ((FoosterSpellEffect) spell).applyForce(player);
-                   spell.getOwner().getMap().addToDestroyQueue(spell);
-                    break;
-                case WONSTER:
-                    ((WonsterSpellEffect) spell).applyForce(player);
-                    spell.getOwner().getMap().addToDestroyQueue(spell);
-                    break;
-            }
+            effect.applyForce(player);
+            player.getMap().addToDestroyQueue(effect);
         }
     }
 

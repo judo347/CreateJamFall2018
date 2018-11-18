@@ -219,10 +219,10 @@ public class Player extends TextureObject {
     }
 
     public void CollectEnergyDrink(EnergyDrink.EnergyDrinkType pickedUpType) {
-        System.out.println("Collected " + pickedUpType.toString());
 
         Spell pickedUpSpell = EnergyDrink.EnergyDrinkType.getSpellFromType(pickedUpType);
-        drinkSound.play(); //TODO SET VOLUME
+
+        drinkSound.play();
 
         //Is the pickedUp the same type as the one we already have?
         if (this.spell != null && this.spell.getType() == pickedUpType) {
@@ -239,7 +239,6 @@ public class Player extends TextureObject {
             this.mana = 100;
         }
 
-        System.out.println("Spell Level: " + spellLevel);
 
     }
 
@@ -270,7 +269,6 @@ public class Player extends TextureObject {
     public void killPlayer() {
         this.deathSound.play();
         this.isDead = true;
-        System.out.println("Player dead");
     }
 
     public void destroyFeet(){

@@ -2,6 +2,7 @@ package dk.amminiti.spells;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import dk.amminiti.PlayerWalkAnimation;
 import dk.amminiti.entity.EnergyDrink;
 import dk.amminiti.entity.Player;
@@ -15,8 +16,8 @@ public class FoosterSpell implements Spell {
     private Sound castingSound;
     private Sound hitSound;
     private Sound travelSound;
-    
-    private final float cooldownTotal = 5;
+
+    private final float cooldownTotal = 1.6f;
     private float cooldownLeft = 0;
     private float manacost = 25;
 
@@ -50,7 +51,7 @@ public class FoosterSpell implements Spell {
     public void use(Player player) {
         if (!isOnCooldown()) {
             player.useMana(manacost);
-            player.getMap().addToWorldQueue(new FoosterSpellEffect(player));
+            player.applyHitForce(new Vector2(15 * player.getLookingDir(), 3));
             cooldownLeft = cooldownTotal;
         }
     }

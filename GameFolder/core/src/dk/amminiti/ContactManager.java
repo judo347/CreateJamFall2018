@@ -110,6 +110,9 @@ public class ContactManager implements ContactListener {
 
         if (player.equals(effect.getOwner())) return;
 
+        if (effect instanceof RedCowSpellEffect){
+            effect.applyForce(player);
+        }
         else{
             effect.applyForce(player);
             player.getMap().addToDestroyQueue(effect);

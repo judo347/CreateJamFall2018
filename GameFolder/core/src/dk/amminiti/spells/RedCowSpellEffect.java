@@ -15,7 +15,6 @@ public class RedCowSpellEffect extends SpellEffect {
 
     static float lifeTime = 3f;
     static float speed = 270;
-    static Object savedUserData;
     private static Texture textureRight = new Texture("gustEffectRight.png");
     private static Texture textureLeft = new Texture ( "gustEffectLeft.png");
 
@@ -28,9 +27,6 @@ public class RedCowSpellEffect extends SpellEffect {
         applyMovement();
     }
 
-    public void returnUserData(){
-        owner.getBody().setUserData(savedUserData);
-    }
 
     private static Texture getTexture(Player player){
         return (player.getLookingDir() < 0) ? textureLeft : textureRight;

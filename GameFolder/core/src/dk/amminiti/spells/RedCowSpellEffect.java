@@ -14,7 +14,7 @@ import dk.amminiti.helpers.GameInfo;
 public class RedCowSpellEffect extends SpellEffect {
 
     static float lifeTime = 3f;
-    static float speed = 200;
+    static float speed = 270;
     static Object savedUserData;
     private static Texture textureRight = new Texture("gustEffectRight.png");
     private static Texture textureLeft = new Texture ( "gustEffectLeft.png");

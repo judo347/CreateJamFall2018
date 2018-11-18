@@ -36,7 +36,17 @@ public class ContactManager implements ContactListener {
 
                 if(fb.getBody().getUserData() instanceof Player)
                     gameMap.killPlayer((Player)fb.getBody().getUserData());
+
+                if (fa.getBody().getUserData() instanceof EnergyDrink){
+                    gameMap.addToDestroyQueue((EnergyDrink)fa.getBody().getUserData());
+                }
+                if (fb.getBody().getUserData() instanceof EnergyDrink){
+                    gameMap.addToDestroyQueue((EnergyDrink)fb.getBody().getUserData());
+                }
+
             }
+
+
 
             //RedCow collision
             if ((fa.getBody().getUserData() instanceof RedCowSpellEffect) && fb.getBody().getUserData() instanceof Platform){
@@ -47,16 +57,6 @@ public class ContactManager implements ContactListener {
                 ((RedCowSpellEffect)fb.getBody().getUserData()).returnUserData();
             }
 
-            //EnergyDrink collision with platforms
-            if ((fa.getBody().getUserData() instanceof EnergyDrink && fb.getBody().getUserData() instanceof Platform)){
-                fa.getBody().setGravityScale(0);
-                fa.getBody().setLinearVelocity(new Vector2(0,0));
-            }
-            //EnergyDrink collision with platforms
-            if ((fb.getBody().getUserData() instanceof EnergyDrink && fa.getBody().getUserData() instanceof Platform)){
-                fb.getBody().setGravityScale(0);
-                fb.getBody().setLinearVelocity(new Vector2(0,0));
-            }
 
 
             if (fa.getBody().getUserData() instanceof Player && (fb.getBody().getUserData() instanceof Player || fb.getBody().getUserData() instanceof Platform))
@@ -86,6 +86,16 @@ public class ContactManager implements ContactListener {
                 spellPlayerCollision((Player) fa.getBody().getUserData(),(SpellEffect) fb.getBody().getUserData());
             }
 
+            if ((fa.getBody().getUserData() instanceof WonsterSpellEffect && fb.getBody().getUserData() instanceof EnergyDrink))
+            {
+                fa.getBody().applyForceToCenter(new Vector2(2,0),true);
+            }
+            if ((fb.getBody().getUserData() instanceof WonsterSpellEffect && fa.getBody().getUserData() instanceof EnergyDrink))
+            {
+                fb.getBody().applyForceToCenter(new Vector2(2,0),true);
+            }
+
+
             //FireSpell collision with platform
             if ((fa.getBody().getUserData() instanceof FireSpellEffect && fb.getBody().getUserData() instanceof Platform)){
                 gameMap.addToDestroyQueue((FireSpellEffect)fa.getBody().getUserData());
@@ -100,6 +110,9 @@ public class ContactManager implements ContactListener {
 
         if (player.equals(effect.getOwner())) return;
 
+        if (effect instanceof RedCowSpellEffect){
+            effect.applyForce(player);
+        }
         else{
             effect.applyForce(player);
             player.getMap().addToDestroyQueue(effect);
@@ -129,22 +142,6 @@ public class ContactManager implements ContactListener {
 
     @Override
     public void postSolve (Contact contact, ContactImpulse impulse){
-        Fixture fa = contact.getFixtureA();
-        Fixture fb = contact.getFixtureB();
-
-
-        //EnergyDrink collision with platforms
-        if ((fa.getBody().getUserData() instanceof EnergyDrink && fb.getBody().getUserData() instanceof Platform)){
-            fa.getBody().setGravityScale(0);
-            fa.getBody().setLinearVelocity(new Vector2(0,0));
-        }
-        //EnergyDrink collision with platforms
-        if ((fb.getBody().getUserData() instanceof EnergyDrink && fa.getBody().getUserData() instanceof Platform)){
-            fb.getBody().setGravityScale(0);
-            fb.getBody().setLinearVelocity(new Vector2(0,0));
-        }
-
-
 
 
     }

@@ -11,7 +11,7 @@ public class CultSpell implements Spell {
 
     private PlayerWalkAnimation babyAnimation = new PlayerWalkAnimation(new Texture("baby_crawl_cult.png"));
 
-    private final float cooldownTotal = 1.5f;
+    private final float cooldownTotal = 1f;
     private float cooldownLeft = 0;
 
     @Override

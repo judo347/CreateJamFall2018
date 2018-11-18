@@ -17,7 +17,7 @@ public class FoosterSpell implements Spell {
     private Sound hitSound;
     private Sound travelSound;
 
-    private final float cooldownTotal = 3;
+    private final float cooldownTotal = 1.6f;
     private float cooldownLeft = 0;
     private float manacost = 25;
 

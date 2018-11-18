@@ -11,7 +11,7 @@ public class RedCowSpell implements Spell {
 
     private PlayerWalkAnimation babyAnimation = new PlayerWalkAnimation(new Texture("baby_crawl_cow.png"));
 
-    private final float cooldownTotal = 5;
+    private final float cooldownTotal = 3f;
     private float cooldownLeft = 0;
     private float manacost = 25;
 

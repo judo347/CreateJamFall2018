@@ -1,5 +1,7 @@
 package dk.amminiti.spells;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -16,12 +18,16 @@ public class CultSpellEffect extends SpellEffect {
     private static Texture textureRight = new Texture("spellEffects/cultRight.png");
     private static int FRAME_COUNT = 4;
 
+    private static Sound screamSound = Gdx.audio.newSound(Gdx.files.internal("sound/spellSounds/cultscream.wav"));
+
     private static float lifeTime = 0.4f;
     private static float speed = 0.8f;
+
 
     public CultSpellEffect(Player player) {
         super(createFixtureDef(player), getTexture(player), 1.2f, FRAME_COUNT, lifeTime/FRAME_COUNT, lifeTime, player, EnergyDrink.EnergyDrinkType.CULT);
         applyMovement();
+        screamSound.play();
     }
 
     private static Texture getTexture(Player player){

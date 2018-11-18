@@ -1,5 +1,7 @@
 package dk.amminiti.spells;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -18,6 +20,9 @@ public class RedCowSpellEffect extends SpellEffect {
     private static Texture textureRight = new Texture("gustEffectRight.png");
     private static Texture textureLeft = new Texture ( "gustEffectLeft.png");
 
+    private static Sound wingFlabSound = Gdx.audio.newSound(Gdx.files.internal("sound/spellSounds/fire.wav"));
+
+
     /**
      * An GameObject that always have a textre drawn at the body's position.
      *
@@ -25,6 +30,7 @@ public class RedCowSpellEffect extends SpellEffect {
     public RedCowSpellEffect(Player player) {
         super(createFixtureDef(player), getTexture(player), 1f, 1, 2, lifeTime, player, EnergyDrink.EnergyDrinkType.REDCOW);
         applyMovement();
+        wingFlabSound.play();
     }
 
 

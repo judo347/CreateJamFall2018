@@ -51,7 +51,6 @@ public class Player extends TextureObject {
     private Sound hurtSound;
 
 
-    private boolean isDead = false;
 
     private boolean isFacingRight;
     private PlayerWalkAnimation cultWalkAnimation = new PlayerWalkAnimation(new Texture("baby_crawl_cult.png"));
@@ -268,7 +267,6 @@ public class Player extends TextureObject {
 
     public void killPlayer() {
         this.deathSound.play();
-        this.isDead = true;
     }
 
     public void destroyFeet(){
@@ -303,4 +301,5 @@ public class Player extends TextureObject {
     public CultSpell getCultSpell() {
         return cultSpell;
     }
+
 }

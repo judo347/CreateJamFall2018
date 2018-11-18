@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -12,9 +13,13 @@ import dk.amminiti.entity.Player;
 import dk.amminiti.screens.GameScreen;
 import dk.amminiti.screens.OrthographicTargetedCamera;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public class UiManager {
+
+    private Actor tutScreenActor;
+    private Actor gameUiActor;
 
     private Stage stage;
     private GameScreen screen;
@@ -105,6 +110,8 @@ public class UiManager {
     private PlayerData playerOneUi;
     private PlayerData playerTwoUi;
 
+    private boolean showTut = true;
+
     public UiManager(GameScreen screen) {
         this.screen = screen;
 
@@ -114,19 +121,21 @@ public class UiManager {
 
         stage = new Stage(new ScreenViewport(camera));
 
+        gameUiActor = setUpUi();
+        tutScreenActor = setUpTutScreen();
 
-        setUpUi();
+        Gdx.input.setInputProcessor(stage);
     }
 
-    private void setUpUi(){
-        stage.clear();
-        Gdx.input.setInputProcessor(stage);
+    private Actor setUpUi(){
+        //stage.clear();
+        //Gdx.input.setInputProcessor(stage);
 
         this.playerOneUi = new PlayerData("Player 1", skin);
         this.playerTwoUi = new PlayerData("Player 2", skin);
 
         Table content = new Table();
-        content.setDebug(true);
+        //content.setDebug(true);
         content.setFillParent(true);
 
         Table left = new Table();
@@ -146,7 +155,30 @@ public class UiManager {
         content.add(new Label("", skin)).expandY();
         //content.add(new Label("", skin));
 
-        stage.addActor(content);
+        return content;
+        //stage.addActor(content);
+    }
+
+    public void setShowTut(){
+        this.showTut = true;
+        stage.clear();
+        stage.addActor(tutScreenActor);
+    }
+
+    public void setShowGameUi(){
+        this.showTut = false;
+        stage.clear();
+        stage.addActor(gameUiActor);
+    }
+
+    private Actor setUpTutScreen(){
+
+        Table content = new Table();
+        Image image = new Image(new TextureRegion(new Texture(Gdx.files.internal("tutorial.png"))));
+        content.add(image);
+        content.setFillParent(true);
+
+        return content;
     }
 
     public void render(OrthographicTargetedCamera camera, Player p1, Player p2){
@@ -163,11 +195,16 @@ public class UiManager {
         //stage.getViewport().setScreenHeight(Gdx.graphics.getHeight() * 4);
         //stage.getViewport().setScreenSize(Gdx.graphics.getWidth() * 4, Gdx.graphics.getHeight() * 4);
 
-        playerOneUi.update(p1);
-        playerTwoUi.update(p2);
+        if (!showTut){
+            playerOneUi.update(p1);
+            playerTwoUi.update(p2);
+        }
 
         stage.act();
         stage.draw();
     }
 
+    public boolean isShowTut() {
+        return showTut;
+    }
 }

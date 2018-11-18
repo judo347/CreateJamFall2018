@@ -1,6 +1,7 @@
 package dk.amminiti.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,6 +17,7 @@ import dk.amminiti.MainGame;
 import dk.amminiti.ui.UiManager;
 import dk.amminiti.world.GameMap;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,7 @@ public class GameScreen implements Screen {
         this.spriteBatch = new SpriteBatch();
 
         this.ui = new UiManager(this);
+        this.ui.setShowTut();
 
         spriteBatch.setProjectionMatrix(camera.combined);
     }
@@ -60,6 +63,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+        if(ui.isShowTut()){
+            if(Gdx.input.isKeyJustPressed(Input.Keys.PERIOD) || Gdx.input.isKeyJustPressed(Input.Keys.Q))
+                ui.setShowGameUi();
+        }
 
         gameMap.update(delta);
 
@@ -112,5 +120,9 @@ public class GameScreen implements Screen {
 
     public OrthographicTargetedCamera getCamera() {
         return camera;
+    }
+
+    public UiManager getUi() {
+        return ui;
     }
 }

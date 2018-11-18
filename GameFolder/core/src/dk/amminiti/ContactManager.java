@@ -47,18 +47,6 @@ public class ContactManager implements ContactListener {
             }
 
 
-
-            //RedCow collision
-            if ((fa.getBody().getUserData() instanceof RedCowSpellEffect) && fb.getBody().getUserData() instanceof Platform){
-                ((RedCowSpellEffect)fa.getBody().getUserData()).returnUserData();
-
-            }
-            if ((fb.getBody().getUserData() instanceof RedCowSpellEffect) && fa.getBody().getUserData() instanceof Platform){
-                ((RedCowSpellEffect)fb.getBody().getUserData()).returnUserData();
-            }
-
-
-
             if (fa.getBody().getUserData() instanceof Player && (fb.getBody().getUserData() instanceof Player || fb.getBody().getUserData() instanceof Platform))
             {
                 ((Player)fa.getBody().getUserData()).feetCollision();

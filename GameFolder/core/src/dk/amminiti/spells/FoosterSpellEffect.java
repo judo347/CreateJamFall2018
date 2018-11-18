@@ -13,7 +13,7 @@ public class FoosterSpellEffect extends SpellEffect {
 
     private static Texture texture = new Texture("gustEffectLeft.png");
 
-    private static float lifeTime = 0.4f;
+    private static float lifeTime = 0.3f;
 
     public FoosterSpellEffect(Player owner) {
         super(createFixtureDef(), texture, 0.3f, 1, 1f, lifeTime, owner, EnergyDrink.EnergyDrinkType.FOOSTER);
@@ -21,13 +21,18 @@ public class FoosterSpellEffect extends SpellEffect {
         pvel.scl(0.3f);
         pvel.add(directionWhenCast * 15f, 2.5f);
         owner.getBody().setLinearVelocity(pvel);
-
+        this.owner = owner;
         body.setLinearVelocity(new Vector2(580 * GameInfo.PPM * owner.getLookingDir(), 0));
     }
 
     @Override
     public void render(SpriteBatch batch, float delta) {
-        return;
+        System.out.println(lifeTime);
+        lifeTime-=delta;
+        if (lifeTime <= 0) {
+            owner.getMap().addToDestroyQueue(this);
+        }
+
     }
 
     private static FixtureDef createFixtureDef() {
